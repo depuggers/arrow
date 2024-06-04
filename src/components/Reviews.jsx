@@ -1,10 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-const Reviews = () => {
-
+function Reviews() {
   return (
     <>Reviews</>
-  )
+  );
 }
 
-export default Reviews
+export default Reviews;
