@@ -1,10 +1,16 @@
 import React from 'react'
 
+import ProductDetails from './ProductDetails.jsx'
+import RelatedProducts from './RelatedProducts.jsx'
+import Reviews from './Reviews.jsx'
+
 const App = () => {
 
   return (
     <>
-    Hi.
+    <ProductDetails />
+    <RelatedProducts />
+    <Reviews />
     </>
   )
 }
