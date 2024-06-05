@@ -1,0 +1,60 @@
+flowchart-diagram
+
+styleMode plain
+
+Jason [color: orange] {
+Details
+
+Style Selector
+Style
+Image Gallery
+Thumbnails
+Thumbnail
+
+}
+
+Lu Lu [color: purple] {
+Related 
+
+List Behavior
+Product Cards
+Your Outfit List
+}
+
+Tyler [color: green] {
+Reviews
+
+Reviews List
+Review Tile
+Sort Options
+Rating Breakdown Filtering
+Product Breakdown Factors
+New Review
+Keyword Search
+}
+
+Q&A [icon: frown]
+
+Atelier > Details
+Atelier > Related
+Atelier > Reviews
+Atelier > Q&A
+
+Details > Style Selector
+Style Selector > Style
+Details > Image Gallery
+Image Gallery > Thumbnails
+Thumbnails > Thumbnail
+
+Related > List Behavior
+Related > Product Cards
+Related > Your Outfit List
+
+Reviews > Reviews List
+Reviews > Review Tile
+Reviews > Sort Options
+Reviews > Rating Breakdown Filtering
+Reviews > Product Breakdown Factors
+Reviews > New Review
+Reviews > Keyword Search
+
