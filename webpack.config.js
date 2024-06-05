@@ -1,4 +1,5 @@
 require('dotenv').config();
+const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
@@ -39,6 +40,11 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       template: './src/index.html',
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        GH_TOKEN: JSON.stringify(process.env.GH_TOKEN),
+      },
     }),
   ],
 };
