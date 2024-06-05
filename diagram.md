@@ -1,5 +1,7 @@
 <p><a target="_blank" href="https://app.eraser.io/workspace/tsEAJHy38keqM8YxYlvX" id="edit-in-eraser-github-link"><img alt="Edit in Eraser" src="https://firebasestorage.googleapis.com/v0/b/second-petal-295822.appspot.com/o/images%2Fgithub%2FOpen%20in%20Eraser.svg?alt=media&amp;token=968381c8-a7e7-472a-8ed6-4a6626da5501"></a></p>
 
+![Figure 1](/.eraser/tsEAJHy38keqM8YxYlvX___r2YD0vBMUsTE3zh3DOHJTrjaKc62___---figure---l54HsWjo7EZcWcNNMS_aR---figure---z5KJHaWULthf4xfSxP_uKw.png "Figure 1")
+
 
 
 
