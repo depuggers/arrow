@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {
+  useState, useEffect, useContext, useRef,
+} from 'react';
 import axios from 'axios';
 
 import ImageGallery from './ImageGallery';
@@ -13,7 +15,9 @@ function ProductDetails() {
   const [styles, setStyles] = useState(null);
   const [rating, setRating] = useState(null);
   const [selectedStyleID, setSelectedStyleID] = useState(null);
-  const [selectedSizeID, setSelectedSizeID] = useState(null);
+  const [selectedSKU, setSelectedSKU] = useState(null);
+
+  const qtyRef = useRef(null);
 
   let selectedStyle;
   let sizes;
@@ -23,8 +27,8 @@ function ProductDetails() {
   }
 
   let maxQuantity;
-  if (selectedSizeID) {
-    maxQuantity = Math.min(selectedStyle.skus[selectedSizeID].quantity, 15);
+  if (selectedSKU) {
+    maxQuantity = Math.min(selectedStyle.skus[selectedSKU].quantity, 15);
   }
 
   const { productID, setProductID } = useContext(AppContext);
@@ -47,7 +51,8 @@ function ProductDetails() {
   const getRating = async () => {
     const response = await axios.get(`/reviews/meta?product_id=${productID}`);
     if (response.data) {
-      const ratings = Object.entries(response.data.ratings).reduce((ratings, current) => ratings.concat(Array.from({ length: parseInt(current[1]) }, (v) => parseInt(current[0]))), []);
+      const ratings = Object.entries(response.data.ratings)
+        .reduce((ratings, current) => ratings.concat(Array.from({ length: parseInt(current[1]) }, (v) => parseInt(current[0]))), []);
       console.log(ratings);
       const avgRating = (ratings.reduce((sum, current) => sum + current, 0) / ratings.length).toFixed(2);
       console.log(avgRating, typeof avgRating);
@@ -61,11 +66,16 @@ function ProductDetails() {
     getRating();
   }, [productID]);
 
+  const addToCart = async () => {
+    const response = await axios.post('/cart', { sku_id: selectedSKU });
+    console.log(response);
+  };
+
   return (
-    <>
+    <section id="product-details">
       {product && selectedStyle
         ? (
-          <section id="product-details">
+          <>
             <ImageGallery selectedStyle={selectedStyle} />
             <section id="product-details-side">
               <div>
@@ -74,6 +84,7 @@ function ProductDetails() {
                 )* * * * *
                 <a href="#">
                   Read all
+                  {' '}
                   {rating ? rating.total : null}
                   {' '}
                   reviews
@@ -93,11 +104,17 @@ function ProductDetails() {
               <StyleSelector styles={styles} selectedStyle={selectedStyle} setSelectedStyleID={setSelectedStyleID} />
               <form>
                 <div>
-                  <select defaultValue="" onChange={(e) => setSelectedSizeID(parseInt(e.target.value))}>
+                  <select
+                    defaultValue=""
+                    onChange={(e) => {
+                      setSelectedSKU(parseInt(e.target.value));
+                      if (qtyRef.current) qtyRef.current.value = '1';
+                    }}
+                  >
                     <option value="" disabled hidden>Select Size</option>
                     {sizes.map((size) => <option key={size.sku} value={size.sku}>{size.size}</option>)}
                   </select>
-                  <select defaultValue="" disabled={!selectedSizeID}>
+                  <select ref={qtyRef} defaultValue="" disabled={!selectedSKU}>
                     <option value="" disabled hidden>-</option>
                     {Array.from({ length: maxQuantity }, (v, i) => i + 1).map((qty) => (
                       <option key={qty} value={qty}>{qty}</option>
@@ -105,8 +122,8 @@ function ProductDetails() {
                   </select>
                 </div>
                 <div>
-                  <button>Add to bag +</button>
-                  <button>*</button>
+                  <button type="button" onClick={addToCart}>Add to bag +</button>
+                  <button type="button">*</button>
                 </div>
               </form>
             </section>
@@ -114,10 +131,10 @@ function ProductDetails() {
               <h2>{product.slogan}</h2>
               <p>{product.description}</p>
             </section>
-          </section>
+          </>
         )
         : null}
-    </>
+    </section>
   );
 }
 
