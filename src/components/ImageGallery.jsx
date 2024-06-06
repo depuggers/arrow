@@ -1,9 +1,9 @@
 import React from 'react';
 
-function ImageGallery() {
+function ImageGallery({ selectedStyle }) {
   return (
     <section id="image-gallery">
-      <div id="main-image" />
+      <img id="main-image" src={selectedStyle ? selectedStyle.photos[0].url : ''} />
     </section>
   );
 }

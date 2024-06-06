@@ -14,8 +14,8 @@ function App() {
   return (
     <AppContext.Provider value={{ productID, setProductID }}>
       <ProductDetails />
-      <RelatedProducts />
-      <Reviews />
+      {/* <RelatedProducts /> */}
+      {/* <Reviews /> */}
     </AppContext.Provider>
   );
 }

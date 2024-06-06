@@ -22,6 +22,7 @@ function ProductDetails() {
 
   const getDetails = async () => {
     const response = await axios.get(`/products/${productID}`);
+    console.log(response.data);
     setProduct(response.data);
   };
 
