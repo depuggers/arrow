@@ -4,11 +4,7 @@ function ProductDetails() {
   const [product, setProduct] = useState();
 
   const getDetails = async () => {
-    let response = await fetch('https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products', {
-      headers: {
-        Authorization: process.env.GH_TOKEN,
-      },
-    });
+    let response = await fetch('/products');
     response = await response.json();
     setProduct(response[0]);
   };
