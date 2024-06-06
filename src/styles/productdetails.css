@@ -10,7 +10,7 @@
 #image-gallery {
   min-width: 0;
   min-height: 0;
-  max-height: 600px;
+  max-height: 800px;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -22,14 +22,20 @@
   max-height: 100%;
 }
 
-#style-selector {
+#product-details-side {
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#style-selector ul {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 8px;
 }
 
-#style-selector li {
+#style-selector ul li {
   min-height: 0;
   min-width: 0;
   aspect-ratio: 1/1;
@@ -41,7 +47,7 @@
   overflow: hidden;
 }
 
-#style-selector li img {
+#style-selector ul li img {
   object-fit: cover;
 }
 
@@ -60,4 +66,8 @@
 
 #product-details form div:nth-child(1)  {
   flex-grow: 1;
+}
+
+h1 {
+  font-size: 3rem;
 }
