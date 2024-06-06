@@ -5,15 +5,8 @@ function RelatedProducts() {
   const [allProducts, setAllProducts] = useState([]);
   const [defaultProducts, setDefaultProducts] = useState([]);
 
-  const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products';
-  const url1 = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/40344/related';
-
-  const headers = {
-    Authorization: process.env.GH_TOKEN,
-  };
-
   useEffect(() => {
-    axios.get(url, { headers })
+    axios.get('/products')
       .then((response) => {
         setAllProducts(response.data);
         console.log(response.data);
@@ -24,7 +17,7 @@ function RelatedProducts() {
   }, []);
 
   useEffect(() => {
-    axios.get(url1, { headers })
+    axios.get('/products/40345/related')
       .then((response) => {
         setDefaultProducts(response.data);
         console.log(response.data);

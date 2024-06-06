@@ -1,12 +1,13 @@
 const path = require('path');
 const express = require('express');
 const axios = require('axios');
+require('dotenv').config;
 
 const app = express();
 const PORT = 3000;
-const API_SERVER_URL = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp';
+const API_SERVER_URL = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/';
 
-app.use(express.static(path.join(__dirname, '../dist/index.html')));
+app.use(express.static(path.join(__dirname, '../dist')));
 app.use(express.json());
 
 app.all('/*', (req, res) => {
