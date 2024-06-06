@@ -40,7 +40,7 @@ function ProductDetails() {
     if (response.data.results) {
       setStyles(response.data.results);
       setSelectedStyleID(response.data.results[0].style_id);
-      console.log(response.data.results);
+      console.log(response.data.results[0]);
     }
   };
 
@@ -48,10 +48,10 @@ function ProductDetails() {
     const response = await axios.get(`/reviews/meta?product_id=${productID}`);
     if (response.data) {
       const ratings = Object.entries(response.data.ratings).reduce((ratings, current) => ratings.concat(Array.from({ length: parseInt(current[1]) }, (v) => parseInt(current[0]))), []);
-      console.log(ratings)
+      console.log(ratings);
       const avgRating = (ratings.reduce((sum, current) => sum + current, 0) / ratings.length).toFixed(2);
       console.log(avgRating, typeof avgRating);
-      setRating({average: avgRating, total: ratings.length})
+      setRating({ average: avgRating, total: ratings.length });
     }
   };
 
@@ -69,11 +69,26 @@ function ProductDetails() {
             <ImageGallery selectedStyle={selectedStyle} />
             <section id="product-details-side">
               <div>
-                ({rating ? rating.average : null})* * * * *
-                <a href="#">Read all {rating ? rating.total : null} reviews</a>
+                (
+                {rating ? rating.average : null}
+                )* * * * *
+                <a href="#">
+                  Read all
+                  {rating ? rating.total : null}
+                  {' '}
+                  reviews
+                </a>
                 <h3>{product.category}</h3>
                 <h1>{product.name}</h1>
-                <p>{product.default_price}</p>
+                {selectedStyle.sale_price
+                  ? (
+                    <p>
+                      <s>{selectedStyle.original_price}</s>
+                      {' '}
+                      {selectedStyle.sale_price}
+                    </p>
+                  )
+                  : <p>{selectedStyle.original_price}</p>}
               </div>
               <StyleSelector styles={styles} selectedStyle={selectedStyle} setSelectedStyleID={setSelectedStyleID} />
               <form>
