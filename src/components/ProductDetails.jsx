@@ -11,6 +11,12 @@ import '../styles/productdetails.css';
 function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [styles, setStyles] = useState(null);
+  const [selectedStyleID, setSelectedStyleID] = useState(null);
+
+  let selectedStyle;
+  if (styles && selectedStyleID) {
+    selectedStyle = styles.find((style) => style.style_id === selectedStyleID);
+  }
 
   const { productID, setProductID } = useContext(AppContext);
 
@@ -23,6 +29,7 @@ function ProductDetails() {
     const response = await axios.get(`/products/${productID}/styles`);
     if (response.data.results) {
       setStyles(response.data.results);
+      setSelectedStyleID(response.data.results[0].style_id);
       console.log(response.data.results);
     }
   };
@@ -37,7 +44,7 @@ function ProductDetails() {
       {product
         ? (
           <section id="product-details">
-            <ImageGallery />
+            <ImageGallery selectedStyle={selectedStyle} />
             <section>
               * * * * *
               <a href="#">Read all reviews</a>
@@ -49,11 +56,11 @@ function ProductDetails() {
                 {' '}
                 selected style
               </p>
-              <StyleSelector styles={[1, 2, 3, 4, 5, 6, 7, 8]} />
+              <StyleSelector styles={styles} selectedStyleID={selectedStyleID} setSelectedStyleID={setSelectedStyleID} />
               <form>
                 <div>
-                  <select>
-                    <option value="1">Default style</option>
+                  <select onChange={(e) => setSelectedStyleID(parseInt(e.target.value))}>
+                    {styles ? styles.map((style) => <option key={style.style_id} value={style.style_id}>{style.name}</option>) : null}
                   </select>
                   <select>
                     <option value="1">1</option>
