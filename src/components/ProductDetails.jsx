@@ -10,6 +10,7 @@ import '../styles/productdetails.css';
 
 function ProductDetails() {
   const [product, setProduct] = useState(null);
+  const [styles, setStyles] = useState(null);
 
   const { productID, setProductID } = useContext(AppContext);
 
@@ -22,8 +23,21 @@ function ProductDetails() {
     setProduct(response.data);
   };
 
+  const getStyles = async () => {
+    const response = await axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${productID}/styles`, {
+      headers: {
+        Authorization: process.env.GH_TOKEN,
+      },
+    });
+    if (response.data.results) {
+      setStyles(response.data.results);
+      console.log(response.data.results);
+    }
+  };
+
   useEffect(() => {
     getDetails();
+    getStyles();
   }, [productID]);
 
   return (
@@ -37,7 +51,7 @@ function ProductDetails() {
               <a href="#">Read all reviews</a>
               <h3>{product.category}</h3>
               <h1>{product.name}</h1>
-              <p>{product.price}</p>
+              <p>{product.default_price}</p>
               <p>
                 <span>STYLE &gt;</span>
                 {' '}
