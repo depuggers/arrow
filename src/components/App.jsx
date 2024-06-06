@@ -6,12 +6,13 @@ import Reviews from './Reviews';
 
 import AppContext from '../context/AppContext';
 
+import '../styles/global.css';
+
 function App() {
   const [productID, setProductID] = useState(40344);
 
   return (
     <AppContext.Provider value={{ productID, setProductID }}>
-      {productID}
       <ProductDetails />
       <RelatedProducts />
       <Reviews />
