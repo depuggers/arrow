@@ -15,20 +15,12 @@ function ProductDetails() {
   const { productID, setProductID } = useContext(AppContext);
 
   const getDetails = async () => {
-    const response = await axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${productID}`, {
-      headers: {
-        Authorization: process.env.GH_TOKEN,
-      },
-    });
+    const response = await axios.get(`/products/${productID}`);
     setProduct(response.data);
   };
 
   const getStyles = async () => {
-    const response = await axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/${productID}/styles`, {
-      headers: {
-        Authorization: process.env.GH_TOKEN,
-      },
-    });
+    const response = await axios.get(`/products/${productID}/styles`);
     if (response.data.results) {
       setStyles(response.data.results);
       console.log(response.data.results);
