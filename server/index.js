@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const app = express();
 const PORT = 3000;
-const API_SERVER_URL = 'api-server.url/api';
+const API_SERVER_URL = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp';
 
 app.use(express.static(path.join(__dirname, '../dist/index.html')));
 app.use(express.json());
@@ -12,7 +12,7 @@ app.use(express.json());
 app.all('/*', (req, res) => {
   const config = {
     method: req.method,
-    url: `${API_SERVER_URL}${req.ur}`,
+    url: `${API_SERVER_URL}${req.url}`,
     headers: {
       Authorization: process.env.GH_TOKEN,
     },
