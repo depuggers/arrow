@@ -7,6 +7,7 @@ function RelatedProducts() {
 
   const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products';
   const url1 = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/40344/related';
+
   const headers = {
     Authorization: process.env.GH_TOKEN,
   };
