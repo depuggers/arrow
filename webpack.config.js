@@ -1,5 +1,4 @@
 require('dotenv').config();
-const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path');
@@ -12,13 +11,6 @@ module.exports = {
     filename: 'bundle.js',
   },
   devtool: 'source-map',
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
-    },
-    compress: true,
-    port: 3000,
-  },
   module: {
     rules: [
       {
@@ -40,11 +32,6 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       template: './src/index.html',
-    }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        GH_TOKEN: JSON.stringify(process.env.GH_TOKEN),
-      },
     }),
   ],
 };
