@@ -11,7 +11,7 @@ function ImageGallery({ selectedStyle }) {
             <img id="main-image" src={selectedStyle.photos[selectedImage].url} />
             <ul id="thumbnail-list">
               {selectedStyle.photos.map((photo, i) => (
-              <li onClick={() => setSelectedImage(i)}>
+              <li key={photo.thumbnail_url} onClick={() => setSelectedImage(i)}>
                 <img src={photo.thumbnail_url} />
               </li>))}
             </ul>

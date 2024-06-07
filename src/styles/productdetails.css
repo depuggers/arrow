@@ -111,6 +111,18 @@
   flex-grow: 1;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #333;
+  color: white;
+}
+
 h1 {
+  font-size: 4rem;
+}
+
+h2 {
   font-size: 3rem;
 }
