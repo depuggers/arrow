@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import RelatedProduct from './RelatedProduct';
 
 function RelatedProducts() {
-  const [allProducts, setAllProducts] = useState([]);
+//  const [allProducts, setAllProducts] = useState([]);
   const [defaultProducts, setDefaultProducts] = useState([]);
+  const [relatedProductImages, setRelatedProductImages] = useState(null);
 
-  const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products';
-  const url1 = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/products/40344/related';
-
-  const headers = {
-    Authorization: process.env.GH_TOKEN,
-  };
-
-  useEffect(() => {
-    axios.get(url, { headers })
+  /* useEffect(() => {
+    axios.get('/products')
       .then((response) => {
         setAllProducts(response.data);
         console.log(response.data);
@@ -21,21 +16,43 @@ function RelatedProducts() {
       .catch((error) => {
         console.error('There was an error making  the request:', error);
       });
-  }, []);
+  }, []); */
 
   useEffect(() => {
-    axios.get(url1, { headers })
+    axios.get('/products/40345/related')
       .then((response) => {
-        setDefaultProducts(response.data);
         console.log(response.data);
+        const relatedProductIds = response.data.map((item) => axios.get(`/products/${item}`));
+        return Promise.all(relatedProductIds);
+      })
+      .then((responses) => {
+        console.log(responses);
+        const relatedProductsData = responses.map((item) => item.data);
+        setDefaultProducts(relatedProductsData);
+
+        const relatedProductStyles = relatedProductsData.map((product) => axios.get(`/products/${product.id}/styles`));
+        return Promise.all(relatedProductStyles);
+      })
+      .then((responses) => {
+        const relatedStylesData = responses.map((item) => item.data.results[0]);
+        console.log(relatedStylesData);
+        setRelatedProductImages(relatedStylesData);
       })
       .catch((error) => {
-        console.log(error);
+        console.error('Error fetching related products or styles:', error);
       });
   }, []);
 
   return (
-    <div>{defaultProducts}</div>
+    <div className="container">
+      {relatedProductImages ? defaultProducts.map((item, index) => (
+        <RelatedProduct
+          defaultProduct={item}
+          key={item.id}
+          defaultProductUrl={relatedProductImages[index]}
+        />
+      )) : null}
+    </div>
   );
 }
 

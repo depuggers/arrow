@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import ProductDetails from './ProductDetails';
 import RelatedProducts from './RelatedProducts';
-import Reviews from './Reviews';
+//import Reviews from './Reviews';
 
 import AppContext from '../context/AppContext';
 
