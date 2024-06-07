@@ -126,7 +126,7 @@ function ProductDetails() {
                   </select>
                 </div>
                 <div className="flex gap-4">
-                  <button  className="form-input flex-grow" type="button" onClick={addToCart}>Add to bag +</button>
+                  <button className="form-input flex-grow" type="button" onClick={addToCart}>Add to bag +</button>
                   <button className="form-input" type="button">*</button>
                 </div>
               </form>
