@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+
+import AppContext from '../context/AppContext'
 
 function ImageGallery({ selectedStyle }) {
   const [selectedImage, setSelectedImage] = useState(0);
+
+  const {showModal, hideModal} = useContext(AppContext);
 
   return (
     <section id="image-gallery" className="h-[800px] relative pt-6">
@@ -20,7 +24,7 @@ function ImageGallery({ selectedStyle }) {
             </div>
             <button className="absolute text-6xl top-1/2 left-[160px] -translate-y-1/2" onClick={() => setSelectedImage(selectedImage === 0 ? selectedStyle.photos.length - 1 : selectedImage - 1)}>&lt;</button>
             <button className="absolute text-6xl right-8 top-1/2 -translate-y-1/2" onClick={() => setSelectedImage((selectedImage + 1) % selectedStyle.photos.length)}>&gt;</button>
-
+            <button onClick={() => showModal(<div className="bg-white">This is the big view - <button onClick={hideModal}>Close</button></div>)}>Big</button>
           </>
         )
         : null}
