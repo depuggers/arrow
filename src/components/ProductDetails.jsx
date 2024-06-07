@@ -8,8 +8,6 @@ import StyleSelector from './StyleSelector';
 
 import AppContext from '../context/AppContext';
 
-import '../styles/productdetails.css';
-
 function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [styles, setStyles] = useState(null);
@@ -77,12 +75,12 @@ function ProductDetails() {
   };
 
   return (
-    <section id="product-details">
+    <section className="grid grid-cols-[3fr_1fr]">
       {product && selectedStyle
         ? (
           <>
             <ImageGallery selectedStyle={selectedStyle} />
-            <section id="product-details-side">
+            <section className="flex flex-col justify-between">
               <div>
                 (
                 {rating ? rating.average : null}
@@ -95,7 +93,7 @@ function ProductDetails() {
                   reviews
                 </a>
                 <h3>{product.category}</h3>
-                <h2>{product.name}</h2>
+                <h2 className="text-3xl">{product.name}</h2>
                 {selectedStyle.sale_price
                   ? (
                     <p>
@@ -107,9 +105,10 @@ function ProductDetails() {
                   : <p>{selectedStyle.original_price}</p>}
               </div>
               <StyleSelector styles={styles} selectedStyle={selectedStyle} setSelectedStyleID={setSelectedStyleID} />
-              <form>
-                <div>
+              <form className="flex flex-col gap-4">
+                <div className="flex gap-4">
                   <select
+                    className="form-input flex-grow"
                     defaultValue=""
                     onChange={(e) => {
                       setSelectedSKU(parseInt(e.target.value));
@@ -119,16 +118,16 @@ function ProductDetails() {
                     <option value="" disabled hidden>Select Size</option>
                     {sizes.map((size) => <option key={size.sku} value={size.sku}>{size.size}</option>)}
                   </select>
-                  <select ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={() => setSelectedQty(parseInt(e.target.value))}>
+                  <select className="form-input" ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={() => setSelectedQty(parseInt(e.target.value))}>
                     <option value="" disabled hidden>-</option>
                     {Array.from({ length: maxQuantity }, (v, i) => i + 1).map((qty) => (
                       <option key={qty} value={qty}>{qty}</option>
                     ))}
                   </select>
                 </div>
-                <div>
-                  <button type="button" onClick={addToCart}>Add to bag +</button>
-                  <button type="button">*</button>
+                <div className="flex gap-4">
+                  <button  className="form-input flex-grow" type="button" onClick={addToCart}>Add to bag +</button>
+                  <button className="form-input" type="button">*</button>
                 </div>
               </form>
             </section>

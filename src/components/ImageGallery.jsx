@@ -4,7 +4,7 @@ function ImageGallery({ selectedStyle }) {
   const [selectedImage, setSelectedImage] = useState(0);
 
   return (
-    <section id="image-gallery">
+    <section className="max-h-[800px]">
       {selectedStyle
         ? (
           <>

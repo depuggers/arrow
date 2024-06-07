@@ -7,10 +7,10 @@ function StyleSelector({ styles, selectedStyle, setSelectedStyleID }) {
         <span>STYLE &gt;</span>
         {selectedStyle.name}
       </p>
-      <ul>
+      <ul className="grid grid-cols-4">
       {styles ? styles.map((style, i) => (
-        <li key={style.style_id} onClick={() => setSelectedStyleID(style.style_id)}>
-          <img src={style.photos[i].thumbnail_url} />
+        <li className="w-full aspect-square" key={style.style_id} onClick={() => setSelectedStyleID(style.style_id)}>
+          <img className="object-cover" src={style.photos[i].thumbnail_url} />
         </li>
       )) : null}
       </ul>
