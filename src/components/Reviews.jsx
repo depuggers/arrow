@@ -42,10 +42,10 @@ function ReviewPosts({ reviews }) {
     <div className="review-container">
       {reviews.results?.map((review) => (
         <div key={review.results?.review_id}>
-          <p className="starRating">
+          <span className="starRating">
             <p className="starsRated">{'*'.repeat(review.rating)}</p>
             <p className="starsUnrated">{'*'.repeat(5 - review.rating)}</p>
-          </p>
+          </span>
           <p className="reviewer">
             {`${review.reviewer_name}    ${review.date.slice(0, 10)}`}
           </p>
