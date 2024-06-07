@@ -8,6 +8,8 @@ import StyleSelector from './StyleSelector';
 
 import AppContext from '../context/AppContext';
 
+import '../styles/productdetails.css';
+
 function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [styles, setStyles] = useState(null);
@@ -75,16 +77,16 @@ function ProductDetails() {
   };
 
   return (
-    <section className="grid grid-cols-[3fr_1fr]">
+    <section className="grid grid-cols-[2fr_1fr]">
       {product && selectedStyle
         ? (
           <>
             <ImageGallery selectedStyle={selectedStyle} />
-            <section className="flex flex-col justify-between">
+            <section className="flex flex-col justify-between px-4 py-6">
               <div>
                 (
                 {rating ? rating.average : null}
-                )* * * * *
+                )⭐⭐⭐⭐⭐
                 <a href="#">
                   Read all
                   {' '}
@@ -92,23 +94,35 @@ function ProductDetails() {
                   {' '}
                   reviews
                 </a>
-                <h3>{product.category}</h3>
-                <h2 className="text-3xl">{product.name}</h2>
+              </div>
+              <div>
+                <h3 className="uppercase">{product.category}</h3>
+                <h2 className="text-6xl font-bold">{product.name}</h2>
+              </div>
+              <div>
                 {selectedStyle.sale_price
                   ? (
                     <p>
-                      <s>{selectedStyle.original_price}</s>
-                      {' '}
+                      <s>
+                        $
+                        {selectedStyle.original_price}
+                      </s>
+                      {' $'}
                       {selectedStyle.sale_price}
                     </p>
                   )
-                  : <p>{selectedStyle.original_price}</p>}
+                  : (
+                    <p>
+                      $
+                      {selectedStyle.original_price}
+                    </p>
+                  )}
               </div>
               <StyleSelector styles={styles} selectedStyle={selectedStyle} setSelectedStyleID={setSelectedStyleID} />
               <form className="flex flex-col gap-4">
                 <div className="flex gap-4">
                   <select
-                    className="form-input flex-grow"
+                    className="form-input flex-grow uppercase"
                     defaultValue=""
                     onChange={(e) => {
                       setSelectedSKU(parseInt(e.target.value));
@@ -118,7 +132,7 @@ function ProductDetails() {
                     <option value="" disabled hidden>Select Size</option>
                     {sizes.map((size) => <option key={size.sku} value={size.sku}>{size.size}</option>)}
                   </select>
-                  <select className="form-input" ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={() => setSelectedQty(parseInt(e.target.value))}>
+                  <select className="form-input" ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
                     <option value="" disabled hidden>-</option>
                     {Array.from({ length: maxQuantity }, (v, i) => i + 1).map((qty) => (
                       <option key={qty} value={qty}>{qty}</option>
@@ -126,14 +140,28 @@ function ProductDetails() {
                   </select>
                 </div>
                 <div className="flex gap-4">
-                  <button className="form-input flex-grow" type="button" onClick={addToCart}>Add to bag +</button>
-                  <button className="form-input" type="button">*</button>
+                  <button className="form-input flex-grow uppercase flex justify-between" type="button" onClick={addToCart}>
+                    Add to cart
+                    <span>+</span>
+                  </button>
+                  <button className="form-input" type="button">⭐</button>
                 </div>
               </form>
             </section>
-            <section>
-              <h2>{product.slogan}</h2>
-              <p>{product.description}</p>
+            <section className="col-span-2 px-[15%] py-6 flex divide-x">
+              <div className="px-8 flex-shrink">
+                <h2 className="font-bold text-lg">{product.slogan}</h2>
+                <p>{product.description}</p>
+              </div>
+              <div className="px-8">
+                <ul className="flex flex-col gap-3">
+                  {product.features?.map(feature => {
+                    return (
+                      <li key={feature.feature}>{`✔️ ${feature.value} ${feature.feature}`}</li>
+                    )
+                  })}
+                </ul>
+              </div>
             </section>
           </>
         )

@@ -1,5 +1,5 @@
 .form-input {
-  @apply p-4 border border-black;
+  @apply p-4 border border-black rounded-xl;
 }
 
 /* #product-details {
