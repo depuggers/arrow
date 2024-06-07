@@ -19,6 +19,10 @@ app.all('/*', (req, res) => {
     },
   };
 
+  if (req.method === 'POST') {
+    config.data = req.body;
+  }
+
   axios(config)
     .then((response) => {
       res.status(response.status).json(response.data);
