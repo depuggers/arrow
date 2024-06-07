@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../styles.css';
+// import RelatedProducts from './RelatedProducts';
+// import ProductDetails from './ProductDetails';
+// import Reviews from './Reviews';
 
 function Reviews() {
+  const url = '/reviews?product_id=40344';
+  // swap out with context tomorrow
   const [reviews, setReviews] = useState('');
 
-  const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/reviews?product_id=40344';
-  const headers = {
-    Authorization: process.env.GH_TOKEN,
-  };
-
-  console.log(reviews);
   useEffect(() => {
-    axios.get(url, { headers })
+    axios.get(url)
       .then((response) => {
-        console.log(response);
         setReviews(response.data);
       })
       .catch((err) => {
@@ -21,16 +20,46 @@ function Reviews() {
       });
   }, []);
 
+  const singleReview = { ...reviews, results: reviews.results?.slice(0, 1) };
   return (
-    <ul>
+    <div>
+      {/* <ProductDetails />
+      <RelatedProducts /> */}
+      {/* <Reviews /> */}
 
+      <ul>
+        <ReviewPosts
+          // reviews={reviews}
+          reviews={singleReview} // render single review while testing code
+        />
+      </ul>
+    </div>
+  );
+}
+
+function ReviewPosts({ reviews }) {
+  return (
+    <div className="review-container">
       {reviews.results?.map((review) => (
-        <li>
-          {review.summary}
-        </li>
+        <div key={review.results?.review_id}>
+          <span className="starRating">
+            <p className="starsRated">{'*'.repeat(review.rating)}</p>
+            <p className="starsUnrated">{'*'.repeat(5 - review.rating)}</p>
+          </span>
+          <p className="reviewer">
+            {`${review.reviewer_name}    ${review.date.slice(0, 10)}`}
+          </p>
+          <h2 className="reviewTitle">{review.summary}</h2>
+          <p className="reviewBody">{review.body}</p>
+        </div>
       ))}
-
-    </ul>
+      <p className="isHelpful">
+        Helpful?
+        <a href="/reviews">Yes      </a>
+        <a href="/reviews">(10)  |</a>
+        <a href="/reviews">Report </a>
+      </p>
+    </div>
   );
 }
 

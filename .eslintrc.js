@@ -12,4 +12,7 @@ module.exports = {
       jsx: true,
     },
   },
+  rules: {
+    'react/prop-types': 'off',
+  },
 };
