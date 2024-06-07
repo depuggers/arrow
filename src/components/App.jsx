@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import ProductDetails from './ProductDetails';
 import RelatedProducts from './RelatedProducts';
-//import Reviews from './Reviews';
+import Reviews from './Reviews';
 
 import AppContext from '../context/AppContext';
 
@@ -14,15 +14,21 @@ function App() {
   const [cart, setCart] = useState([]);
 
   return (
-    <AppContext.Provider value={{ productID, setProductID, cart, setCart }}>
+    <AppContext.Provider value={{
+      productID, setProductID, cart, setCart,
+    }}
+    >
       <header>
         <Logo height={96} />
-        <span>Cart {cart.length > 0 ? `(${cart.length})` : null}</span>
+        <span>
+          Cart
+          {cart.length > 0 ? `(${cart.length})` : null}
+        </span>
       </header>
       <main>
         <ProductDetails />
-        {/* <RelatedProducts /> */}
-        {/* <Reviews /> */}
+        <RelatedProducts />
+        <Reviews />
       </main>
     </AppContext.Provider>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../styles.css';
+// import '../styles.css';
 // import RelatedProducts from './RelatedProducts';
 // import ProductDetails from './ProductDetails';
 // import Reviews from './Reviews';
