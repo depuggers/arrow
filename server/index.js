@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = 3000;
-const API_SERVER_URL = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp/';
+const API_SERVER_URL = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rfp';
 
 app.use(express.static(path.join(__dirname, '../dist')));
 app.use(express.json());
