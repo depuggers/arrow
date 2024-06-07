@@ -39,18 +39,22 @@ function Reviews() {
 
 function ReviewPosts({ reviews }) {
   return (
-    <div className="review-container">
+    <div className="flex flex-col pl-5 pt-5">
       {reviews.results?.map((review) => (
         <div key={review.results?.review_id}>
-          <span className="starRating">
-            <p className="starsRated">{'*'.repeat(review.rating)}</p>
-            <p className="starsUnrated">{'*'.repeat(5 - review.rating)}</p>
+          <span className="flex flex-row justify-between">
+            <span>
+              <p className="flex-none">
+                {`${'🌝'.repeat(review.rating)}
+                  ${'🌚'.repeat(5 - review.rating)}`}
+              </p>
+            </span>
+            <p className="font-light text-gray-500">
+              {`${review.reviewer_name} ${review.date.slice(5, 10)} ${review.date.slice(0, 4)}`}
+            </p>
           </span>
-          <p className="reviewer">
-            {`${review.reviewer_name}    ${review.date.slice(0, 10)}`}
-          </p>
-          <h2 className="reviewTitle">{review.summary}</h2>
-          <p className="reviewBody">{review.body}</p>
+          <h2 className="font-semibold text-lg">{review.summary}</h2>
+          <div className="reviewBody">{review.body}</div>
         </div>
       ))}
       <p className="isHelpful">
