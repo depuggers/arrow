@@ -18,7 +18,7 @@ function App() {
       productID, setProductID, cart, setCart,
     }}
     >
-      <header className="flex justify-between items-center text-white bg-neutral-800 px-6 py-4">
+      <header className="flex justify-between items-center text-white bg-neutral-800 px-6 py-2">
         <Logo height={96} />
         <span>
           Cart

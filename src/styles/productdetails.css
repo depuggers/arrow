@@ -1,5 +1,9 @@
-.form-input {
-  @apply p-4 border border-black rounded-xl;
+.input {
+  @apply p-4 border border-black rounded-xl bg-transparent;
+}
+
+#image-gallery * {
+  scrollbar-width: none;
 }
 
 /* #product-details {

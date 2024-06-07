@@ -57,9 +57,9 @@ function ProductDetails() {
           { length: parseInt(current[1], 10) },
           () => parseInt(current[0], 10),
         )), []);
-      console.log(ratings);
+      // console.log(ratings);
       const avgRating = (ratings.reduce((sum, current) => sum + current, 0) / ratings.length).toFixed(2);
-      console.log(avgRating, typeof avgRating);
+      // console.log(avgRating, typeof avgRating);
       setRating({ average: avgRating, total: ratings.length });
     }
   };
@@ -77,7 +77,7 @@ function ProductDetails() {
   };
 
   return (
-    <section className="grid grid-cols-[2fr_1fr]">
+    <section className="grid grid-cols-[5fr_2fr] text-neutral-600">
       {product && selectedStyle
         ? (
           <>
@@ -87,13 +87,17 @@ function ProductDetails() {
                 (
                 {rating ? rating.average : null}
                 )⭐⭐⭐⭐⭐
-                <a href="#">
+                <button onClick={() => document.getElementsByClassName('review-container')[0].scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                })}
+                >
                   Read all
                   {' '}
                   {rating ? rating.total : null}
                   {' '}
                   reviews
-                </a>
+                </button>
               </div>
               <div>
                 <h3 className="uppercase">{product.category}</h3>
@@ -122,7 +126,7 @@ function ProductDetails() {
               <form className="flex flex-col gap-4">
                 <div className="flex gap-4">
                   <select
-                    className="form-input flex-grow uppercase"
+                    className="input flex-grow uppercase cursor-pointer appearance-none"
                     defaultValue=""
                     onChange={(e) => {
                       setSelectedSKU(parseInt(e.target.value));
@@ -132,7 +136,7 @@ function ProductDetails() {
                     <option value="" disabled hidden>Select Size</option>
                     {sizes.map((size) => <option key={size.sku} value={size.sku}>{size.size}</option>)}
                   </select>
-                  <select className="form-input" ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
+                  <select className="input cursor-pointer disabled:opacity-25 appearance-none" ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
                     <option value="" disabled hidden>-</option>
                     {Array.from({ length: maxQuantity }, (v, i) => i + 1).map((qty) => (
                       <option key={qty} value={qty}>{qty}</option>
@@ -140,26 +144,24 @@ function ProductDetails() {
                   </select>
                 </div>
                 <div className="flex gap-4">
-                  <button className="form-input flex-grow uppercase flex justify-between" type="button" onClick={addToCart}>
+                  <button className="input flex-grow uppercase flex justify-between" type="button" onClick={addToCart}>
                     Add to cart
                     <span>+</span>
                   </button>
-                  <button className="form-input" type="button">⭐</button>
+                  <button className="input" type="button">⭐</button>
                 </div>
               </form>
             </section>
             <section className="col-span-2 px-[15%] py-6 flex divide-x">
               <div className="px-8 flex-shrink">
-                <h2 className="font-bold text-lg">{product.slogan}</h2>
+                <h2 className="font-bold text-lg ">{product.slogan}</h2>
                 <p>{product.description}</p>
               </div>
-              <div className="px-8">
+              <div className="px-8 flex-shrink-0">
                 <ul className="flex flex-col gap-3">
-                  {product.features?.map(feature => {
-                    return (
-                      <li key={feature.feature}>{`✔️ ${feature.value} ${feature.feature}`}</li>
-                    )
-                  })}
+                  {product.features?.map((feature) => (
+                    <li className="min-w-fit" key={feature.feature}>{`✔️ ${feature.value} ${feature.feature}`}</li>
+                  ))}
                 </ul>
               </div>
             </section>

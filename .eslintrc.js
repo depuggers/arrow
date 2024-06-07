@@ -15,5 +15,9 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'no-console': 'off',
+    'max-len': 'off',
+    radix: 'off',
+    'react/button-has-type': 'off',
+    'react/jsx-no-constructed-context-values': 'off',
   },
 };
