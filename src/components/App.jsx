@@ -1,35 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 
+import Header from './Header';
 import ProductDetails from './ProductDetails';
 import RelatedProducts from './RelatedProducts';
 import Reviews from './Reviews';
 
 import AppContext from '../context/AppContext';
 
-import '../styles/global.css';
+import appReducer from '../reducers/appReducer';
 
-import Logo from '../images/atelierlogo.svg';
+import '../styles/global.css';
 
 import useModal from '../hooks/useModal';
 
 function App() {
   const [productID, setProductID] = useState(40344);
-  const [cart, setCart] = useState([]);
 
   const { modal, showModal, hideModal } = useModal();
 
+  const [store, dispatch] = useReducer(appReducer, {
+    selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: [],
+  });
+
   return (
     <AppContext.Provider value={{
-      productID, setProductID, cart, setCart, showModal, hideModal
+      productID, setProductID, showModal, hideModal, store, dispatch,
     }}
     >
-      <header className="flex justify-between items-center text-white bg-neutral-800 px-6 py-2">
-        <Logo height={96} />
-        <span>
-          Cart
-          {cart.length > 0 ? `(${cart.length})` : null}
-        </span>
-      </header>
+      <Header />
       <main>
         <ProductDetails />
         <RelatedProducts />

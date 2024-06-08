@@ -5,22 +5,27 @@ const useModal = () => {
   const [modalContent, setModalContent] = useState(null);
   const dialogRef = useRef(null);
 
+  const clearContent = () => {
+    setModalContent(null);
+  };
+
   const showModal = (content) => {
     if (dialogRef.current) {
       setModalContent(content);
       dialogRef.current.showModal();
+      dialogRef.current.removeEventListener('close', clearContent);
+      dialogRef.current.addEventListener('close', clearContent);
     }
   };
 
   const hideModal = () => {
     if (dialogRef.current) {
-      setModalContent(null);
       dialogRef.current.close();
     }
   };
 
   const modal = createPortal(
-    <dialog className="w-full max-w-full h-full max-h-full bg-transparent flex justify-center items-center" ref={dialogRef}>
+    <dialog ref={dialogRef}>
       {modalContent && modalContent}
     </dialog>,
     document.body,
