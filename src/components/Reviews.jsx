@@ -6,9 +6,12 @@ import axios from 'axios';
 // import Reviews from './Reviews';
 
 function Reviews() {
-  const url = '/reviews?product_id=40344';
-  // swap out with context tomorrow
+  // const url = '/reviews?product_id=40344';
+  const url = `/reviews?product_id=403${Math.floor(Math.random() * 99)}`;
+  // random url, for testing different reviews
+
   const [reviews, setReviews] = useState('');
+  // will swap out with context
 
   useEffect(() => {
     axios.get(url)
@@ -39,7 +42,7 @@ function Reviews() {
 
 function ReviewPosts({ reviews }) {
   return (
-    <div className=" pl-5 pt-5 flex flex-col  divide-y">
+    <div className=" pl-5 pt-5 flex flex-col  divide-y w-1/2">
       {reviews.results?.map((review) => (
         <div key={review.results?.review_id}>
           <span className="flex flex-row justify-between">
