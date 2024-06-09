@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from 'react';
 
 import Header from './Header';
-import ProductDetails from './ProductDetails';
+import Overview from './Overview';
 import RelatedProducts from './RelatedProducts';
 import Reviews from './Reviews';
 
@@ -29,7 +29,7 @@ function App() {
     >
       <Header />
       <main>
-        <ProductDetails />
+        <Overview />
         <RelatedProducts />
         <Reviews />
       </main>

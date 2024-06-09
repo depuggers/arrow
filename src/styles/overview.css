@@ -1,5 +1,5 @@
 .input {
-  @apply p-4 border border-black rounded-xl bg-transparent;
+  @apply p-4 border-2 border-neutral-500 text-neutral-600 bg-transparent font-bold;
 }
 
 #image-gallery * {

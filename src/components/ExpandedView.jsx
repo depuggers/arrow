@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 
 import ImageGalleryButton from './ImageGalleryButton';
+import ImageThumbnails from './ImageThumbnails';
 
 import AppContext from '../context/AppContext';
 
@@ -24,6 +25,7 @@ function ExpandedView({ switchImage }) {
       />
       {!zoomed ? (
         <>
+          <ImageThumbnails orientation="horizontal" />
           <ImageGalleryButton icon="&lt;" styles="left-8 text-white" cb={() => switchImage(-1)} />
           <ImageGalleryButton icon="&gt;" styles="right-8 text-white" cb={() => switchImage(1)} />
         </>

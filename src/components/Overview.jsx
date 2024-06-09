@@ -8,9 +8,9 @@ import StyleSelector from './StyleSelector';
 
 import AppContext from '../context/AppContext';
 
-import '../styles/productdetails.css';
+import '../styles/overview.css';
 
-function ProductDetails() {
+function Overview() {
   // const [selectedSKU, setSelectedSKU] = useState(null);
   const [selectedQty, setSelectedQty] = useState(null);
 
@@ -73,7 +73,7 @@ function ProductDetails() {
         ? (
           <>
             <ImageGallery />
-            <section className="flex flex-col justify-between px-4 py-6">
+            <section className="flex flex-col justify-end px-4 py-8 gap-8">
               <div>
                 (
                 {rating ? rating.average : null}
@@ -82,6 +82,7 @@ function ProductDetails() {
                   behavior: 'smooth',
                   block: 'start',
                 })}
+                className="text-sm underline"
                 >
                   Read all
                   {' '}
@@ -94,11 +95,11 @@ function ProductDetails() {
                 <h3 className="uppercase">{product.category}</h3>
                 <h2 className="text-6xl font-bold">{product.name}</h2>
               </div>
-              <div>
+              <div className="text-3xl font-medium">
                 {styles[selectedStyle].sale_price
                   ? (
                     <p>
-                      <s>
+                      <s className="text-lg">
                         $
                         {styles[selectedStyle].original_price}
                       </s>
@@ -163,4 +164,4 @@ function ProductDetails() {
   );
 }
 
-export default ProductDetails;
+export default Overview;
