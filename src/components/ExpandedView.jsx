@@ -14,7 +14,7 @@ function ExpandedView({ switchImage }) {
   } = useContext(AppContext);
 
   return (
-    <div className={`relative w-full h-full p-4 ${zoomed ? 'cursor-vertical-text' : 'cursor-crosshair'}`} onClick={() => setZoomed(!zoomed)} onPointerMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}>
+    <div className={`relative w-full h-full p-4 pb-[120px] ${zoomed ? 'cursor-vertical-text' : 'cursor-crosshair'}`} onClick={() => setZoomed(!zoomed)} onPointerMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}>
       <img
         className="w-full h-full object-contain"
         src={styles[selectedStyle].photos[selectedImage].url}
@@ -25,7 +25,7 @@ function ExpandedView({ switchImage }) {
       />
       {!zoomed ? (
         <>
-          <ImageThumbnails orientation="horizontal" />
+          <ImageThumbnails orientation="horizontal" textColor="white" />
           <ImageGalleryButton icon="&lt;" styles="left-8 text-white" cb={() => switchImage(-1)} />
           <ImageGalleryButton icon="&gt;" styles="right-8 text-white" cb={() => switchImage(1)} />
         </>

@@ -25,7 +25,7 @@ function ImageGallery() {
         ? (
           <>
             <img className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={styles[selectedStyle].photos[selectedImage].url} alt="" />
-            <ImageThumbnails orientation="vertical" />
+            <ImageThumbnails orientation="vertical" textColor="neutral-600" />
             {selectedImage > 0 ? <ImageGalleryButton icon="&lt;" styles="text-black left-[160px]" cb={() => switchImage(-1)} /> : null}
             {selectedImage < styles[selectedStyle].photos.length - 1 ? <ImageGalleryButton icon="&gt;" styles="text-black right-8" cb={() => switchImage(1)} /> : null}
           </>

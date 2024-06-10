@@ -78,11 +78,12 @@ function Overview() {
                 (
                 {rating ? rating.average : null}
                 )⭐⭐⭐⭐⭐
-                <button onClick={() => document.getElementsByClassName('review-container')[0].scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start',
-                })}
-                className="text-sm underline"
+                <button
+                  onClick={() => document.getElementsByClassName('review-container')[0].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                  })}
+                  className="text-sm underline"
                 >
                   Read all
                   {' '}

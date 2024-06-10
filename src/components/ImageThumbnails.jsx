@@ -1,8 +1,10 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, {
+  useState, useRef, useContext, useEffect,
+} from 'react';
 
 import AppContext from '../context/AppContext';
 
-function ImageThumbnails({ orientation }) {
+function ImageThumbnails({ orientation, textColor }) {
   const [imageIndex, setImageIndex] = useState(0);
 
   const {
@@ -14,23 +16,35 @@ function ImageThumbnails({ orientation }) {
   const thumbnails = {};
   const thumbnailsRef = useRef(thumbnails);
 
+  useEffect(() => {
+    const initialPosition = Math.min(selectedImage, 3);
+    thumbnailContainerRef.current.scrollTo({
+      top: thumbnailsRef.current[initialPosition].offsetTop,
+      left: thumbnailsRef.current[initialPosition].offsetLeft,
+      behavior: 'smooth',
+    });
+    setImageIndex(initialPosition);
+  }, []);
+
   const scrollThumbs = (e, direction) => {
     e.stopPropagation();
     const nextIndex = Math.min(Math.max(imageIndex + direction, 0), 3);
+    console.log(nextIndex, thumbnailContainerRef.current);
     thumbnailContainerRef.current.scrollTo({
       top: thumbnailsRef.current[nextIndex].offsetTop,
+      left: thumbnailsRef.current[nextIndex].offsetLeft,
       behavior: 'smooth',
     });
     setImageIndex(nextIndex);
   };
 
   const selectedImageStyle = 'border-2 border-amber-500';
-  const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-8 flex-col' : 'left-1/2 bottom-12 flex-row -translate-x-1/2';
-  const orientationItemStyle = orientation === 'vertical' ? 'aspect-[1/3] grid-flow-row auto-rows-min' : 'h-[96px] aspect-[3/1] grid-flow-col';
+  const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-8 flex-col' : 'left-1/2 bottom-4 flex-row -translate-x-1/2';
+  const orientationItemStyle = orientation === 'vertical' ? 'aspect-[1/3] grid-flow-row auto-rows-min' : 'grid-cols-[repeat(3,1fr)] h-[96px] w-auto aspect-[3/1] grid-flow-col';
 
   return (
-    <div className={`absolute flex ${orientationContainerStyle}`}>
-      <button className={`${imageIndex > 0 ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>UP</button>
+    <div className={`absolute flex ${orientationContainerStyle} text-${textColor}`}>
+      <button className={`${imageIndex > 0 ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>&lt;</button>
       <ul className={`overflow-hidden grid relative ${orientationItemStyle}`} ref={thumbnailContainerRef}>
         {styles[selectedStyle].photos.map((photo, i) => (
           <li
@@ -48,7 +62,7 @@ function ImageThumbnails({ orientation }) {
           </li>
         ))}
       </ul>
-      <button className={`${imageIndex < 3 ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>DOWN</button>
+      <button className={`${imageIndex < 3 ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>&gt;</button>
     </div>
   );
 }
