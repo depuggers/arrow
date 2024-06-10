@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import ProductDetails from './ProductDetails';
-import RelatedProducts from './RelatedProducts';
+// import ProductDetails from './ProductDetails';
+// import RelatedProducts from './RelatedProducts';
 import Reviews from './Reviews';
 
 import AppContext from '../context/AppContext';
@@ -26,8 +26,8 @@ function App() {
         </span>
       </header>
       <main>
-        <ProductDetails />
-        <RelatedProducts />
+        {/* <ProductDetails />
+        <RelatedProducts /> */}
         <Reviews />
       </main>
     </AppContext.Provider>
