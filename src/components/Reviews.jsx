@@ -24,13 +24,12 @@ function Reviews() {
   }, []);
 
   return (
-    <div className="flex flex-row-reverse w-full">
+    <div className="flex flex-row-reverse justify-between w-full">
 
       {/* movie container */}
-      <div className="self-end flex flex-col w-1/2 mt-10 mr-40">
+      <div className="self-end flex flex-col  flex-none w-1/2 pr-10">
         <span className="flex flex-row pl-5 pt-5 text-lg font-semibold">
           {`${Math.floor(Math.random() * 999)} reviews, sorted by  `}
-
           <select className="underline">
             <option value="relevance"> relevance</option>
             <option value="newest"> newest</option>
@@ -45,17 +44,33 @@ function Reviews() {
           <ReviewPosts
             // reviews={reviews}
             reviews={singleReview} // render single review while testing code
+            className="pl-5 pt-2"
           />
         </ul>
       </div>
 
+      {/* ReviewSummary */}
+      <div className="flex flex-col pl-10 pt-5">
+        <p className=" text-lg font-light">RATINGS & REVIEWS</p>
+        <span className="flex flex-row pb-2">
+          <p className="font-bold text-4xl"> 3.5 </p>
+          <p className="flex-none text-s font-bold">
+            {`${'🌝'.repeat(3)}🌗
+                  ${'🌚'.repeat(5 - 4)}`}
+          </p>
+        </span>
+        <span>
+          <p>stars compoment</p>
+
+        </span>
+      </div>
     </div>
   );
 }
 
 function ReviewPosts({ reviews }) {
   return (
-    <div className=" pl-5 pt-5 flex flex-col divide-y">
+    <div className=" pl-5 pt-2 flex flex-col divide-y">
       {reviews.results?.map((review) => (
         <div key={review.results?.review_id}>
           <span className="flex flex-row justify-between">
