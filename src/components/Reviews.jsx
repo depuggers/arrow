@@ -27,10 +27,10 @@ function Reviews() {
   }, []);
 
   return (
-    <div className="flex flex-row-reverse justify-center w-full py-20 px-60">
+    <div className="flex flex-row-reverse justify-center w-full py-20 px-80">
 
       {/* review container */}
-      <div className="flex flex-col grow w-1/2 pl-4">
+      <div className="flex flex-col flex-auto w-1/2 pl-4">
         <span className="flex flex-row pt-5 text-lg font-semibold">
           {`${Math.floor(Math.random() * 999)} reviews, sorted by  `}
           <select className="underline">
@@ -53,16 +53,16 @@ function Reviews() {
       </div>
 
       {/* ReviewSummary */}
-      <aside className="flex flex-col pl-4 pt-4">
-        <p className=" text-lg text-gray-800 font-light pb-2 pr-20">RATINGS & REVIEWS</p>
-        <div className="flex flex-row pb-2">
+      <aside className="flex flex-col w-72 pr-20 pt-4">
+        <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
+        <div className="flex flex-row pb-4">
           <p className="font-bold text-4xl"> 3.5 </p>
           <p className="flex-none text-s font-bold">
             {`${'🌝'.repeat(3)}🌗
                   ${'🌚'.repeat(5 - 4)}`}
           </p>
         </div>
-        <div className=" text-sm text-neutral-600">
+        <div className="grow text-base text-neutral-600 pb-4">
           <p className="hover:underline">
             5 star
             <progress className="pl-2" value={6} max={totalReviews} />
@@ -83,8 +83,27 @@ function Reviews() {
             1 star
             <progress className="pl-2" value={3} max={totalReviews} />
           </p>
-
         </div>
+
+        <div className="pb-4">
+          <h4 className="text-sm">Size</h4>
+          <progress className="w-full" value={0.5} />
+          <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
+            <p>Too Small</p>
+            <p>Perfect</p>
+            <p>Too Large</p>
+          </span>
+        </div>
+        <div className="">
+          <h4 className="text-sm">Comfort</h4>
+          <progress className="w-full" value={0.5} />
+          <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
+            <p>Too Small</p>
+            <p>Perfect</p>
+            <p>Too Large</p>
+          </span>
+        </div>
+
       </aside>
     </div>
   );
