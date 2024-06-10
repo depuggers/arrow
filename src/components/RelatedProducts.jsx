@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { GoChevronRight } from "react-icons/go";
+import { GoChevronLeft } from "react-icons/go";
 import axios from 'axios';
 import RelatedProduct from './RelatedProduct';
+
 
 function RelatedProducts() {
 //  const [allProducts, setAllProducts] = useState([]);
@@ -53,7 +56,7 @@ function RelatedProducts() {
 
   return (
     <div className="relative">
-      <button onClick={scrollLeft} className="">←</button>
+      <GoChevronLeft onClick={scrollLeft} />
       <div className="flex flex-row justify-center space-x-5" ref={carouselRef}>
         {relatedProductImages ? defaultProducts.map((item, index) => (
           <RelatedProduct
@@ -63,6 +66,7 @@ function RelatedProducts() {
           />
         )) : null}
       </div>
+      <GoChevronRight onClick={scrollRight} />
     </div>
 
   );
