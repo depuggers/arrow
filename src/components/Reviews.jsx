@@ -13,6 +13,8 @@ function Reviews() {
   // will swap out with context
   const singleReview = { ...reviews, results: reviews.results?.slice(0, 2) };
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
+  const totalReviews = 10;
+  // const allReviews = { ...reviews, results: reviews.results?.slice() };
 
   useEffect(() => {
     axios.get(url)
@@ -25,10 +27,10 @@ function Reviews() {
   }, []);
 
   return (
-    <div className="flex flex-row-reverse justify-center w-full">
+    <div className="flex flex-row-reverse justify-center w-full py-20 px-60">
 
       {/* review container */}
-      <div className="self-end flex flex-col flex-none w-1/2 pl-52">
+      <div className="flex flex-col grow w-1/2 pl-4">
         <span className="flex flex-row pt-5 text-lg font-semibold">
           {`${Math.floor(Math.random() * 999)} reviews, sorted by  `}
           <select className="underline">
@@ -51,27 +53,46 @@ function Reviews() {
       </div>
 
       {/* ReviewSummary */}
-      <div className="flex flex-col pl-1 pt-5">
-        <p className=" text-lg font-light">Ratings & Reviews</p>
-        <span className="flex flex-row pb-2">
+      <aside className="flex flex-col pl-4 pt-4">
+        <p className=" text-lg text-gray-800 font-light pb-2 pr-20">RATINGS & REVIEWS</p>
+        <div className="flex flex-row pb-2">
           <p className="font-bold text-4xl"> 3.5 </p>
           <p className="flex-none text-s font-bold">
             {`${'🌝'.repeat(3)}🌗
                   ${'🌚'.repeat(5 - 4)}`}
           </p>
-        </span>
-        <span>
-          <p>stars compoment</p>
+        </div>
+        <div className=" text-sm text-neutral-600">
+          <p className="hover:underline">
+            5 star
+            <progress className="pl-2" value={6} max={totalReviews} />
+          </p>
+          <p className="hover:underline">
+            4 star
+            <progress className="pl-2" value={4} max={totalReviews} />
+          </p>
+          <p className="hover:underline">
+            3 star
+            <progress className="pl-2" value={10} max={totalReviews} />
+          </p>
+          <p className="hover:underline">
+            2 star
+            <progress className="pl-2" value={5} max={totalReviews} />
+          </p>
+          <p className="hover:underline">
+            1 star
+            <progress className="pl-2" value={3} max={totalReviews} />
+          </p>
 
-        </span>
-      </div>
+        </div>
+      </aside>
     </div>
   );
 }
 
 function ReviewPosts({ reviews }) {
   return (
-    <div className=" pl-1 pt-2 flex flex-col divide-y">
+    <div className=" pt-2 flex flex-col divide-y">
       {reviews.results?.map((review) => (
         <div key={review.results?.review_id}>
           <span className="flex flex-row justify-between">
