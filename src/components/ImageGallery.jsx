@@ -1,23 +1,33 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
-function ImageGallery({ selectedStyle }) {
-  const [selectedImage, setSelectedImage] = useState(0);
+import ImageThumbnails from './ImageThumbnails';
+import ExpandedView from './ExpandedView';
+
+import AppContext from '../context/AppContext';
+
+import ImageGalleryButton from './ImageGalleryButton';
+
+function ImageGallery() {
+  const {
+    showModal, store: { styles }, store: { selectedStyle }, store: { selectedImage }, dispatch,
+  } = useContext(AppContext);
+
+  const switchImage = (direction) => {
+    dispatch({ type: 'switchImage', payload: direction });
+  };
+
+  console.log(selectedImage, styles[selectedStyle].photos);
+  console.log(styles[selectedStyle].photos[selectedImage].url);
 
   return (
-    <section className="max-h-[800px]">
-      {selectedStyle
+    <section id="image-gallery" className="h-[800px] relative pt-6">
+      {styles
         ? (
           <>
-            <img id="main-image" src={selectedStyle.photos[selectedImage].url} />
-            <ul id="thumbnail-list">
-              {selectedStyle.photos.map((photo, i) => (
-              <li key={photo.thumbnail_url} onClick={() => setSelectedImage(i)}>
-                <img src={photo.thumbnail_url} />
-              </li>))}
-            </ul>
-            <button id="prev-photo" onClick={() => setSelectedImage(selectedImage === 0 ? selectedStyle.photos.length - 1 : selectedImage - 1)}>&lt;</button>
-            <button id="next-photo" onClick={() => setSelectedImage((selectedImage + 1) % selectedStyle.photos.length)}>&gt;</button>
-
+            <img className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={styles[selectedStyle].photos[selectedImage].url} alt="" />
+            <ImageThumbnails orientation="vertical" textColor="neutral-600" />
+            {selectedImage > 0 ? <ImageGalleryButton icon="&lt;" styles="text-black left-[160px]" cb={() => switchImage(-1)} /> : null}
+            {selectedImage < styles[selectedStyle].photos.length - 1 ? <ImageGalleryButton icon="&gt;" styles="text-black right-8" cb={() => switchImage(1)} /> : null}
           </>
         )
         : null}

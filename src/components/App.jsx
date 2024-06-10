@@ -1,35 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 
-// import ProductDetails from './ProductDetails';
-// import RelatedProducts from './RelatedProducts';
+import Header from './Header';
+import Overview from './Overview';
+import RelatedProducts from './RelatedProducts';
 import Reviews from './Reviews';
 
 import AppContext from '../context/AppContext';
 
+import appReducer from '../reducers/appReducer';
+
 import '../styles/global.css';
-import Logo from '../images/atelierlogo.svg';
+
+import useModal from '../hooks/useModal';
 
 function App() {
   const [productID, setProductID] = useState(40344);
-  const [cart, setCart] = useState([]);
+
+  const { modal, showModal, hideModal } = useModal();
+
+  const [store, dispatch] = useReducer(appReducer, {
+    selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: [],
+  });
 
   return (
     <AppContext.Provider value={{
-      productID, setProductID, cart, setCart,
+      productID, setProductID, showModal, hideModal, store, dispatch,
     }}
     >
-      <header className="flex justify-between items-center text-white bg-neutral-800 px-6 py-4">
-        <Logo height={96} />
-        <span>
-          Cart
-          {cart.length > 0 ? `(${cart.length})` : null}
-        </span>
-      </header>
+      <Header />
       <main>
-        {/* <ProductDetails />
-        <RelatedProducts /> */}
+        <Overview />
+        <RelatedProducts />
         <Reviews />
       </main>
+      { modal }
     </AppContext.Provider>
   );
 }
