@@ -11,7 +11,8 @@ function Reviews() {
   // random url, for testing different reviews
   const [reviews, setReviews] = useState('');
   // will swap out with context
-  const singleReview = { ...reviews, results: reviews.results?.slice(0, 1) };
+  const singleReview = { ...reviews, results: reviews.results?.slice(0, 2) };
+  // const allReviews = { ...reviews, results: reviews.results?.slice() };
 
   useEffect(() => {
     axios.get(url)
@@ -24,11 +25,11 @@ function Reviews() {
   }, []);
 
   return (
-    <div className="flex flex-row-reverse justify-between w-full">
+    <div className="flex flex-row-reverse justify-center w-full">
 
-      {/* movie container */}
-      <div className="self-end flex flex-col  flex-none w-1/2 pr-10">
-        <span className="flex flex-row pl-5 pt-5 text-lg font-semibold">
+      {/* review container */}
+      <div className="self-end flex flex-col flex-none w-1/2 pl-52">
+        <span className="flex flex-row pt-5 text-lg font-semibold">
           {`${Math.floor(Math.random() * 999)} reviews, sorted by  `}
           <select className="underline">
             <option value="relevance"> relevance</option>
@@ -36,13 +37,13 @@ function Reviews() {
             <option value="helpful"> helpful</option>
           </select>
         </span>
-        <form className="pl-5 pt-2 pb-2">
+        <form className="pt-2 pb-2">
           <input className="border-2 rounded-l border-r-0" type="text" placeholder="Search by keyword" />
           <button className="border-2 rounded-r  border-l-0 bg-slate-200" type="submit">🔍</button>
         </form>
         <ul>
           <ReviewPosts
-            // reviews={reviews}
+            // reviews={allReviews}
             reviews={singleReview} // render single review while testing code
             className="pl-5 pt-2"
           />
@@ -50,8 +51,8 @@ function Reviews() {
       </div>
 
       {/* ReviewSummary */}
-      <div className="flex flex-col pl-10 pt-5">
-        <p className=" text-lg font-light">RATINGS & REVIEWS</p>
+      <div className="flex flex-col pl-1 pt-5">
+        <p className=" text-lg font-light">Ratings & Reviews</p>
         <span className="flex flex-row pb-2">
           <p className="font-bold text-4xl"> 3.5 </p>
           <p className="flex-none text-s font-bold">
@@ -70,7 +71,7 @@ function Reviews() {
 
 function ReviewPosts({ reviews }) {
   return (
-    <div className=" pl-5 pt-2 flex flex-col divide-y">
+    <div className=" pl-1 pt-2 flex flex-col divide-y">
       {reviews.results?.map((review) => (
         <div key={review.results?.review_id}>
           <span className="flex flex-row justify-between">
