@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import RelatedProduct from './RelatedProduct';
 
@@ -6,6 +6,7 @@ function RelatedProducts() {
 //  const [allProducts, setAllProducts] = useState([]);
   const [defaultProducts, setDefaultProducts] = useState([]);
   const [relatedProductImages, setRelatedProductImages] = useState(null);
+  const carouselRef = useRef(null);
 
   /* useEffect(() => {
     axios.get('/products')
@@ -43,16 +44,27 @@ function RelatedProducts() {
       });
   }, []);
 
+  const scrollLeft = () => {
+    carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+  };
+  const scrollRight = () => {
+    carouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+  };
+
   return (
-    <div className="container">
-      {relatedProductImages ? defaultProducts.map((item, index) => (
-        <RelatedProduct
-          defaultProduct={item}
-          key={item.id}
-          defaultProductUrl={relatedProductImages[index]}
-        />
-      )) : null}
+    <div className="relative">
+      <button onClick={scrollLeft} className="">←</button>
+      <div className="flex flex-row justify-center space-x-5" ref={carouselRef}>
+        {relatedProductImages ? defaultProducts.map((item, index) => (
+          <RelatedProduct
+            defaultProduct={item}
+            key={item.id}
+            defaultProductUrl={relatedProductImages[index]}
+          />
+        )) : null}
+      </div>
     </div>
+
   );
 }
 
