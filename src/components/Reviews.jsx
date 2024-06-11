@@ -7,8 +7,7 @@ import axios from 'axios';
 
 function Reviews() {
   // const url = '/reviews?product_id=40344';
-  // const url = `/reviews?product_id=403${Math.floor(Math.random() * 99)}`;
-  const url = '/reviews?product_id=40387';
+  const url = `/reviews?product_id=403${Math.floor(Math.random() * 99)}`;
   // random url, for testing different reviews
   const [reviews, setReviews] = useState('');
   // will swap out with context
@@ -24,14 +23,11 @@ function Reviews() {
       })
       .catch((err) => {
         console.error('error getting data', err);
-      })
-      .then(() => {
-        console.log(url);
       });
   }, []);
 
   return (
-    <div id="reviews" className="flex flex-row-reverse justify-center w-full py-20 px-80">
+    <div className="flex flex-row-reverse justify-center w-full py-20 px-80">
 
       {/* review container */}
       <div className="flex flex-col flex-auto w-1/2 pl-4">
@@ -56,12 +52,12 @@ function Reviews() {
         </ul>
       </div>
 
-      {/* ReviewSummary.jsx */}
+      {/* ReviewSummary */}
       <aside className="flex flex-col w-72 pr-20 pt-4">
         <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
         <div className="flex flex-row pb-4">
           <p className="font-bold text-4xl"> 3.5 </p>
-          <p className="">
+          <p className="flex-none text-s font-bold">
             {`${'🌝'.repeat(3)}🌗
                   ${'🌚'.repeat(5 - 4)}`}
           </p>
@@ -131,22 +127,14 @@ function ReviewPosts({ reviews }) {
           </span>
           <h2 className="font-semibold text-lg truncate...">{review.summary}</h2>
           <div className="pb-5 font-extralight">{review.body}</div>
-          <div>
-            {review.response ? (
-              <p>
-                {`Response from seller: ${review.response}`}
-              </p>
-            ) : (
-              null)}
-          </div>
-          <span className="text-sm text-gray-600 font-light">
-            Helpful?
-            <a className="divide-x text-sm no-underline hover:underline" href="/reviews">     Yes   </a>
-            <a className="text-xs" href="/reviews">(10)  |  </a>
-            <a href="/">   Report </a>
-          </span>
         </div>
       ))}
+      <span className="text-sm text-gray-600 font-light">
+        Helpful?
+        <a className="divide-x text-sm no-underline hover:underline" href="/reviews">     Yes   </a>
+        <a className="text-xs" href="/reviews">(10)  |  </a>
+        <a href="/">   Report </a>
+      </span>
     </div>
   );
 }
