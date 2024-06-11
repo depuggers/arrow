@@ -12,6 +12,8 @@ import AppContext from '../context/AppContext';
 
 import appReducer from '../reducers/appReducer';
 
+import calculateRating from '../lib/calculateRating'
+
 import '../styles/global.css';
 
 import useModal from '../hooks/useModal';
@@ -24,16 +26,6 @@ function App() {
   const [store, dispatch] = useReducer(appReducer, {
     selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: [],
   });
-
-  const calculateRating = (data) => {
-    const ratings = Object.entries(data.ratings)
-      .reduce((allRatings, current) => allRatings.concat(Array.from(
-        { length: parseInt(current[1], 10) },
-        () => parseInt(current[0], 10),
-      )), []);
-    const avgRating = (ratings.reduce((sum, current) => sum + current, 0) / ratings.length).toFixed(2);
-    return { average: avgRating, total: ratings.length };
-  };
 
   const fetchData = async () => {
     const requests = [
