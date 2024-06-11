@@ -77,10 +77,17 @@ function Overview() {
           <>
             <ImageGallery />
             <section className="flex flex-col justify-end px-4 py-8 gap-8">
-              <div>
-                (
+              <div className="flex items-center gap-2">
+                {/* (
                 {rating ? rating.average : null}
-                )⭐⭐⭐⭐⭐
+                ) */}
+                <div className="rating">
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
+                </div>
                 <button
                   onClick={() => document.getElementById('reviews').scrollIntoView({
                     behavior: 'smooth',
@@ -122,7 +129,7 @@ function Overview() {
               <form className="flex flex-col gap-4">
                 <div className="flex gap-4">
                   <select
-                    className="input flex-grow uppercase cursor-pointer appearance-none"
+                    className="form-input flex-grow uppercase cursor-pointer appearance-none"
                     defaultValue=""
                     onChange={(e) => {
                       dispatch({ type: 'setSelectedSKU', payload: parseInt(e.target.value) });
@@ -132,7 +139,7 @@ function Overview() {
                     <option value="" disabled hidden>Select Size</option>
                     {sizes.map((size) => <option key={size.sku} value={size.sku}>{size.size}</option>)}
                   </select>
-                  <select className="input cursor-pointer disabled:opacity-25 appearance-none" ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
+                  <select className="form-input cursor-pointer disabled:opacity-25 appearance-none" ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
                     <option value="" disabled hidden>—</option>
                     {Array.from({ length: maxQuantity }, (v, i) => i + 1).map((qty) => (
                       <option key={qty} value={qty}>{qty}</option>
@@ -140,11 +147,11 @@ function Overview() {
                   </select>
                 </div>
                 <div className="flex gap-4">
-                  <button className="input flex-grow uppercase flex justify-between items-center" type="button" onClick={addToCart}>
+                  <button className="form-input flex-grow uppercase flex justify-between items-center" type="button" onClick={addToCart}>
                     Add to cart
                     <span><FaPlus size={24} /></span>
                   </button>
-                  <button className="input" type="button"><FaRegStar size={24} /></button>
+                  <button className="form-input" type="button"><FaRegStar size={24} /></button>
                 </div>
               </form>
             </section>
