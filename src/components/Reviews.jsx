@@ -12,7 +12,7 @@ function Reviews() {
   // random url, for testing different reviews
   const [reviews, setReviews] = useState('');
   // will swap out with context
-  const someReviews = { ...reviews, results: reviews.results?.slice(0, 2) };
+  const singleReview = { ...reviews, results: reviews.results?.slice(0, 2) };
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
   const totalReviews = 10;
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
@@ -50,7 +50,7 @@ function Reviews() {
         <ul>
           <ReviewPosts
             // reviews={allReviews}
-            reviews={someReviews} // render single review while testing code
+            reviews={singleReview} // render single review while testing code
             className="pl-5 pt-2"
           />
         </ul>
@@ -115,9 +115,9 @@ function Reviews() {
 
 function ReviewPosts({ reviews }) {
   return (
-    <div className=" pt-2 pb-2 flex flex-col divide-y">
+    <div className=" pt-2 flex flex-col divide-y">
       {reviews.results?.map((review) => (
-        <div className="pt-8" key={review.results?.review_id}>
+        <div key={review.results?.review_id}>
           <span className="flex flex-row justify-between">
             <span className="pb-2">
               <p className="flex-none">
@@ -133,11 +133,9 @@ function ReviewPosts({ reviews }) {
           <div className="pb-5 font-extralight">{review.body}</div>
           <div>
             {review.response ? (
-              <div className="bg-gray-300 pb-4">
-                <p>Response from seller:</p>
-                {review.response}
-              </div>
-
+              <p>
+                {`Response from seller: ${review.response}`}
+              </p>
             ) : (
               null)}
           </div>
