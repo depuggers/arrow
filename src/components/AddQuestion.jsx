@@ -28,7 +28,7 @@ function AddQuestion() {
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <label className="flex flex-col w-full">
           Your Question*
-          <textarea className="form-input resize-none" name="body" maxLength={1000} rows={3} required />
+          <textarea className="form-input resize-none" name="body" placeholder="Why did you like the product or not?" maxLength={1000} rows={3} required />
         </label>
         <label className="flex flex-col w-full">
           What is your nickname*
@@ -37,11 +37,11 @@ function AddQuestion() {
         </label>
         <label className="flex flex-col w-full">
           Your email*
-          <input type="email" name="email" placeholder="Why did you like the product or not?" className="form-input" maxLength={60} required />
+          <input type="email" name="email" placeholder="Example: jackson@email.com" className="form-input" maxLength={60} required />
           <p className="text-sm text-neutral-400">For authentication reasons, you will not be emailed</p>
         </label>
         <input type="hidden" name="product_id" value={productID} />
-        <button type="submit" className="form-input">Submit</button>
+        <button type="submit" className="form-input">Submit Question</button>
       </form>
       <button className="absolute right-4 top-4" onClick={hideModal}><IoClose size={32} /></button>
     </div>

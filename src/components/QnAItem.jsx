@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import Helpful from './Helpful';
+import AddAnswer from './AddAnswer';
+
+import AppContext from '../context/AppContext';
 
 function QnAItem({ question }) {
   const [visibleAnswers, setVisibleAnswers] = useState(2);
+
+  const { showModal } = useContext(AppContext);
 
   return (
     <div className="flex flex-col gap-4">
@@ -11,7 +16,7 @@ function QnAItem({ question }) {
         <p className="text-xl font-bold">
           {`Q: ${question.question_body}`}
         </p>
-        <span className="text-sm text-neutral-500"><Helpful>Add Answer</Helpful></span>
+        <span className="text-sm text-neutral-500"><Helpful childAction={() => showModal(<AddAnswer question={question} />)}>Add Answer</Helpful></span>
       </div>
       <div
         className="flex flex-col gap-4"
