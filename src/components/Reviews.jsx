@@ -16,7 +16,7 @@ function Reviews() {
   // will swap out with context
   const someReviews = { ...reviews, results: reviews.results?.slice(0, 4) };
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
-  const totalReviews = 50;
+  const totalReviews = 100;
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
 
   useEffect(() => {
@@ -54,7 +54,6 @@ function Reviews() {
   console.log(starRatings);
   const fiveStar = starRatings.stars5;
   console.log(fiveStar);
-
   return (
     <div id="reviews" className="flex flex-row-reverse justify-center w-full py-20 px-80">
 
@@ -96,32 +95,30 @@ function Reviews() {
         <div className="grow text-base text-neutral-600 pb-4">
           <p className="hover:underline">
             5 star
-            {/* {} */}
-            <progress className="pl-2" value={starRatings.stars5} max={totalReviews} />
+            {/* {starRatings.stars5} */}
+            <progress className="pl-2" value={6} max={totalReviews} />
           </p>
           <p className="hover:underline">
             4 star
-            <progress className="pl-2" value={starRatings.stars4} max={totalReviews} />
+            {/* {starRatings.stars4} */}
+            <progress className="pl-2" value={4} max={totalReviews} />
           </p>
           <p className="hover:underline">
             3 star
             {/* {starRatings.stars3} */}
-            <progress className="pl-2" value={starRatings.stars3} max={totalReviews} />
+            <progress className="pl-2" value={10} max={totalReviews} />
           </p>
           <p className="hover:underline">
             2 star
-            {/* {starRatings.stars3} */}
-            <progress className="pl-2" value={starRatings.stars2} max={totalReviews} />
+            <progress className="pl-2" value={5} max={totalReviews} />
           </p>
           <p className="hover:underline">
             1 star
-            {/* {starRatings.stars3} */}
-            <progress className="pl-2" value={starRatings.stars1} max={totalReviews} />
+            <progress className="pl-2" value={3} max={totalReviews} />
           </p>
 
-          <div className="pb-4 pt-4 flex flex-col">
+          <div className="pb-4 pt-4">
             <h4 className="text-sm">Size</h4>
-            <h4 className="flex self-center text-sm">🔽</h4>
             <progress className="w-full" value={0} />
             <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
               <p>Too Small</p>
@@ -131,7 +128,6 @@ function Reviews() {
           </div>
           <div className="">
             <h4 className="text-sm">Comfort</h4>
-            <h4 className="text-sm">🔽</h4>
             <progress className="w-full" value={0} />
             <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
               <p>Too Small</p>
