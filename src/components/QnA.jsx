@@ -3,12 +3,14 @@ import React, { useContext, useState } from 'react';
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 import QnAItem from './QnAItem';
 
+import AddQuestion from './AddQuestion';
+
 import AppContext from '../context/AppContext';
 
 function QnA() {
   const [filter, setFilter] = useState('');
 
-  const { store: { questions } } = useContext(AppContext);
+  const { store: { questions }, showModal } = useContext(AppContext);
 
   const filteredQuestions = filter.length >= 3 ? questions.filter((question) => question.question_body.toLowerCase().includes(filter.toLowerCase())) : questions;
 
@@ -26,7 +28,7 @@ function QnA() {
           {filteredQuestions.map((question) => <QnAItem question={question} />)}
           <div className="flex gap-4">
             <button className="form-input">MORE ANSWERED QUESTIONS</button>
-            <button className="form-input flex justify-between items-center gap-4">
+            <button className="form-input flex justify-between items-center gap-4" onClick={() => showModal(<AddQuestion />)}>
               ADD A QUESTION
               <FaPlus size={24} />
             </button>
