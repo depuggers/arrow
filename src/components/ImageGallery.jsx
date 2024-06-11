@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import ImageThumbnails from './ImageThumbnails';
 import ExpandedView from './ExpandedView';
 
@@ -16,18 +17,18 @@ function ImageGallery() {
     dispatch({ type: 'switchImage', payload: direction });
   };
 
-  console.log(selectedImage, styles[selectedStyle].photos);
-  console.log(styles[selectedStyle].photos[selectedImage].url);
+  let { photos } = styles[selectedStyle];
+  // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
     <section id="image-gallery" className="h-[800px] relative pt-6">
       {styles
         ? (
           <>
-            <img className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={styles[selectedStyle].photos[selectedImage].url} alt="" />
+            <img className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url} alt="" />
             <ImageThumbnails orientation="vertical" textColor="neutral-600" />
-            {selectedImage > 0 ? <ImageGalleryButton icon="&lt;" styles="text-black left-[160px]" cb={() => switchImage(-1)} /> : null}
-            {selectedImage < styles[selectedStyle].photos.length - 1 ? <ImageGalleryButton icon="&gt;" styles="text-black right-8" cb={() => switchImage(1)} /> : null}
+            {selectedImage > 0 ? <ImageGalleryButton styles="text-neutral-600 left-[160px]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
+            {selectedImage < photos.length - 1 ? <ImageGalleryButton styles="text-neutral-600 right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
           </>
         )
         : null}

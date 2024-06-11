@@ -11,5 +11,13 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
+  daisyui: {
+    themes: [{
+      light: {
+        primary: '#FF9900',
+      },
+    }],
+
+  },
 };
