@@ -13,7 +13,7 @@ function StyleSelector() {
       </p>
       <ul className="grid grid-cols-4 gap-4">
         {styles ? styles.map((style, i) => (
-          <li className={`w-full aspect-square rounded-full overflow-hidden cursor-pointer hover:-translate-y-[1px] ${selectedStyle === i ? 'border-2 border-amber-500' : ''}`} key={style.style_id} onClick={() => dispatch({ type: 'setSelectedStyle', payload: i })}>
+          <li className={`w-full aspect-square rounded-full overflow-hidden cursor-pointer ${selectedStyle === i ? 'border-2 border-amber-500' : ''}`} key={style.style_id} onClick={() => dispatch({ type: 'setSelectedStyle', payload: i })}>
             <img className="h-full w-full object-cover" src={style.photos[i].thumbnail_url} />
           </li>
         )) : null}
