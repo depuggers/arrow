@@ -10,6 +10,9 @@ import AppContext from '../context/AppContext';
 
 import '../styles/overview.css';
 
+import { FaRegStar } from 'react-icons/fa';
+import { FaCheck, FaPlus, FaMinus } from 'react-icons/fa6';
+
 function Overview() {
   // const [selectedSKU, setSelectedSKU] = useState(null);
   const [selectedQty, setSelectedQty] = useState(null);
@@ -79,7 +82,7 @@ function Overview() {
                 {rating ? rating.average : null}
                 )⭐⭐⭐⭐⭐
                 <button
-                  onClick={() => document.getElementsByClassName('review-container')[0].scrollIntoView({
+                  onClick={() => document.getElementById('reviews').scrollIntoView({
                     behavior: 'smooth',
                     block: 'start',
                   })}
@@ -130,18 +133,18 @@ function Overview() {
                     {sizes.map((size) => <option key={size.sku} value={size.sku}>{size.size}</option>)}
                   </select>
                   <select className="input cursor-pointer disabled:opacity-25 appearance-none" ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
-                    <option value="" disabled hidden>-</option>
+                    <option value="" disabled hidden>—</option>
                     {Array.from({ length: maxQuantity }, (v, i) => i + 1).map((qty) => (
                       <option key={qty} value={qty}>{qty}</option>
                     ))}
                   </select>
                 </div>
                 <div className="flex gap-4">
-                  <button className="input flex-grow uppercase flex justify-between" type="button" onClick={addToCart}>
+                  <button className="input flex-grow uppercase flex justify-between items-center" type="button" onClick={addToCart}>
                     Add to cart
-                    <span>+</span>
+                    <span><FaPlus size={24} /></span>
                   </button>
-                  <button className="input" type="button">⭐</button>
+                  <button className="input" type="button"><FaRegStar size={24} /></button>
                 </div>
               </form>
             </section>
@@ -153,7 +156,10 @@ function Overview() {
               <div className="px-8 flex-shrink-0">
                 <ul className="flex flex-col gap-3">
                   {product.features?.map((feature) => (
-                    <li className="min-w-fit" key={feature.feature}>{`✔️ ${feature.value} ${feature.feature}`}</li>
+                    <li className="min-w-fit flex items-center gap-2" key={feature.feature}>
+                      <FaCheck size={24} />
+                      {` ${feature.value} ${feature.feature}`}
+                    </li>
                   ))}
                 </ul>
               </div>

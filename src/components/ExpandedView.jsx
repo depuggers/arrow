@@ -30,7 +30,8 @@ function ExpandedView({ switchImage }) {
     big.height = imgRef.current.naturalHeight * 2.5;
   }
 
-  const photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
+  let { photos } = styles[selectedStyle];
+  // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
     <div className={`relative w-full h-full p-4 pb-[120px] overflow-hidden ${zoomed ? 'cursor-vertical-text flex justify-center items-center' : 'cursor-crosshair'}`} onClick={() => setZoomed(!zoomed)} onPointerMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}>

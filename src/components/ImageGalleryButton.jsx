@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ImageGalleryButton({ icon, styles, cb }) {
+function ImageGalleryButton({ children, styles, cb }) {
   return (
     <button
       className={`absolute top-1/2 -translate-y-1/2 text-6xl ${styles}`}
@@ -10,7 +10,7 @@ function ImageGalleryButton({ icon, styles, cb }) {
         e.stopPropagation();
       }}
     >
-      {icon}
+      {children}
     </button>
   );
 }

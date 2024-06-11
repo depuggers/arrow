@@ -2,11 +2,12 @@ import React, {
   useState, useRef, useContext, useEffect,
 } from 'react';
 
+import {
+  PiCaretUpBold, PiCaretDownBold, PiCaretLeftBold, PiCaretRightBold,
+} from 'react-icons/pi';
 import AppContext from '../context/AppContext';
 
 function ImageThumbnails({ orientation, textColor }) {
-  const count = 7;
-
   const [imageIndex, setImageIndex] = useState(0);
 
   const {
@@ -18,10 +19,13 @@ function ImageThumbnails({ orientation, textColor }) {
   const thumbnails = {};
   const thumbnailsRef = useRef(thumbnails);
 
-  const photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
+  const { photos } = styles[selectedStyle];
+  // const photos = styles[selectedStyle].photos.slice(0,3)
+  // const photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
+  const count = Math.min(photos.length, 7);
 
   useEffect(() => {
-    const initialPosition = Math.min(selectedImage, photos.length - count);
+    const initialPosition = Math.max(Math.min(selectedImage, photos.length - count), 0);
     thumbnailContainerRef.current.scrollTo({
       top: thumbnailsRef.current[initialPosition].offsetTop,
       left: thumbnailsRef.current[initialPosition].offsetLeft,
@@ -44,12 +48,28 @@ function ImageThumbnails({ orientation, textColor }) {
 
   const selectedImageStyle = 'border-2 border-amber-500';
   const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-8 flex-col' : 'left-1/2 bottom-4 flex-row -translate-x-1/2';
-  const orientationItemStyle = orientation === 'vertical' ? 'aspect-[1/7] grid-flow-row auto-rows-min' : 'grid-cols-[repeat(7,1fr)] h-[96px] w-auto aspect-[7/1] grid-flow-col';
+  const orientationItemStyle = orientation === 'vertical' ? 'auto-rows-min' : 'h-[96px] w-auto';
 
   return (
     <div className={`absolute flex ${orientationContainerStyle} text-${textColor}`}>
-      <button className={`${imageIndex > 0 ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>&lt;</button>
-      <ul className={`overflow-hidden grid relative ${orientationItemStyle}`} ref={thumbnailContainerRef}>
+      <button className={`flex justify-center items-center ${imageIndex > 0 ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
+        {orientation === 'vertical' ? <PiCaretUpBold size={24} /> : <PiCaretLeftBold size={24} />}
+      </button>
+      <ul
+        className="overflow-hidden grid relative"
+        ref={thumbnailContainerRef}
+        style={orientation === 'vertical' ? {
+          aspectRatio: `1 / ${count}`,
+          gridAutoFlow: 'row',
+          gridAutoRows: 'min-content',
+        } : {
+          aspectRatio: `${count} / 1`,
+          gridTemplateColumns: `repeat(${count}, 1fr)`,
+          height: '96px',
+          width: 'auto',
+          gridAutoFlow: 'column',
+        }}
+      >
         {photos.map((photo, i) => (
           <li
             className="w-[96px] p-2 aspect-square overflow-hidden cursor-pointer"
@@ -66,7 +86,9 @@ function ImageThumbnails({ orientation, textColor }) {
           </li>
         ))}
       </ul>
-      <button className={`${imageIndex < photos.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>&gt;</button>
+      <button className={`flex justify-center items-center ${imageIndex < photos.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
+        {orientation === 'vertical' ? <PiCaretDownBold size={24} /> : <PiCaretRightBold size={24} />}
+      </button>
     </div>
   );
 }
