@@ -16,7 +16,7 @@ function Reviews() {
   // will swap out with context
   const someReviews = { ...reviews, results: reviews.results?.slice(0, 4) };
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
-  const totalReviews = 10;
+  const totalReviews = 100;
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function Reviews() {
       console.error('invalid data');
       return {};
     }
-    const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`${k} stars`, v]));
+    const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`stars${k}`, v]));
     return stars;
   };
 
@@ -52,7 +52,8 @@ function Reviews() {
 
   const starRatings = calculateRating(ratings);
   console.log(starRatings);
-
+  const fiveStar = starRatings.stars5;
+  console.log(fiveStar);
   return (
     <div id="reviews" className="flex flex-row-reverse justify-center w-full py-20 px-80">
 
@@ -93,16 +94,18 @@ function Reviews() {
         </div>
         <div className="grow text-base text-neutral-600 pb-4">
           <p className="hover:underline">
-            <pre>{JSON.stringify(starRatings, null, 2)}</pre>
             5 star
+            {/* {starRatings.stars5} */}
             <progress className="pl-2" value={6} max={totalReviews} />
           </p>
           <p className="hover:underline">
             4 star
+            {/* {starRatings.stars4} */}
             <progress className="pl-2" value={4} max={totalReviews} />
           </p>
           <p className="hover:underline">
             3 star
+            {/* {starRatings.stars3} */}
             <progress className="pl-2" value={10} max={totalReviews} />
           </p>
           <p className="hover:underline">
