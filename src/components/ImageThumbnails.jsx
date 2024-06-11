@@ -48,7 +48,6 @@ function ImageThumbnails({ orientation, textColor }) {
 
   const selectedImageStyle = 'border-2 border-amber-500';
   const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-8 flex-col' : 'left-1/2 bottom-4 flex-row -translate-x-1/2';
-  const orientationItemStyle = orientation === 'vertical' ? 'auto-rows-min' : 'h-[96px] w-auto';
 
   return (
     <div className={`absolute flex ${orientationContainerStyle} text-${textColor}`}>
