@@ -10,11 +10,14 @@ function Reviews() {
   // const url = `/reviews?product_id=403${Math.floor(Math.random() * 99)}`;
   const url = '/reviews?product_id=40387';
   // random url, for testing different reviews
+  const reviewUrl = '/reviews/meta?product_id=40387';
   const [reviews, setReviews] = useState('');
+  const [ratings, setRatings] = useState('');
   // will swap out with context
-  const someReviews = { ...reviews, results: reviews.results?.slice(0, 2) };
+
+  const someReviews = { ...reviews, results: reviews.results?.slice(0, 4) };
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
-  const totalReviews = 10;
+
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
 
   useEffect(() => {
@@ -24,9 +27,16 @@ function Reviews() {
       })
       .catch((err) => {
         console.error('error getting data', err);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get(reviewUrl)
+      .then((response) => {
+        setRatings(response.data);
       })
-      .then(() => {
-        console.log(url);
+      .catch((err) => {
+        console.error('error getting data', err);
       });
   }, []);
 
@@ -47,73 +57,89 @@ function Reviews() {
           <input className="border-2 rounded-l border-r-0" type="text" placeholder="Search by keyword" />
           <button className="border-2 rounded-r  border-l-0 bg-slate-200" type="submit">🔍</button>
         </form>
-        <ul>
-          <ReviewPosts
+        <div className="flex flex-row">
+          {/* {Object.entries(ratings.ratings).map(([key, value]) => {
+            <div key={key}> */}
+          <div>
+            <Ratings
+              ratings={ratings}
+            />
+          </div>
+          <ul>
+            <ReviewPosts
             // reviews={allReviews}
-            reviews={someReviews} // render single review while testing code
-            className="pl-5 pt-2"
-          />
-        </ul>
+              reviews={someReviews} // render single review while testing code
+              className="pl-5 pt-2"
+            />
+          </ul>
+        </div>
       </div>
 
-      {/* ReviewSummary.jsx */}
-      <aside className="flex flex-col w-72 pr-20 pt-4">
-        <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
-        <div className="flex flex-row pb-4">
-          <p className="font-bold text-4xl"> 3.5 </p>
-          <p className="">
-            {`${'🌝'.repeat(3)}🌗
-                  ${'🌚'.repeat(5 - 4)}`}
-          </p>
-        </div>
-        <div className="grow text-base text-neutral-600 pb-4">
-          <p className="hover:underline">
-            5 star
-            <progress className="pl-2" value={6} max={totalReviews} />
-          </p>
-          <p className="hover:underline">
-            4 star
-            <progress className="pl-2" value={4} max={totalReviews} />
-          </p>
-          <p className="hover:underline">
-            3 star
-            <progress className="pl-2" value={10} max={totalReviews} />
-          </p>
-          <p className="hover:underline">
-            2 star
-            <progress className="pl-2" value={5} max={totalReviews} />
-          </p>
-          <p className="hover:underline">
-            1 star
-            <progress className="pl-2" value={3} max={totalReviews} />
-          </p>
-        </div>
-
-        <div className="pb-4">
-          <h4 className="text-sm">Size</h4>
-          <progress className="w-full" value={0.5} />
-          <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
-            <p>Too Small</p>
-            <p>Perfect</p>
-            <p>Too Large</p>
-          </span>
-        </div>
-        <div className="">
-          <h4 className="text-sm">Comfort</h4>
-          <progress className="w-full" value={0.5} />
-          <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
-            <p>Too Small</p>
-            <p>Perfect</p>
-            <p>Too Large</p>
-          </span>
-        </div>
-
-      </aside>
     </div>
   );
 }
+function Ratings({ rating }) {
+  const totalReviews = 10;
+  const rated = JSON.stringify(rating);
+  return (
+    <aside className="flex flex-col w-72 pr-40 pt-4">
+      <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
+      <div className="flex flex-row pb-4">
+        <p className="font-bold text-4xl">
+          3.5
+          {rated}
+        </p>
+        <p className="">
+          {`${'🌝'.repeat(3)}🌗
+                ${'🌚'.repeat(5 - 4)}`}
+        </p>
+      </div>
+      <div className="grow text-base text-neutral-600 pb-4">
+        <p className="hover:underline">
+          5 star
+          <progress className="pl-2" value={6} max={totalReviews} />
+        </p>
+        <p className="hover:underline">
+          4 star
+          <progress className="pl-2" value={4} max={totalReviews} />
+        </p>
+        <p className="hover:underline">
+          3 star
+          <progress className="pl-2" value={10} max={totalReviews} />
+        </p>
+        <p className="hover:underline">
+          2 star
+          <progress className="pl-2" value={5} max={totalReviews} />
+        </p>
+        <p className="hover:underline">
+          1 star
+          <progress className="pl-2" value={3} max={totalReviews} />
+        </p>
+      </div>
 
-function ReviewPosts({ reviews }) {
+      <div className="pb-4">
+        <h4 className="text-sm">Size</h4>
+        <progress className="w-full" value={0} />
+        <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
+          <p>Too Small</p>
+          <p>Perfect</p>
+          <p>Too Large</p>
+        </span>
+      </div>
+      <div className="">
+        <h4 className="text-sm">Comfort</h4>
+        <progress className="w-full" value={0} />
+        <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
+          <p>Too Small</p>
+          <p>Perfect</p>
+          <p>Too Large</p>
+        </span>
+      </div>
+    </aside>
+  );
+}
+
+export function ReviewPosts({ reviews }) {
   return (
     <div className=" pt-2 pb-2 flex flex-col divide-y">
       {reviews.results?.map((review) => (
@@ -133,7 +159,7 @@ function ReviewPosts({ reviews }) {
           <div className="pb-5 font-extralight">{review.body}</div>
           <div>
             {review.response ? (
-              <div className="bg-gray-300 pb-4">
+              <div className="bg-gray-300">
                 <p>Response from seller:</p>
                 {review.response}
               </div>
