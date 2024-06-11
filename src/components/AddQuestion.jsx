@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import axios from 'axios';
 
+import { IoClose } from 'react-icons/io5';
+
 import AppContext from '../context/AppContext';
 
 function AddQuestion() {
@@ -18,7 +20,7 @@ function AddQuestion() {
   };
 
   return (
-    <div className="bg-white text-neutral-600 p-6 flex flex-col gap-4">
+    <div className="bg-white text-neutral-600 p-6 flex flex-col gap-4 relative">
       <div>
         <h1 className="text-3xl font-bold">Ask Your Question</h1>
         <h2>{`About the ${product.name}`}</h2>
@@ -41,6 +43,7 @@ function AddQuestion() {
         <input type="hidden" name="product_id" value={productID} />
         <button type="submit" className="form-input">Submit</button>
       </form>
+      <button className="absolute right-4 top-4" onClick={hideModal}><IoClose size={32} /></button>
     </div>
   );
 }
