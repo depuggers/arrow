@@ -1,8 +1,11 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
+
+import axios from 'axios';
 
 import Header from './Header';
 import Overview from './Overview';
 import RelatedProducts from './RelatedProducts';
+import QnA from './QnA';
 import Reviews from './Reviews';
 
 import AppContext from '../context/AppContext';
@@ -14,7 +17,7 @@ import '../styles/global.css';
 import useModal from '../hooks/useModal';
 
 function App() {
-  const [productID, setProductID] = useState(40344);
+  const [productID, setProductID] = useState(40346);
 
   const { modal, showModal, hideModal } = useModal();
 
@@ -22,16 +25,52 @@ function App() {
     selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: [],
   });
 
+  const calculateRating = (data) => {
+    const ratings = Object.entries(data.ratings)
+      .reduce((allRatings, current) => allRatings.concat(Array.from(
+        { length: parseInt(current[1], 10) },
+        () => parseInt(current[0], 10),
+      )), []);
+    const avgRating = (ratings.reduce((sum, current) => sum + current, 0) / ratings.length).toFixed(2);
+    return { average: avgRating, total: ratings.length };
+  };
+
+  const fetchData = async () => {
+    const requests = [
+      axios.get(`/products/${productID}`),
+      axios.get(`/products/${productID}/styles`),
+      axios.get(`/qa/questions?product_id=${productID}&count=4`),
+      axios.get(`/reviews/meta?product_id=${productID}`),
+    ];
+    const responses = await Promise.all(requests);
+    dispatch({
+      type: 'setProductDetails',
+      payload: {
+        product: responses[0].data,
+        styles: responses[1].data.results,
+        questions: responses[2].data.results,
+        rating: calculateRating(responses[3].data),
+      },
+    });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [productID]);
+
   return (
     <AppContext.Provider value={{
       productID, setProductID, showModal, hideModal, store, dispatch,
     }}
     >
       <Header />
-      <main>
+      <main className="flex flex-col gap-6 items-center">
         <Overview />
-        <RelatedProducts />
-        <Reviews />
+        <div className="flex flex-col gap-6 items-center w-[80%]">
+          <RelatedProducts />
+          <QnA />
+          <Reviews />
+        </div>
       </main>
       { modal }
     </AppContext.Provider>
