@@ -14,10 +14,9 @@ function Reviews() {
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
   // will swap out with context
-
   const someReviews = { ...reviews, results: reviews.results?.slice(0, 4) };
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
-
+  const totalReviews = 10;
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
 
   useEffect(() => {
@@ -40,6 +39,20 @@ function Reviews() {
       });
   }, []);
 
+  const calculateRating = (data) => {
+    if (!data || !data.ratings) {
+      console.error('invalid data');
+      return {};
+    }
+    const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`${k} stars`, v]));
+    return stars;
+  };
+
+  console.log(ratings);
+
+  const starRatings = calculateRating(ratings);
+  console.log(starRatings);
+
   return (
     <div id="reviews" className="flex flex-row-reverse justify-center w-full py-20 px-80">
 
@@ -57,89 +70,76 @@ function Reviews() {
           <input className="border-2 rounded-l border-r-0" type="text" placeholder="Search by keyword" />
           <button className="border-2 rounded-r  border-l-0 bg-slate-200" type="submit">🔍</button>
         </form>
-        <div className="flex flex-row">
-          {/* {Object.entries(ratings.ratings).map(([key, value]) => {
-            <div key={key}> */}
-          <div>
-            <Ratings
-              ratings={ratings}
-            />
-          </div>
-          <ul>
-            <ReviewPosts
+        <ul>
+          <ReviewPosts
             // reviews={allReviews}
-              reviews={someReviews} // render single review while testing code
-              className="pl-5 pt-2"
-            />
-          </ul>
-        </div>
+            reviews={someReviews} // render single review while testing code
+            className="pl-5 pt-2"
+          />
+        </ul>
       </div>
 
+      {/* ReviewSummary.jsx */}
+      <aside className="flex flex-col w-72 pr-20 pt-4">
+        <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
+        <div className="flex flex-row pb-4">
+          <p className="font-bold text-4xl">
+            3.5
+          </p>
+          <p className="">
+            {`${'🌝'.repeat(3)}🌗
+                  ${'🌚'.repeat(5 - 4)}`}
+          </p>
+        </div>
+        <div className="grow text-base text-neutral-600 pb-4">
+          <p className="hover:underline">
+            <pre>{JSON.stringify(starRatings, null, 2)}</pre>
+            5 star
+            <progress className="pl-2" value={6} max={totalReviews} />
+          </p>
+          <p className="hover:underline">
+            4 star
+            <progress className="pl-2" value={4} max={totalReviews} />
+          </p>
+          <p className="hover:underline">
+            3 star
+            <progress className="pl-2" value={10} max={totalReviews} />
+          </p>
+          <p className="hover:underline">
+            2 star
+            <progress className="pl-2" value={5} max={totalReviews} />
+          </p>
+          <p className="hover:underline">
+            1 star
+            <progress className="pl-2" value={3} max={totalReviews} />
+          </p>
+
+          <div className="pb-4 pt-4">
+            <h4 className="text-sm">Size</h4>
+            <progress className="w-full" value={0} />
+            <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
+              <p>Too Small</p>
+              <p>Perfect</p>
+              <p>Too Large</p>
+            </span>
+          </div>
+          <div className="">
+            <h4 className="text-sm">Comfort</h4>
+            <progress className="w-full" value={0} />
+            <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
+              <p>Too Small</p>
+              <p>Perfect</p>
+              <p>Too Large</p>
+            </span>
+          </div>
+        </div>
+
+      </aside>
     </div>
   );
 }
-function Ratings({ rating }) {
-  const totalReviews = 10;
-  const rated = JSON.stringify(rating);
-  return (
-    <aside className="flex flex-col w-72 pr-40 pt-4">
-      <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
-      <div className="flex flex-row pb-4">
-        <p className="font-bold text-4xl">
-          3.5
-          {rated}
-        </p>
-        <p className="">
-          {`${'🌝'.repeat(3)}🌗
-                ${'🌚'.repeat(5 - 4)}`}
-        </p>
-      </div>
-      <div className="grow text-base text-neutral-600 pb-4">
-        <p className="hover:underline">
-          5 star
-          <progress className="pl-2" value={6} max={totalReviews} />
-        </p>
-        <p className="hover:underline">
-          4 star
-          <progress className="pl-2" value={4} max={totalReviews} />
-        </p>
-        <p className="hover:underline">
-          3 star
-          <progress className="pl-2" value={10} max={totalReviews} />
-        </p>
-        <p className="hover:underline">
-          2 star
-          <progress className="pl-2" value={5} max={totalReviews} />
-        </p>
-        <p className="hover:underline">
-          1 star
-          <progress className="pl-2" value={3} max={totalReviews} />
-        </p>
-      </div>
 
-      <div className="pb-4">
-        <h4 className="text-sm">Size</h4>
-        <progress className="w-full" value={0} />
-        <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
-          <p>Too Small</p>
-          <p>Perfect</p>
-          <p>Too Large</p>
-        </span>
-      </div>
-      <div className="">
-        <h4 className="text-sm">Comfort</h4>
-        <progress className="w-full" value={0} />
-        <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
-          <p>Too Small</p>
-          <p>Perfect</p>
-          <p>Too Large</p>
-        </span>
-      </div>
-    </aside>
-  );
-}
-
-export function ReviewPosts({ reviews }) {
+function ReviewPosts({ reviews }) {
   return (
     <div className=" pt-2 pb-2 flex flex-col divide-y">
       {reviews.results?.map((review) => (
