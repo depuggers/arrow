@@ -56,7 +56,7 @@ function Reviews() {
   console.log(fiveStar);
 
   return (
-    <div id="reviews" className="flex flex-row-reverse justify-center w-full py-20 px-80">
+    <div id="reviews" className="flex flex-row-reverse justify-between w-full gap-6 py-20">
 
       {/* review container */}
       <div className="flex flex-col flex-auto w-1/2 pl-4">
@@ -82,16 +82,16 @@ function Reviews() {
       </div>
 
       {/* ReviewSummary.jsx */}
-      <aside className="flex flex-col w-72 pr-20 pt-4">
+      <section className="flex flex-col self-start pr-20 pt-4">
         <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
         <div className="flex flex-row pb-4">
-          <p className="font-bold text-4xl">
-            3.5
-          </p>
-          <p className="">
-            {`${'🌝'.repeat(3)}🌗
+          <p className="font-bold text-4xl"> 4</p>
+          {/* <p className="">
+            {`${'🌝'.repeat(4)}
                   ${'🌚'.repeat(5 - 4)}`}
-          </p>
+          </p> */}
+          <input type="radio" className="mask mask-star-2 bg-primary" disabled />
+          <input type="radio" className="mask mask-star-2 bg-primary" disabled />
         </div>
         <div className="grow text-base text-neutral-600 pb-4">
           <p className="hover:underline">
@@ -141,7 +141,7 @@ function Reviews() {
           </div>
         </div>
 
-      </aside>
+      </section>
     </div>
   );
 }
