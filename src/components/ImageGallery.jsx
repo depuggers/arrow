@@ -21,7 +21,7 @@ function ImageGallery() {
   // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
-    <section id="image-gallery" className="h-[800px] relative pt-6">
+    <section id="image-gallery" className="h-[800px] w-full relative pt-6">
       {styles
         ? (
           <>
