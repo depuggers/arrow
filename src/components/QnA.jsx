@@ -19,6 +19,7 @@ function QnA() {
   const { store: { questions }, showModal } = useContext(AppContext);
 
   const filteredQuestions = filter.length >= 3 ? questions.filter((question) => question.question_body.toLowerCase().includes(filter.toLowerCase())) : questions;
+  const sortedQuestions = filteredQuestions ? filteredQuestions.sort((a, b) => (a.question_helpfulness >= b.question_helpfulness ? -1 : 1)) : null;
 
   console.log(questions);
 
@@ -36,7 +37,7 @@ function QnA() {
         maxHeight: document.documentElement.clientHeight,
       }}
     >
-      {filteredQuestions ? (
+      {sortedQuestions ? (
         <>
           <h3>QUESTIONS & ANSWERS</h3>
           <div className="relative">
@@ -47,10 +48,10 @@ function QnA() {
             className={`flex flex-col gap-6 overflow-y-auto ${scrolling ? 'pr-6' : ''}`}
             ref={questionsRef}
           >
-            {filteredQuestions.slice(0, visibleQuestions).map((question) => <QnAItem question={question} />)}
+            {sortedQuestions.slice(0, visibleQuestions).map((question) => <QnAItem question={question} />)}
           </div>
           <div className="flex gap-4">
-            {visibleQuestions < filteredQuestions.length ? <button className="form-input" onClick={() => setVisibleQuestions(visibleQuestions + 2)}>MORE ANSWERED QUESTIONS</button> : null}
+            {visibleQuestions < sortedQuestions.length ? <button className="form-input" onClick={() => setVisibleQuestions(visibleQuestions + 2)}>MORE ANSWERED QUESTIONS</button> : null}
             <button className="form-input flex justify-between items-center gap-4" onClick={() => showModal(<AddQuestion />)}>
               ADD A QUESTION
               <FaPlus size={24} />
