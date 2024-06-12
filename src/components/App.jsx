@@ -14,6 +14,8 @@ import appReducer from '../reducers/appReducer';
 
 import calculateRating from '../lib/calculateRating'
 
+import convertStars from '../lib/convertStars'
+
 import '../styles/global.css';
 
 import useModal from '../hooks/useModal';
@@ -49,6 +51,55 @@ function App() {
   useEffect(() => {
     fetchData();
   }, [productID]);
+
+
+
+  const url = `/reviews?product_id=${productID}`;
+  const reviewUrl = `/reviews/meta?product_id=${productID}`;
+
+  const [reviews, setReviews] = useState('');
+  const [ratings, setRatings] = useState('');
+  // will swap out with context
+
+
+  useEffect(() => {
+    axios.get(url)
+      .then((response) => {
+        setReviews(response.data);
+      })
+      .catch((err) => {
+        console.error('error getting data', err);
+      });
+  }, [productID]);
+
+
+  useEffect(() => {
+    axios.get(reviewUrl)
+      .then((response) => {
+        setRatings(response.data);
+      })
+      .catch((err) => {
+        console.error('error getting data', err);
+      });
+  }, [productID]);
+
+  const convertStars = (data) => {
+    if (!data || !data.ratings) {
+      console.error('invalid data');
+      return {};
+    }
+
+    const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`stars${k}`, parseInt(v)]));
+    return stars;
+  };
+
+  let starRatings;
+  if (ratings) {
+    starRatings = convertStars(ratings);
+  }
+
+
+
 
   return (
     <AppContext.Provider value={{
