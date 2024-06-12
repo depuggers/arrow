@@ -47,9 +47,9 @@ function Overview() {
             <ImageGallery />
             <section className="flex flex-col justify-end px-8 py-8 gap-8">
               <div className="flex items-center gap-2">
-                (
+                {/* (
                 {rating ? rating.average : null}
-                )
+                ) */}
                 <div className="rating">
                   <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 1} />
                   <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 2} />
@@ -64,11 +64,9 @@ function Overview() {
                   })}
                   className="text-sm underline"
                 >
-                  Read all
-                  {' '}
+                  {'Read all '}
                   {rating ? rating.total : null}
-                  {' '}
-                  reviews
+                  {' reviews'}
                 </button>
               </div>
               <div>
