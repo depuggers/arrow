@@ -1,5 +1,7 @@
 import React, { useState, useContext, useRef } from 'react';
 
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+
 import ImageGalleryButton from './ImageGalleryButton';
 import ImageThumbnails from './ImageThumbnails';
 
@@ -52,8 +54,8 @@ function ExpandedView({ switchImage }) {
       {!zoomed ? (
         <>
           <ImageThumbnails orientation="horizontal" textColor="white" />
-          <ImageGalleryButton icon="&lt;" styles="left-8 text-white" cb={() => switchImage(-1)} />
-          <ImageGalleryButton icon="&gt;" styles="right-8 text-white" cb={() => switchImage(1)} />
+          <ImageGalleryButton icon="&lt;" styles="left-8 text-white" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
+          <ImageGalleryButton icon="&gt;" styles="right-8 text-white" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
         </>
       ) : null}
     </div>

@@ -25,6 +25,7 @@ function ImageThumbnails({ orientation, textColor }) {
   // const photos = styles[selectedStyle].photos.slice(0,3)
   // const photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
   const count = Math.min(photos.length, 7);
+  // const count = 3;
 
   useEffect(() => {
     const initialPosition = Math.max(Math.min(selectedImage, photos.length - count), 0);
@@ -34,7 +35,7 @@ function ImageThumbnails({ orientation, textColor }) {
       behavior: 'smooth',
     });
     setImageIndex(initialPosition);
-  }, []);
+  }, [selectedImage]);
 
   const scrollThumbs = (e, direction) => {
     e.stopPropagation();
