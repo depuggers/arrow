@@ -32,6 +32,13 @@ function QnAItem({ question }) {
             <span className="text-xl font-bold">A: </span>
             <div className="flex flex-col gap-4 pt-[0.125rem]">
               <p>{answer.body}</p>
+              <ul className="grid grid-cols-[repeat(10,1fr)] gap-2">
+                {answer.photos.map((photo, i) => (
+                  <li key={i} className="aspect-square w-full">
+                    <img className="w-full h-full object-cover" src={photo} alt="" />
+                  </li>
+                ))}
+              </ul>
               <div className="flex gap-4 divide-x-2 text-sm text-neutral-500">
                 <p>
                   {'by '}
