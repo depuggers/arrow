@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@jest/globals": "^29.7.0",
     "axios": "^1.7.2",
     "express": "^4.19.2",
     "react": "^18.3.1",
