@@ -3,8 +3,8 @@ import React, {
 } from 'react';
 
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
-import QnAItem from './QnAItem';
 
+import QnAItem from './QnAItem';
 import AddQuestion from './AddQuestion';
 
 import AppContext from '../context/AppContext';
@@ -48,7 +48,7 @@ function QnA() {
             className={`flex flex-col gap-6 overflow-y-auto ${scrolling ? 'pr-6' : ''}`}
             ref={questionsRef}
           >
-            {sortedQuestions.slice(0, visibleQuestions).map((question) => <QnAItem question={question} />)}
+            {sortedQuestions.slice(0, visibleQuestions).map((question) => <QnAItem filter={filter} question={question} />)}
           </div>
           <div className="flex gap-4">
             {visibleQuestions < sortedQuestions.length ? <button className="form-input" onClick={() => setVisibleQuestions(visibleQuestions + 2)}>MORE ANSWERED QUESTIONS</button> : null}

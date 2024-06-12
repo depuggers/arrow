@@ -36,6 +36,22 @@ const appReducer = (state, action) => {
           action.payload,
         ],
       };
+    case 'setQuestionHelpful':
+      return state.helpfulQs.includes(action.payload) ? state : {
+        ...state,
+        helpfulQs: [
+          ...state.helpfulQs,
+          action.payload,
+        ],
+      };
+    case 'setAnswerHelpful':
+      return state.helpfulAs.includes(action.payload) ? state : {
+        ...state,
+        helpfulAs: [
+          ...state.helpfulAs,
+          action.payload,
+        ],
+      };
     default:
       return state;
   }

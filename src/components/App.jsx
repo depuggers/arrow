@@ -12,9 +12,9 @@ import AppContext from '../context/AppContext';
 
 import appReducer from '../reducers/appReducer';
 
-import calculateRating from '../lib/calculateRating'
+import calculateRating from '../lib/calculateRating';
 
-import convertStars from '../lib/convertStars'
+import convertStars from '../lib/convertStars';
 
 import '../styles/global.css';
 
@@ -26,7 +26,7 @@ function App() {
   const { modal, showModal, hideModal } = useModal();
 
   const [store, dispatch] = useReducer(appReducer, {
-    selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: [],
+    selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: [], helpfulQs: [], helpfulAs: [],
   });
 
   const fetchData = async () => {
@@ -52,15 +52,12 @@ function App() {
     fetchData();
   }, [productID]);
 
-
-
   const url = `/reviews?product_id=${productID}`;
   const reviewUrl = `/reviews/meta?product_id=${productID}`;
 
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
   // will swap out with context
-
 
   useEffect(() => {
     axios.get(url)
@@ -71,7 +68,6 @@ function App() {
         console.error('error getting data', err);
       });
   }, [productID]);
-
 
   useEffect(() => {
     axios.get(reviewUrl)
@@ -97,9 +93,6 @@ function App() {
   if (ratings) {
     starRatings = convertStars(ratings);
   }
-
-
-
 
   return (
     <AppContext.Provider value={{

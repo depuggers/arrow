@@ -1,17 +1,41 @@
 import React, { useState, useContext } from 'react';
+import axios from 'axios';
 
 import Helpful from './Helpful';
 import AddAnswer from './AddAnswer';
 
 import AppContext from '../context/AppContext';
 
-function QnAItem({ question }) {
+function QnAItem({ question, filter }) {
   const [visibleAnswers, setVisibleAnswers] = useState(2);
 
-  const { showModal } = useContext(AppContext);
+  const {
+    showModal, dispatch, store: { helpfulQs }, store: { helpfulAs },
+  } = useContext(AppContext);
+  console.log(helpfulQs);
 
   const sortedAnswers = Object.values(question.answers).sort((a, b) => (a.helpfulness >= b.helpfulness || a.answerer_name.toLowerCase() === 'seller' ? -1 : 1));
   console.log(sortedAnswers);
+
+  const markQuestionHelpful = async (id) => {
+    if (!helpfulQs.includes(id)) {
+      const response = await axios.put(`/qa/questions/${id}/helpful`);
+      console.log(response);
+      if (response.status === 204) {
+        dispatch({ type: 'setQuestionHelpful', payload: id });
+      }
+    }
+  };
+
+  const markAnswerHelpful = async (id) => {
+    if (!helpfulAs.includes(id)) {
+      const response = await axios.put(`/qa/answers/${id}/helpful`);
+      console.log(response);
+      if (response.status === 204) {
+        dispatch({ type: 'setAnswerHelpful', payload: id });
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -19,7 +43,7 @@ function QnAItem({ question }) {
         <p className="text-xl font-bold">
           {`Q: ${question.question_body}`}
         </p>
-        <span className="text-sm text-neutral-500"><Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)}>Add Answer</Helpful></span>
+        <span className="text-sm text-neutral-500"><Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)} helpfulAction={() => markQuestionHelpful(question.question_id)}>Add Answer</Helpful></span>
       </div>
       <div
         className="flex flex-col gap-4 overflow-y-auto"
@@ -51,7 +75,7 @@ function QnAItem({ question }) {
                   })}
                 </p>
                 <div className="pl-4">
-                  <Helpful helpfulCount={answer.helpfulness}>
+                  <Helpful helpfulCount={answer.helpfulness} helpfulAction={() => markAnswerHelpful(answer.id)}>
                     Report
                   </Helpful>
                 </div>
