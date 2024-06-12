@@ -8,6 +8,7 @@ import AddQuestion from './AddQuestion';
 import AppContext from '../context/AppContext';
 
 function QnA() {
+  const [visibleQuestions, setVisibleQuestions] = useState(2);
   const [filter, setFilter] = useState('');
 
   const { store: { questions }, showModal } = useContext(AppContext);
@@ -25,9 +26,9 @@ function QnA() {
             <input type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder="HAVE A QUESTION? SEARCH FOR ANSWERS..." className="form-input w-full" />
             <FaMagnifyingGlass size={20} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
-          {filteredQuestions.map((question) => <QnAItem question={question} />)}
+          {filteredQuestions.slice(0, visibleQuestions).map((question) => <QnAItem question={question} />)}
           <div className="flex gap-4">
-            <button className="form-input">MORE ANSWERED QUESTIONS</button>
+            <button className="form-input" onClick={() => setVisibleQuestions(visibleQuestions + 2)}>MORE ANSWERED QUESTIONS</button>
             <button className="form-input flex justify-between items-center gap-4" onClick={() => showModal(<AddQuestion />)}>
               ADD A QUESTION
               <FaPlus size={24} />

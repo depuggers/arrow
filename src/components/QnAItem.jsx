@@ -10,18 +10,21 @@ function QnAItem({ question }) {
 
   const { showModal } = useContext(AppContext);
 
+  const sortedAnswers = Object.values(question.answers).sort((a, b) => (a.helpfulness >= b.helpfulness || a.answerer_name.toLowerCase() === 'seller' ? -1 : 1));
+  console.log(sortedAnswers);
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <p className="text-xl font-bold">
           {`Q: ${question.question_body}`}
         </p>
-        <span className="text-sm text-neutral-500"><Helpful childAction={() => showModal(<AddAnswer question={question} />)}>Add Answer</Helpful></span>
+        <span className="text-sm text-neutral-500"><Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)}>Add Answer</Helpful></span>
       </div>
       <div
         className="flex flex-col gap-4"
       >
-        {Object.values(question.answers).slice(0, visibleAnswers).map((answer) => (
+        {sortedAnswers.slice(0, visibleAnswers).map((answer) => (
           <div className="flex gap-2">
             <span className="text-xl font-bold">A: </span>
             <div className="flex flex-col gap-4 pt-[0.125rem]">
@@ -38,7 +41,7 @@ function QnAItem({ question }) {
                   })}
                 </p>
                 <div className="pl-4">
-                  <Helpful>
+                  <Helpful helpfulCount={answer.helpfulness}>
                     Report
                   </Helpful>
                 </div>
@@ -47,7 +50,20 @@ function QnAItem({ question }) {
           </div>
         ))}
       </div>
-      {visibleAnswers < Object.keys(question.answers).length ? <button className="pl-7 font-bold w-fit" onClick={() => setVisibleAnswers(visibleAnswers + 2)}>LOAD MORE ANSWERS</button> : null}
+      {Object.keys(question.answers).length > 2 ? (
+        <button
+          className="pl-7 font-bold w-fit"
+          onClick={() => {
+            if (visibleAnswers < Object.keys(question.answers).length) {
+              setVisibleAnswers(visibleAnswers + 2);
+            } else {
+              setVisibleAnswers(2);
+            }
+          }}
+        >
+          {`${visibleAnswers < Object.keys(question.answers).length ? 'LOAD MORE ANSWERS' : 'COLLAPSE ANSWERS'}`}
+        </button>
+      ) : null}
     </div>
   );
 }
