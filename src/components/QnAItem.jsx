@@ -10,7 +10,7 @@ function QnAItem({ question, filter }) {
   const [visibleAnswers, setVisibleAnswers] = useState(2);
 
   const {
-    showModal, dispatch, store: { helpfulQs }, store: { helpfulAs },
+    showModal, dispatch, store: { helpfulQs }, store: { helpfulAs }, store: { reportedAs },
   } = useContext(AppContext);
   console.log(helpfulQs);
 
@@ -34,6 +34,12 @@ function QnAItem({ question, filter }) {
       if (response.status === 204) {
         dispatch({ type: 'setAnswerHelpful', payload: id });
       }
+    }
+  };
+
+  const reportAnswer = (id) => {
+    if (!reportedAs.includes(id)) {
+      dispatch({ type: 'setAnswerReported', payload: id });
     }
   };
 
@@ -75,8 +81,8 @@ function QnAItem({ question, filter }) {
                   })}
                 </p>
                 <div className="pl-4">
-                  <Helpful helpfulCount={answer.helpfulness} helpfulAction={() => markAnswerHelpful(answer.id)}>
-                    Report
+                  <Helpful helpfulCount={answer.helpfulness} helpfulAction={() => markAnswerHelpful(answer.id)} childAction={() => reportAnswer(answer.id)}>
+                    {`Report${reportedAs.includes(answer.id) ? 'ed' : ''}`}
                   </Helpful>
                 </div>
               </div>

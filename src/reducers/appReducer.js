@@ -38,27 +38,40 @@ const appReducer = (state, action) => {
       };
     case 'setQuestionHelpful':
       if (!state.helpfulQs.includes(action.payload)) {
-        const newQs = [
+        const newHelpfulQs = [
           ...state.helpfulQs,
           action.payload,
         ];
-        localStorage.setItem('helpfulQs', JSON.stringify(newQs));
+        localStorage.setItem('helpfulQs', JSON.stringify(newHelpfulQs));
         return {
           ...state,
-          helpfulQs: newQs,
+          helpfulQs: newHelpfulQs,
         };
       }
       return state;
     case 'setAnswerHelpful':
       if (!state.helpfulAs.includes(action.payload)) {
-        const newAs = [
+        const newHelpfulAs = [
           ...state.helpfulAs,
           action.payload,
         ];
-        localStorage.setItem('helpfulAs', JSON.stringify(newAs));
+        localStorage.setItem('helpfulAs', JSON.stringify(newHelpfulAs));
         return {
           ...state,
-          helpfulAs: newAs,
+          helpfulAs: newHelpfulAs,
+        };
+      }
+      return state;
+    case 'setAnswerReported':
+      if (!state.reportedAs.includes(action.payload)) {
+        const newReportedAs = [
+          ...state.reportedAs,
+          action.payload,
+        ];
+        localStorage.setItem('reportedAs', JSON.stringify(newReportedAs));
+        return {
+          ...state,
+          reportedAs: newReportedAs,
         };
       }
       return state;
