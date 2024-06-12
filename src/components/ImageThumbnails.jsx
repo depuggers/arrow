@@ -46,7 +46,7 @@ function ImageThumbnails({ orientation, textColor }) {
     setImageIndex(nextIndex);
   };
 
-  const selectedImageStyle = 'border-2 border-primary';
+  const selectedImageStyle = 'outline outline-offset-2 outline-primary';
   const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-8 flex-col' : 'left-1/2 bottom-4 flex-row -translate-x-1/2';
 
   return (
