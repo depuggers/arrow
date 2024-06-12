@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
-// import '../styles.css';
+import convertStars from '../lib/convertStars';
 // import RelatedProducts from './RelatedProducts';
 // import ProductDetails from './ProductDetails';
-// import Reviews from './Reviews';
 
 function Reviews() {
-  // const url = '/reviews?product_id=40344';
-  // const url = `/reviews?product_id=403${Math.floor(Math.random() * 99)}`;
-  //put both in promise.all to ensure both finish
+
   const productID = 40387;
   const url = `/reviews?product_id=${productID}`;
   const reviewUrl = `/reviews/meta?product_id=${productID}`;
+  //put both in promise.all to ensure both are complete
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
   // will swap out with context
-  const someReviews = { ...reviews, results: reviews.results?.slice(0, 4) };
+  const someReviews = { ...reviews, results: reviews.results?.slice(0, 10) };
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
   const totalReviews = 50;
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
+
   useEffect(() => {
     axios.get(url)
       .then((response) => {
@@ -33,7 +32,6 @@ function Reviews() {
   useEffect(() => {
     axios.get(reviewUrl)
       .then((response) => {
-
         setRatings(response.data);
       })
       .catch((err) => {
@@ -41,23 +39,19 @@ function Reviews() {
       });
   }, [productID]);
 
-  const convertStars = (data) => {
-    if (!data || !data.ratings) {
-      console.error('invalid data');
-      return {};
-    }
-    const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`stars${k}`, parseInt(v)]));
-    return stars;
-  };
+  // const convertStars = (data) => {
+  //   if (!data || !data.ratings) {
+  //     console.error('invalid data');
+  //     return {};
+  //   }
+  //   const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`stars${k}`, parseInt(v)]));
+  //   return stars;
+  // };
 
-
-  let starRatings
+  let starRatings;
   if (ratings) {
     starRatings = convertStars(ratings);
   }
-
-
-
 
 
   return (
@@ -65,15 +59,6 @@ function Reviews() {
       {/* review container */}
       {reviews ?
         <div className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
-
-          <span className="flex flex-row pt-5 text-lg font-semibold">
-            {`${Math.floor(Math.random() * 999)} reviews, sorted by  `}
-            <select className="underline " >
-              <option value="relevance"> relevance</option>
-              <option value="newest"> newest</option>
-              <option value="helpful"> helpful</option>
-            </select>
-          </span>
           <div className="relative">
             {/* <input type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder="HAVE A QUESTION? SEARCH FOR ANSWERS..." className="form-input w-full" />
             <FaMagnifyingGlass size={20} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" /> */}
@@ -159,21 +144,29 @@ function Reviews() {
 
 function ReviewPosts({ reviews }) {
   return (
+
     <div className=" pt-2 pb-2 flex flex-col divide-y">
+      <span className="flex flex-row pt-5 text-lg font-semibold">
+        {`${Math.floor(Math.random() * 999)} reviews, sorted by  `}
+        <select className="underline " >
+          <option value="relevance"> relevance</option>
+          <option value="newest"> newest</option>
+          <option value="helpful"> helpful</option>
+        </select>
+      </span>
       {reviews.results?.map((review) => (
         <div className="pt-8" key={review.results?.review_id}>
           <span className="flex flex-row justify-between">
-            <span className="pb-2">
-              <p className="flex-none">
-                  <div className="rating">
-                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 1)} />
-                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 2)} />
-                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 3)} />
-                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 4)} />
-                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 5)} />
+          <span className="pb-2">
 
-                </div>
-              </p>
+              <div className="rating">
+                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 1)} />
+                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 2)} />
+                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 3)} />
+                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 4)} />
+                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 5)} />
+              </div>
+
             </span>
             <p className="font-light text-sm text-gray-400">
               {`${review.reviewer_name} ${review.date.slice(5, 10)} ${review.date.slice(0, 4)}`}
@@ -183,7 +176,7 @@ function ReviewPosts({ reviews }) {
           <div className="pb-5 font-extralight">{review.body}</div>
           <div>
             {review.response ? (
-              <div className="bg-gray-300">
+              <div className="bg-gray-300 pb-4">
                 <p>Response from seller:</p>
                 {review.response}
               </div>
