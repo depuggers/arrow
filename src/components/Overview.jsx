@@ -47,15 +47,15 @@ function Overview() {
             <ImageGallery />
             <section className="flex flex-col justify-end px-8 py-8 gap-8">
               <div className="flex items-center gap-2">
-                {/* (
+                (
                 {rating ? rating.average : null}
-                ) */}
+                )
                 <div className="rating">
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked />
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 1} />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 2} />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 3} />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 4} />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 5} />
                 </div>
                 <button
                   onClick={() => document.getElementById('reviews').scrollIntoView({
