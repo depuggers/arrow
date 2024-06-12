@@ -76,7 +76,8 @@ function RelatedProducts() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative w-full flex flex-col gap-6">
+      <h3 className="text-neutral-600">RELATED PRODUCTS</h3>
       {canScrollLeft && (
         <button onClick={scrollLeft} className="absolute left-20 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full z-10" aria-label="Scroll left">
           <GoChevronLeft size={24} />

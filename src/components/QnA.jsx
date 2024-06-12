@@ -17,7 +17,7 @@ function QnA() {
   console.log(questions);
 
   return (
-    <section className="flex flex-col gap-6 p-4 text-neutral-600 w-full">
+    <section className="flex flex-col gap-6 text-neutral-600 w-full">
       {filteredQuestions ? (
         <>
           <h3>QUESTIONS & ANSWERS</h3>

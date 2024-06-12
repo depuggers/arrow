@@ -3,7 +3,7 @@ import AppContext from '../context/AppContext';
 import ComparisonForm from './ComparisonForm';
 
 function RelatedProduct({ defaultProduct, defaultProductUrl }) {
-  const { showModal, hideMdal } = useContext(AppContext);
+  const { showModal } = useContext(AppContext);
   return (
     <div className="border border-gray-300 p-4 bg-white w-60 h-80">
       <div className="relative w-48 h-48 overflow-hidden rounded-lg">
