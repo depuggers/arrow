@@ -51,11 +51,11 @@ function Overview() {
                 {rating ? rating.average : null}
                 ) */}
                 <div className="rating">
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked />
-                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 1} />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 2} />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 3} />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 4} />
+                  <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 5} />
                 </div>
                 <button
                   onClick={() => document.getElementById('reviews').scrollIntoView({
@@ -64,11 +64,9 @@ function Overview() {
                   })}
                   className="text-sm underline"
                 >
-                  Read all
-                  {' '}
+                  {'Read all '}
                   {rating ? rating.total : null}
-                  {' '}
-                  reviews
+                  {' reviews'}
                 </button>
               </div>
               <div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { GoChevronRight, GoChevronLeft } from 'react-icons/go';
 import axios from 'axios';
 import RelatedProduct from './RelatedProduct';
 
@@ -6,6 +7,8 @@ function RelatedProducts() {
 //  const [allProducts, setAllProducts] = useState([]);
   const [defaultProducts, setDefaultProducts] = useState([]);
   const [relatedProductImages, setRelatedProductImages] = useState(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   const carouselRef = useRef(null);
 
   /* useEffect(() => {
@@ -20,7 +23,7 @@ function RelatedProducts() {
   }, []); */
 
   useEffect(() => {
-    axios.get('/products/40345/related')
+    axios.get('/products/40346/related')
       .then((response) => {
         console.log(response.data);
         const relatedProductIds = response.data.map((item) => axios.get(`/products/${item}`));
@@ -44,6 +47,27 @@ function RelatedProducts() {
       });
   }, []);
 
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (carousel) {
+      const handleScroll = () => {
+        const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+        setCanScrollLeft(carousel.scrollLeft > 0);
+        setCanScrollRight(carousel.scrollLeft < maxScrollLeft);
+      };
+
+      carousel.addEventListener('scroll', handleScroll);
+      window.addEventListener('resize', handleScroll);
+
+      handleScroll();
+
+      return () => {
+        carousel.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('resize', handleScroll);
+      };
+    }
+  }, [relatedProductImages]);
+
   const scrollLeft = () => {
     carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
   };
@@ -52,17 +76,33 @@ function RelatedProducts() {
   };
 
   return (
-    <div className="relative">
-      <button onClick={scrollLeft} className="">←</button>
-      <div className="flex flex-row justify-center space-x-5" ref={carouselRef}>
-        {relatedProductImages ? defaultProducts.map((item, index) => (
-          <RelatedProduct
-            defaultProduct={item}
-            key={item.id}
-            defaultProductUrl={relatedProductImages[index]}
-          />
-        )) : null}
+    <div className="relative w-full flex flex-col gap-6">
+      <h3 className="text-neutral-600">RELATED PRODUCTS</h3>
+      {canScrollLeft && (
+        <button onClick={scrollLeft} className="absolute left-20 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full z-10" aria-label="Scroll left">
+          <GoChevronLeft size={24} />
+        </button>
+      )}
+      <div className="overflow-hidden w-full flex items-center px-20 relative">
+        <div className="flex space-x-5 w-3/4 mx-auto overflow-hidden relative items-center" ref={carouselRef}>
+          {relatedProductImages ? defaultProducts.map((item, index) => (
+            <RelatedProduct
+              defaultProduct={item}
+              key={item.id}
+              defaultProductUrl={relatedProductImages[index]}
+            />
+          )) : null}
+        </div>
       </div>
+      {canScrollRight && (
+      <button
+        onClick={scrollRight}
+        aria-label="Scroll right"
+        className="absolute right-20 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full z-10"
+      >
+        <GoChevronRight size={24} />
+      </button>
+      )}
     </div>
 
   );
