@@ -12,11 +12,16 @@ function Reviews() {
   // put both in promise.all to ensure both are complete
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
+  const [displayedReviews, setDisplayedReviews] = useState(2);
   // will swap out with context
-  const someReviews = { ...reviews, results: reviews.results?.slice(0, 3) };
-  // const allReviews = { ...reviews, results: reviews.results?.slice() };
-  const totalReviews = 50;
-  // const allReviews = { ...reviews, results: reviews.results?.slice() };
+
+  // let hasMoreReviews;
+  const hasMoreReviews = displayedReviews < reviews.results?.length;
+
+  const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
+  // const addReviews =  () => { displayedReviews - reviews.length === 2 ? displayedReviews += 2 : displayedReviews += 1};
+  const someReviews = { ...reviews, results: reviews.results?.slice(0, displayedReviews) };
+  const totalReviews = 100;
 
   const getReviews = () => {
     axios.get(url)
@@ -27,10 +32,9 @@ function Reviews() {
         console.error('error getting data', err);
       });
   };
-
   useEffect(() => {
     getReviews();
-  }, [productID]);
+  }, [productID, displayedReviews]);
 
   const getRatings = () => {
     axios.get(reviewUrl)
@@ -52,6 +56,7 @@ function Reviews() {
 
   return (
     <div id="reviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600">
+
       {/* review container */}
       {reviews
 
@@ -59,12 +64,12 @@ function Reviews() {
           <div className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
             <div className="relative">
               {/* <input type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder="HAVE A QUESTION? SEARCH FOR ANSWERS..." className="form-input w-full" />
-            <FaMagnifyingGlass size={20} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" /> */}
+              <FaMagnifyingGlass size={20} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" /> */}
             </div>
             {/* <form className="pt-2 pb-2">
             <input className="border-2 text-xl rounded-l border-r-0" type="text" placeholder="Search by keyword" />
             <button className="border-2 rounded-r text-xl border-l-0 bg-slate-200" type="submit">🔍</button>
-          </form> */}
+            </form> */}
             <ul>
               <ReviewPosts
               // reviews={allReviews}
@@ -72,6 +77,15 @@ function Reviews() {
                 className="pl-5 pt-2"
               />
             </ul>
+            <div>
+              {hasMoreReviews
+                ? (
+                  <div className="font-bold text-lg">
+                    <button onClick={addReviews}> MORE REVIEWS</button>
+                  </div>
+                )
+                : null}
+            </div>
           </div>
         )
         : null}
@@ -173,7 +187,7 @@ function ReviewPosts({ reviews }) {
             </p>
           </span>
           <h2 className="font-semibold text-lg truncate...">{review.summary}</h2>
-          <div className="pb-5 font-extralight">{review.body}</div>
+          <div className="pb-5 font-extalight">{review.body}</div>
           <div>
             {review.response ? (
               <div className="bg-gray-300 pb-4">
