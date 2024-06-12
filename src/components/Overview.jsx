@@ -26,6 +26,7 @@ function Overview() {
   let sizes;
   if (styles) {
     sizes = Object.entries(styles[selectedStyle].skus).map((sku) => ({ sku: sku[0], size: sku[1].size }));
+    console.log('sizes ', sizes);
   }
 
   let maxQuantity;
@@ -97,17 +98,18 @@ function Overview() {
                 <div className="flex gap-4">
                   <div className="relative flex-grow">
                     <select
-                      className="form-input w-full uppercase cursor-pointer appearance-none"
+                      className="form-input w-full uppercase cursor-pointer appearance-none disabled:opacity-25"
                       defaultValue=""
                       onChange={(e) => {
                         dispatch({ type: 'setSelectedSKU', payload: parseInt(e.target.value) });
                         if (qtyRef.current) qtyRef.current.value = '1';
                       }}
+                      disabled={sizes[0].sku === 'null'}
                     >
-                      <option value="" disabled hidden>Select Size</option>
+                      <option value="" disabled hidden>{sizes[0].sku !== 'null' ? 'Select Size' : 'OUT OF STOCK'}</option>
                       {sizes.map((size) => <option key={size.sku} value={size.sku}>{size.size}</option>)}
                     </select>
-                    <PiCaretDownBold size={24} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <PiCaretDownBold size={24} className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${sizes[0].sku === 'null' ? 'opacity-25' : ''}`} />
                   </div>
                   <div className="relative">
                     <select className={`form-input cursor-pointer disabled:opacity-25 appearance-none ${selectedSKU ? 'pr-12' : ''}`} ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
@@ -120,11 +122,11 @@ function Overview() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <button className="form-input flex-grow uppercase flex justify-between items-center" type="button" onClick={addToCart}>
+                  <button className="form-input flex-grow uppercase flex justify-between items-center disabled:opacity-25" type="button" onClick={addToCart} disabled={!selectedSKU}>
                     Add to cart
                     <span><FaPlus size={24} /></span>
                   </button>
-                  <button className="form-input" type="button"><FaRegStar size={24} /></button>
+                  {/* <button className="form-input" type="button"><FaRegStar size={24} /></button> */}
                 </div>
               </form>
             </section>
