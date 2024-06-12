@@ -13,6 +13,7 @@ function Reviews() {
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(2);
+  const [filter, setFilter] = useState('');
   // will swap out with context
 
   // let hasMoreReviews;
@@ -20,7 +21,7 @@ function Reviews() {
 
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
   // const addReviews =  () => { displayedReviews - reviews.length === 2 ? displayedReviews += 2 : displayedReviews += 1};
-  const someReviews = { ...reviews, results: reviews.results?.slice(0, displayedReviews) };
+  const someReviews = { ...reviews, results: reviews.results?.slice(0, displayedReviews).filter(filter) };
   const totalReviews = 100;
 
   const getReviews = () => {
@@ -55,7 +56,7 @@ function Reviews() {
   }
 
   return (
-    <div id="reviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600">
+    <div id="reviews" className="flex flex-row-reverse justify-between w-full pb-12 gap-6  text-neutral-600">
 
       {/* review container */}
       {reviews
@@ -72,19 +73,18 @@ function Reviews() {
             </form> */}
             <ul>
               <ReviewPosts
-              // reviews={allReviews}
+              //
                 reviews={someReviews} // render single review while testing code
                 className="pl-5 pt-2"
               />
             </ul>
             <div>
               {hasMoreReviews
-                ? (
+                && (
                   <div className="font-bold text-lg">
-                    <button onClick={addReviews}> MORE REVIEWS</button>
+                    <button className="form-input" onClick={addReviews}> MORE REVIEWS</button>
                   </div>
-                )
-                : null}
+                )}
             </div>
           </div>
         )
@@ -159,7 +159,7 @@ function Reviews() {
 function ReviewPosts({ reviews }) {
   return (
 
-    <div className=" pt-2 pb-2 flex flex-col divide-y">
+    <div className="flex flex-col divide-y">
       <span className="flex flex-row pt-5 text-lg font-semibold">
         3 reviews, sorted by
         <select className="underline ">
@@ -169,7 +169,7 @@ function ReviewPosts({ reviews }) {
         </select>
       </span>
       {reviews.results?.map((review) => (
-        <div className="pt-8" key={review.results?.review_id}>
+        <div className="pt-2 pb-4" key={review.results?.review_id}>
           <span className="flex flex-row justify-between">
             <span className="pb-2">
 
@@ -188,10 +188,10 @@ function ReviewPosts({ reviews }) {
           </span>
           <h2 className="font-semibold text-lg truncate...">{review.summary}</h2>
           <div className="pb-5 font-extalight">{review.body}</div>
-          <div>
+          <div className="pb-4">
             {review.response ? (
-              <div className="bg-gray-300 pb-4">
-                <p>Response from seller:</p>
+              <div className="bg-gray-300 pb-2">
+                <p className="font-bold">Response from seller:</p>
                 {review.response}
               </div>
 
