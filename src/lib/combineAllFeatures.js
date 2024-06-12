@@ -18,6 +18,6 @@ const combineAllFeatures = (defaultProductFeatures, currentProductFeatures) => {
   });
 
   return combinedFeatures;
-}
+};
 
 export default combineAllFeatures;
