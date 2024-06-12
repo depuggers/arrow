@@ -14,39 +14,40 @@ function Reviews() {
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
   // will swap out with context
-  const someReviews = { ...reviews, results: reviews.results?.slice(0, 10) };
+  const someReviews = { ...reviews, results: reviews.results?.slice(0, 3) };
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
   const totalReviews = 50;
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
 
-  useEffect(() => {
+
+    const getReviews = () => {
     axios.get(url)
       .then((response) => {
         setReviews(response.data);
       })
       .catch((err) => {
         console.error('error getting data', err);
-      });
-  }, [productID]);
+      })};
 
-  useEffect(() => {
-    axios.get(reviewUrl)
-      .then((response) => {
-        setRatings(response.data);
-      })
-      .catch((err) => {
-        console.error('error getting data', err);
-      });
-  }, [productID]);
+      useEffect(() => {
+        getReviews();
+      }, [productID]);
 
-  // const convertStars = (data) => {
-  //   if (!data || !data.ratings) {
-  //     console.error('invalid data');
-  //     return {};
-  //   }
-  //   const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`stars${k}`, parseInt(v)]));
-  //   return stars;
-  // };
+
+    const getRatings = () => {
+      axios.get(reviewUrl)
+        .then((response) => {
+          setRatings(response.data);
+        })
+        .catch((err) => {
+          console.error('error getting data', err);
+        })};
+      useEffect(() => {
+        getRatings();
+      }, [productID]);
+
+
+
 
   let starRatings;
   if (ratings) {
@@ -58,6 +59,7 @@ function Reviews() {
     <div id="reviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600">
       {/* review container */}
       {reviews ?
+
         <div className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
           <div className="relative">
             {/* <input type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder="HAVE A QUESTION? SEARCH FOR ANSWERS..." className="form-input w-full" />
@@ -147,7 +149,7 @@ function ReviewPosts({ reviews }) {
 
     <div className=" pt-2 pb-2 flex flex-col divide-y">
       <span className="flex flex-row pt-5 text-lg font-semibold">
-        {`${Math.floor(Math.random() * 999)} reviews, sorted by  `}
+        {`3 reviews, sorted by`}
         <select className="underline " >
           <option value="relevance"> relevance</option>
           <option value="newest"> newest</option>
