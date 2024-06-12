@@ -2,7 +2,9 @@ import React, {
   useState, useContext, useRef,
 } from 'react';
 
-import { FaRegStar } from 'react-icons/fa';
+import {
+  FaFacebook, FaRegStar, FaTwitter, FaPinterest,
+} from 'react-icons/fa';
 import { FaCheck, FaPlus } from 'react-icons/fa6';
 import { PiCaretDownBold } from 'react-icons/pi';
 
@@ -129,6 +131,17 @@ function Overview() {
                   {/* <button className="form-input" type="button"><FaRegStar size={24} /></button> */}
                 </div>
               </form>
+              <div className="flex justify-evenly">
+                <button>
+                  <FaFacebook color="#0866ff" size={48} />
+                </button>
+                <button>
+                  <FaPinterest color="#e60023" size={48} />
+                </button>
+                <button>
+                  <FaTwitter color="#1d9bf0" size={48} />
+                </button>
+              </div>
             </section>
             <section className="col-span-2 w-[80%] py-6 flex divide-x">
               <div className="px-8 flex-shrink flex-grow">
