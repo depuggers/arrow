@@ -8,6 +8,8 @@ import AppContext from '../context/AppContext';
 
 import ImageGalleryButton from './ImageGalleryButton';
 
+import missing from '../images/missing.png';
+
 function ImageGallery() {
   const {
     showModal, store: { styles }, store: { selectedStyle }, store: { selectedImage }, dispatch,
@@ -17,7 +19,7 @@ function ImageGallery() {
     dispatch({ type: 'switchImage', payload: direction });
   };
 
-  let { photos } = styles[selectedStyle];
+  const { photos } = styles[selectedStyle];
   // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
@@ -25,7 +27,7 @@ function ImageGallery() {
       {styles
         ? (
           <>
-            <img className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url} alt="" />
+            <img className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url ?? missing} alt="" />
             <ImageThumbnails orientation="vertical" textColor="neutral-600" />
             {selectedImage > 0 ? <ImageGalleryButton styles="text-neutral-600 left-[160px]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
             {selectedImage < photos.length - 1 ? <ImageGalleryButton styles="text-neutral-600 right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}

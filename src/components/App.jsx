@@ -21,7 +21,7 @@ import '../styles/global.css';
 import useModal from '../hooks/useModal';
 
 function App() {
-  const [productID, setProductID] = useState(40346);
+  const [productID, setProductID] = useState(40345);
 
   const { modal, showModal, hideModal } = useModal();
 

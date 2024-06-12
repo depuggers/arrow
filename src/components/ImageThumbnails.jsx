@@ -7,6 +7,8 @@ import {
 } from 'react-icons/pi';
 import AppContext from '../context/AppContext';
 
+import missing from '../images/missing.png';
+
 function ImageThumbnails({ orientation, textColor }) {
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -81,7 +83,7 @@ function ImageThumbnails({ orientation, textColor }) {
               dispatch({ type: 'setSelectedImage', payload: i });
             }}
           >
-            <img className={`w-full h-full object-cover ${selectedImage === i ? selectedImageStyle : ''}`} src={photo.thumbnail_url} alt="" />
+            <img className={`w-full h-full object-cover ${selectedImage === i ? selectedImageStyle : ''}`} src={photo.thumbnail_url ?? missing} alt="" />
           </li>
         ))}
       </ul>
