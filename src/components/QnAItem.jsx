@@ -22,7 +22,10 @@ function QnAItem({ question }) {
         <span className="text-sm text-neutral-500"><Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)}>Add Answer</Helpful></span>
       </div>
       <div
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-4 overflow-y-auto"
+        style={{
+          maxHeight: document.documentElement.clientHeight / 2,
+        }}
       >
         {sortedAnswers.slice(0, visibleAnswers).map((answer) => (
           <div className="flex gap-2">
