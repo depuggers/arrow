@@ -6,5 +6,3 @@ const convertStars = (data) => {
   const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`stars${k}`, parseInt(v)]));
   return stars;
 };
-
-export default convertStars;
