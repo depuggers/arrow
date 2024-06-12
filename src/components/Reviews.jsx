@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 // import '../styles.css';
 // import RelatedProducts from './RelatedProducts';
 // import ProductDetails from './ProductDetails';
@@ -8,9 +9,10 @@ import axios from 'axios';
 function Reviews() {
   // const url = '/reviews?product_id=40344';
   // const url = `/reviews?product_id=403${Math.floor(Math.random() * 99)}`;
-  const url = '/reviews?product_id=40387';
-  // random url, for testing different reviews
-  const reviewUrl = '/reviews/meta?product_id=40387';
+  //put both in promise.all to ensure both finish
+  const productID = 40387;
+  const url = `/reviews?product_id=${productID}`;
+  const reviewUrl = `/reviews/meta?product_id=${productID}`;
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
   // will swap out with context
@@ -18,7 +20,6 @@ function Reviews() {
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
   const totalReviews = 50;
   // const allReviews = { ...reviews, results: reviews.results?.slice() };
-
   useEffect(() => {
     axios.get(url)
       .then((response) => {
@@ -27,76 +28,88 @@ function Reviews() {
       .catch((err) => {
         console.error('error getting data', err);
       });
-  }, []);
+  }, [productID]);
 
   useEffect(() => {
     axios.get(reviewUrl)
       .then((response) => {
+
         setRatings(response.data);
       })
       .catch((err) => {
         console.error('error getting data', err);
       });
-  }, []);
+  }, [productID]);
 
-  const calculateRating = (data) => {
+  const convertStars = (data) => {
     if (!data || !data.ratings) {
       console.error('invalid data');
       return {};
     }
-    const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`stars${k}`, v]));
+    const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`stars${k}`, parseInt(v)]));
     return stars;
   };
 
-  console.log(ratings);
 
-  const starRatings = calculateRating(ratings);
-  console.log(starRatings);
-  const fiveStar = starRatings.stars5;
-  console.log(fiveStar);
+  let starRatings
+  if (ratings) {
+    starRatings = convertStars(ratings);
+  }
+
+
+
+
 
   return (
-    <div id="reviews" className="flex flex-row-reverse justify-between w-full gap-6 py-20">
-
+    <div id="reviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600">
       {/* review container */}
-      <div className="flex flex-col flex-auto w-1/2 pl-4">
-        <span className="flex flex-row pt-5 text-lg font-semibold">
-          {`${Math.floor(Math.random() * 999)} reviews, sorted by  `}
-          <select className="underline">
-            <option value="relevance"> relevance</option>
-            <option value="newest"> newest</option>
-            <option value="helpful"> helpful</option>
-          </select>
-        </span>
-        <form className="pt-2 pb-2">
-          <input className="border-2 rounded-l border-r-0" type="text" placeholder="Search by keyword" />
-          <button className="border-2 rounded-r  border-l-0 bg-slate-200" type="submit">🔍</button>
-        </form>
-        <ul>
-          <ReviewPosts
-            // reviews={allReviews}
-            reviews={someReviews} // render single review while testing code
-            className="pl-5 pt-2"
-          />
-        </ul>
-      </div>
+      {reviews ?
+        <div className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
+
+          <span className="flex flex-row pt-5 text-lg font-semibold">
+            {`${Math.floor(Math.random() * 999)} reviews, sorted by  `}
+            <select className="underline " >
+              <option value="relevance"> relevance</option>
+              <option value="newest"> newest</option>
+              <option value="helpful"> helpful</option>
+            </select>
+          </span>
+          <div className="relative">
+            {/* <input type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder="HAVE A QUESTION? SEARCH FOR ANSWERS..." className="form-input w-full" />
+            <FaMagnifyingGlass size={20} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" /> */}
+          </div>
+          {/* <form className="pt-2 pb-2">
+            <input className="border-2 text-xl rounded-l border-r-0" type="text" placeholder="Search by keyword" />
+            <button className="border-2 rounded-r text-xl border-l-0 bg-slate-200" type="submit">🔍</button>
+          </form> */}
+          <ul>
+            <ReviewPosts
+              // reviews={allReviews}
+              reviews={someReviews} // render single review while testing code
+              className="pl-5 pt-2"
+            />
+          </ul>
+        </div>
+      : null}
 
       {/* ReviewSummary.jsx */}
+      {ratings ?
+
       <section className="flex flex-col self-start pr-20 pt-4">
         <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
         <div className="flex flex-row pb-4">
           <p className="font-bold text-4xl"> 4</p>
-          {/* <p className="">
-            {`${'🌝'.repeat(4)}
-                  ${'🌚'.repeat(5 - 4)}`}
-          </p> */}
-          <input type="radio" className="mask mask-star-2 bg-primary" disabled />
-          <input type="radio" className="mask mask-star-2 bg-primary" disabled />
+          <div className="rating">
+            <input type="radio" className="mask mask-star-2 bg-primary" disabled />
+            <input type="radio" className="mask mask-star-2 bg-primary" disabled />
+            <input type="radio" className="mask mask-star-2 bg-primary" disabled />
+            <input type="radio" className="mask mask-star-2 bg-primary" disabled checked/>
+            <input type="radio" className="mask mask-star-2 bg-primary" disabled />
+          </div>
         </div>
         <div className="grow text-base text-neutral-600 pb-4">
           <p className="hover:underline">
             5 star
-            {/* {} */}
             <progress className="pl-2" value={starRatings.stars5} max={totalReviews} />
           </p>
           <p className="hover:underline">
@@ -105,17 +118,14 @@ function Reviews() {
           </p>
           <p className="hover:underline">
             3 star
-            {/* {starRatings.stars3} */}
             <progress className="pl-2" value={starRatings.stars3} max={totalReviews} />
           </p>
           <p className="hover:underline">
             2 star
-            {/* {starRatings.stars3} */}
             <progress className="pl-2" value={starRatings.stars2} max={totalReviews} />
           </p>
           <p className="hover:underline">
             1 star
-            {/* {starRatings.stars3} */}
             <progress className="pl-2" value={starRatings.stars1} max={totalReviews} />
           </p>
 
@@ -142,6 +152,7 @@ function Reviews() {
         </div>
 
       </section>
+        : null}
     </div>
   );
 }
@@ -154,8 +165,14 @@ function ReviewPosts({ reviews }) {
           <span className="flex flex-row justify-between">
             <span className="pb-2">
               <p className="flex-none">
-                {`${'🌝'.repeat(review.rating)}
-                  ${'🌚'.repeat(5 - review.rating)}`}
+                  <div className="rating">
+                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 1)} />
+                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 2)} />
+                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 3)} />
+                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 4)} />
+                    <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 5)} />
+
+                </div>
               </p>
             </span>
             <p className="font-light text-sm text-gray-400">
