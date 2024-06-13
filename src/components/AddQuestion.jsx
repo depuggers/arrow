@@ -13,7 +13,7 @@ function AddQuestion() {
     // console.log(e.target)
     const data = Object.fromEntries(new FormData(e.target));
     data.product_id = parseInt(data.product_id);
-    console.log(data);
+    // console.log(data);
     const response = await axios.post('/qa/questions', data);
     if (response.status === 201) {
       hideModal();

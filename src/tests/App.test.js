@@ -9,6 +9,7 @@ import axios from 'axios';
 
 import App from '../components/App';
 import AddQuestion from '../components/AddQuestion';
+import AddAnswer from '../components/AddAnswer';
 import AppContext from '../context/AppContext';
 
 import testData from './testData';
@@ -97,6 +98,102 @@ describe('Q&A', () => {
     );
     const submitButton = await screen.findByText(/submit question/i);
     fireEvent.change(screen.getByLabelText(/question/i), { target: { value: 'Why?' } });
+    fireEvent.change(screen.getByLabelText(/nickname/i), { target: { value: 'Jason' } });
+    fireEvent.change(screen.getByLabelText(/your email/i), { target: { value: 'Jason@email.com' } });
+    expect(submitButton).toBeInTheDocument();
+    fireEvent.submit(submitButton.form);
+    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+    expect(mockHideModal.mock.calls).toHaveLength(0);
+  });
+
+  test('Add answer modal should submit and close if successful', async () => {
+    const mockHideModal = jest.fn();
+    axios.post.mockImplementationOnce(() => Promise.resolve({ status: 201 }));
+
+    render(
+      <AppContext.Provider value={{
+        store: {
+          product: {
+            name: 'test',
+          },
+        },
+        productID: 40344,
+        hideModal: mockHideModal,
+      }}
+      >
+        <AddAnswer question={{
+          question_body: 'Why?',
+        }}
+        />
+      </AppContext.Provider>,
+    );
+    const submitButton = await screen.findByText(/submit answer/i);
+    fireEvent.change(screen.getByLabelText(/answer/i), { target: { value: 'Why?' } });
+    fireEvent.change(screen.getByLabelText(/nickname/i), { target: { value: 'Jason' } });
+    fireEvent.change(screen.getByLabelText(/your email/i), { target: { value: 'Jason@email.com' } });
+    expect(submitButton).toBeInTheDocument();
+    fireEvent.submit(submitButton.form);
+    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+    expect(mockHideModal.mock.calls).toHaveLength(1);
+  });
+
+  test('Add answer add photo button should work', async () => {
+    const mockHideModal = jest.fn();
+
+    render(
+      <AppContext.Provider value={{
+        store: {
+          product: {
+            name: 'test',
+          },
+        },
+        productID: 40344,
+        hideModal: mockHideModal,
+      }}
+      >
+        <AddAnswer question={{
+          question_body: 'Why?',
+        }}
+        />
+      </AppContext.Provider>,
+    );
+    const addButton = await screen.findByText(/add photo/i);
+    const photos = screen.getByTestId('answer-photos');
+    expect(addButton).toBeInTheDocument();
+    expect(photos).toBeInTheDocument();
+    expect(photos.children.length).toBe(0);
+    fireEvent.click(addButton);
+    expect(photos.children.length).toBeGreaterThan(0);
+    fireEvent.click(addButton);
+    fireEvent.click(addButton);
+    fireEvent.click(addButton);
+    fireEvent.click(addButton);
+    expect(addButton).not.toBeInTheDocument();
+  });
+
+  test('Add answer modal should submit stay open if unsuccessful', async () => {
+    const mockHideModal = jest.fn();
+    axios.post.mockImplementationOnce(() => Promise.resolve({ status: 404 }));
+
+    render(
+      <AppContext.Provider value={{
+        store: {
+          product: {
+            name: 'test',
+          },
+        },
+        productID: 40344,
+        hideModal: mockHideModal,
+      }}
+      >
+        <AddAnswer question={{
+          question_body: 'Why?',
+        }}
+        />
+      </AppContext.Provider>,
+    );
+    const submitButton = await screen.findByText(/submit answer/i);
+    fireEvent.change(screen.getByLabelText(/answer/i), { target: { value: 'Why?' } });
     fireEvent.change(screen.getByLabelText(/nickname/i), { target: { value: 'Jason' } });
     fireEvent.change(screen.getByLabelText(/your email/i), { target: { value: 'Jason@email.com' } });
     expect(submitButton).toBeInTheDocument();

@@ -15,7 +15,7 @@ function AddAnswer({ question }) {
     const data = Object.fromEntries(new FormData(e.target));
     data.question_id = parseInt(data.question_id);
     data.photos = photos;
-    console.log(data);
+    // console.log(data);
     const response = await axios.post('/qa/questions', data);
     if (response.status === 201) {
       hideModal();
@@ -23,13 +23,11 @@ function AddAnswer({ question }) {
   };
 
   const addPhoto = () => {
-    if (photos.length < 5) {
-      setPhotos((prevPhotos) => [...prevPhotos, 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80']);
-    }
+    setPhotos((prevPhotos) => [...prevPhotos, 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80']);
   };
 
   return (
-    <div className="bg-white text-neutral-600 p-6 flex flex-col gap-4 relative">
+    <div className="bg-base-100 text-base-content p-6 flex flex-col gap-4 relative">
       <div>
         <h1 className="text-3xl font-bold">Submit Your Answer</h1>
         <h2>{`${product.name}: ${question.question_body}`}</h2>
@@ -49,11 +47,9 @@ function AddAnswer({ question }) {
           <input type="email" name="email" placeholder="Example: jack@email.com" className="form-input" maxLength={60} required />
           <p className="text-sm text-neutral-400">For authentication reasons, you will not be emailed</p>
         </label>
-        {photos ? (
-          <div className="w-full flex justify-center gap-2">
-            {photos.map((photo, i) => <img className="w-[96px] aspect-square object-cover" src={photos[i]} alt="" />)}
-          </div>
-        ) : null}
+        <div data-testid="answer-photos" className="w-full flex justify-center gap-2">
+          {photos.map((photo, i) => <img key={i} className="w-[96px] aspect-square object-cover" src={photo} alt="" />)}
+        </div>
         {photos.length < 5 ? <button type="button" onClick={addPhoto} className="form-input w-fit mx-auto">Add photo</button> : null}
         <input type="hidden" name="question_id" value={question.question_id} />
         <button type="submit" className="form-input">Submit Answer</button>
