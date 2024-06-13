@@ -29,13 +29,19 @@ const appReducer = (state, action) => {
         selectedImage: Math.min(Math.max(state.selectedImage + action.payload, 0), state.styles[state.selectedStyle].photos.length - 1),
       };
     case 'addToCart':
-      return {
-        ...state,
-        cart: [
+      if (true) {
+        const newCart = [
           ...state.cart,
           action.payload,
-        ],
-      };
+        ];
+        localStorage.setItem('cart', JSON.stringify(newCart));
+        return {
+          ...state,
+          cart: newCart,
+        };
+      }
+      return state;
+
     case 'setQuestionHelpful':
       if (!state.helpfulQs.includes(action.payload)) {
         const newHelpfulQs = [
