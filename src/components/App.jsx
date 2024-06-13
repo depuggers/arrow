@@ -62,10 +62,10 @@ function App() {
         <main className="flex flex-col gap-6 items-center">
           <Overview />
           <div className="flex flex-col gap-6 items-center w-[80%] pb-6">
-            {/* <RelatedProducts /> */}
+            <RelatedProducts />
             <OutfitList />
             <QnA />
-            {/* <Reviews /> */}
+            <Reviews />
           </div>
         </main>
         { modal }

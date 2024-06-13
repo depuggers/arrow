@@ -14,7 +14,15 @@ export function OutfitProvider({ children }) {
     if (!outfit.find((item) => item.id === product.id)) {
       const newOutfitList = [...outfit, product];
       setOutfit(newOutfitList);
+      console.log('Product added to outfit:', product);
+    } else {
+      console.log('Product already in outfit:', product);
     }
+  };
+
+  const removeFromOutfitList = (productId) => {
+    const newOutfitList = outfit.filter((item) => item.id !== productId);
+    setOutfit(newOutfitList);
   };
 
   useEffect(() => {
@@ -22,7 +30,7 @@ export function OutfitProvider({ children }) {
   }, [outfit]);
 
   return (
-    <OutfitContext.Provider value={{ outfit, addToOutfitList }}>
+    <OutfitContext.Provider value={{ outfit, addToOutfitList, removeFromOutfitList }}>
       {children}
     </OutfitContext.Provider>
   );
