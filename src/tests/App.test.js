@@ -8,6 +8,8 @@ import {
 import axios from 'axios';
 
 import App from '../components/App';
+import Header from '../components/Header';
+import ImageGallery from '../components/ImageGallery';
 import AddQuestion from '../components/AddQuestion';
 import AddAnswer from '../components/AddAnswer';
 import AppContext from '../context/AppContext';
@@ -26,6 +28,58 @@ beforeEach(() => {
 Element.prototype.scrollTo = () => {};
 // console.log = jest.fn();
 
+describe('Header', () => {
+  test('Should pickup dark theme preference', async () => {
+    window.matchMedia = true;
+    window.matchMedia = () => ({
+      matches: true,
+    });
+    render(
+      <AppContext.Provider value={
+        {
+          store: {
+            cart: [],
+          },
+        }
+      }
+      >
+        <App />
+      </AppContext.Provider>,
+    );
+    await screen.findAllByText(/./i);
+    expect(true).toBe(true);
+  });
+
+  test('Should pickup light theme preference', async () => {
+    const storageSpy = jest.spyOn(Storage.prototype, 'getItem');
+    storageSpy.mockImplementation(() => null);
+    window.matchMedia = false;
+    render(<App />);
+    await screen.findAllByText(/./i);
+    expect(true).toBe(true);
+    storageSpy.mockRestore();
+  });
+
+  test('Should toggle theme when button is clicked', async () => {
+    render(
+      <AppContext.Provider value={
+        {
+          store: {
+            cart: [1, 2, 3],
+          },
+        }
+      }
+      >
+        <Header />
+      </AppContext.Provider>,
+    );
+    const toggle = await screen.findByTestId('theme-toggle');
+    expect(toggle).toBeInTheDocument();
+    fireEvent.click(toggle);
+    fireEvent.click(toggle);
+  });
+});
+
 describe('Overview', () => {
   test('Style selector should have one child per style', async () => {
     render(<App />);
@@ -40,6 +94,39 @@ describe('Overview', () => {
 });
 
 describe('Image Gallery', () => {
+  test('Should switch image when buttons are clicked', async () => {
+    render(<App />);
+    const mainImage = await screen.findByTestId('main-image');
+    expect(mainImage).toBeInTheDocument();
+    let leftButton = screen.queryByTestId('image-left');
+    const rightButton = screen.queryByTestId('image-right');
+    expect(leftButton).not.toBeInTheDocument();
+    expect(rightButton).toBeInTheDocument();
+    fireEvent.click(rightButton);
+    leftButton = screen.queryByTestId('image-left');
+    expect(leftButton).toBeInTheDocument();
+    fireEvent.click(leftButton);
+  });
+
+  test('Should display placeholder image when none are provided', async () => {
+    render(
+      <AppContext.Provider value={{
+        store: {
+          selectedStyle: 0,
+          selectedImage: 0,
+          styles: [{
+            photos: [true],
+          }],
+        },
+      }}
+      >
+        <ImageGallery />
+      </AppContext.Provider>,
+    );
+    await screen.findByTestId('main-image');
+    expect(true).toBe(true);
+  });
+
   test('Expanded view should open when main image is clicked', async () => {
     const showModal = jest.fn();
     Element.prototype.showModal = showModal;

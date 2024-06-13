@@ -42,7 +42,7 @@ function ExpandedView({ switchImage }) {
       className={`relative w-full h-full p-4 pb-[120px] overflow-hidden ${zoomed ? 'cursor-[url(../images/minus.png),auto] flex justify-center items-center' : 'cursor-[url(../images/plus.png),auto]'}`}
       onClick={() => setZoomed(!zoomed)}
       onPointerMove={(e) => {
-        console.log(e.clientX, e.clientY);
+        // console.log(e.clientX, e.clientY);
         setMousePos({ x: e.clientX, y: e.clientY });
       }}
     >
