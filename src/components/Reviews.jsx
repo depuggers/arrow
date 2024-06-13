@@ -13,14 +13,14 @@ function Reviews() {
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(2);
+
   // will swap out with context
 
   // let hasMoreReviews;
   const hasMoreReviews = displayedReviews < reviews.results?.length;
-
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
   // const addReviews =  () => { displayedReviews - reviews.length === 2 ? displayedReviews += 2 : displayedReviews += 1};
-  const someReviews = { ...reviews, results: reviews.results?.slice(0, displayedReviews) };
+  const resultReviews = { ...reviews, results: reviews.results?.slice(0, displayedReviews) };
   const totalReviews = 100;
 
   const getReviews = () => {
@@ -55,7 +55,7 @@ function Reviews() {
   }
 
   return (
-    <div id="reviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600">
+    <div id="reviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
 
       {/* review container */}
       {reviews
@@ -73,11 +73,11 @@ function Reviews() {
             <ul>
               <ReviewPosts
               // reviews={allReviews}
-                reviews={someReviews} // render single review while testing code
+                reviews={resultReviews}
                 className="pl-5 pt-2"
               />
             </ul>
-            <div>
+            <div className="flex flex-row gap-4 justify-start">
               {hasMoreReviews
                 ? (
                   <div className="font-bold text-lg ">
@@ -85,7 +85,11 @@ function Reviews() {
                   </div>
                 )
                 : null}
+              <div className="font-bold text-lg ">
+                <button className="form-input" onClick={addReviews}> ADD REVIEW</button>
+              </div>
             </div>
+
           </div>
         )
         : null}
@@ -96,7 +100,7 @@ function Reviews() {
           <section className="flex flex-col self-start pr-20 pt-4 pb-20">
             <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
             <div className="flex flex-row pb-4">
-              <p className="font-bold text-4xl"> 4</p>
+              <p className="font-bold text-4xl"> 4 </p>
               <div className="rating">
                 <input type="radio" className="mask mask-star-2 bg-primary" disabled />
                 <input type="radio" className="mask mask-star-2 bg-primary" disabled />
