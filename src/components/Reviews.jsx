@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
+import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 import convertStars from '../lib/convertStars';
 // import RelatedProducts from './RelatedProducts';
 // import ProductDetails from './ProductDetails';
@@ -9,24 +9,25 @@ function Reviews() {
   const productID = 40387;
   const url = `/reviews?product_id=${productID}`;
   const reviewUrl = `/reviews/meta?product_id=${productID}`;
-  // put both in promise.all to ensure both are complete
+  //  update: promise.all
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(2);
+  // const [filter, setFilter] = useState('');
+  // update: swap out with context
 
-  // will swap out with context
-
-  // let hasMoreReviews;
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
-  // const addReviews =  () => { displayedReviews - reviews.length === 2 ? displayedReviews += 2 : displayedReviews += 1};
-  const resultReviews = { ...reviews, results: reviews.results?.slice(0, displayedReviews) };
-  const totalReviews = 100;
+  // const resultReviews = { ...reviews, results: reviews.results?.slice(0, displayedReviews) };
+  const reviewResults = reviews.results?.slice(0, displayedReviews); // update: refactor
+
+  const totalReviews = reviews.results?.length;
 
   const getReviews = () => {
     axios.get(url)
       .then((response) => {
-        setReviews(response.data);
+        const ratingFilter = response.data.results.filter((review) => review.rating >= 1); // filter in initial get req
+        setReviews({ ...response.data, results: ratingFilter }); // update
       })
       .catch((err) => {
         console.error('error getting data', err);
@@ -34,7 +35,20 @@ function Reviews() {
   };
   useEffect(() => {
     getReviews();
-  }, [productID, displayedReviews]);
+  }, [productID]); // make separate useEffect for filter
+
+  // useEffect(() => {
+  // if (filter) {
+  // setFilteredReviews(reviews.results.filter((review) => review.rating === 3));
+  // } else {
+  //   setFilteredReviews(reviews.results);
+  // }
+  // }, []);
+
+  // const starCounts = () => {
+  //   setReviews(reviewResults?.filter((review) => review.results.rating === 3));
+  // };
+  // starCounts();
 
   const getRatings = () => {
     axios.get(reviewUrl)
@@ -51,31 +65,33 @@ function Reviews() {
 
   let starRatings;
   if (ratings) {
-    starRatings = convertStars(ratings);
+    starRatings = convertStars(ratings);// object with stringified keys
   }
-
+  const starTotal = 4;// update: hard coded
   return (
-    <div id="reviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
+    <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
 
-      {/* review container */}
       {reviews
 
         ? (
-          <div className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
-            <div className="relative">
-              {/* <input type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder="HAVE A QUESTION? SEARCH FOR ANSWERS..." className="form-input w-full" />
-              <FaMagnifyingGlass size={20} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" /> */}
-            </div>
-            {/* <form className="pt-2 pb-2">
-            <input className="border-2 text-xl rounded-l border-r-0" type="text" placeholder="Search by keyword" />
-            <button className="border-2 rounded-r text-xl border-l-0 bg-slate-200" type="submit">🔍</button>
-            </form> */}
-            <ul>
-              <ReviewPosts
-              // reviews={allReviews}
-                reviews={resultReviews}
-                className="pl-5 pt-2"
-              />
+          <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
+            <span className="flex flex-row pt-5 text-lg font-semibold">
+              {`${totalReviews} reviews, sorted by`}
+              <select className="underline ">
+                <option value="relevance"> relevance</option>
+                <option value="newest"> newest</option>
+                <option value="helpful"> helpful</option>
+              </select>
+            </span>
+            <ul className="pl-5 pt-2">
+              {reviews.results?.slice(0, displayedReviews).map((review) => (
+                <li>
+                  <ReviewPosts
+                    key={review.review_id}
+                    review={review}
+                  />
+                </li>
+              ))}
             </ul>
             <div className="flex flex-row gap-4 justify-start">
               {hasMoreReviews
@@ -89,7 +105,6 @@ function Reviews() {
                 <button className="form-input" onClick={addReviews}> ADD REVIEW</button>
               </div>
             </div>
-
           </div>
         )
         : null}
@@ -100,18 +115,16 @@ function Reviews() {
           <section className="flex flex-col self-start pr-20 pt-4 pb-20">
             <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
             <div className="flex flex-row pb-4">
-              <p className="font-bold text-4xl"> 4 </p>
+              <h2 className="font-bold text-4xl">{starTotal}</h2>
               <div className="rating">
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled />
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled />
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled />
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked />
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled />
+                {[1, 2, 3, 4, 5].map((rating) => (
+                  <input key={rating} type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(starTotal === rating)} />
+                ))}
               </div>
             </div>
             <div className="grow text-base text-neutral-600 pb-4">
               <p className="hover:underline">
-                5 star
+                <button>5 star</button>
                 <progress className="pl-2" value={starRatings.stars5} max={totalReviews} />
               </p>
               <p className="hover:underline">
@@ -160,56 +173,40 @@ function Reviews() {
   );
 }
 
-function ReviewPosts({ reviews }) {
+function ReviewPosts({ review }) {
   return (
 
     <div className=" pt-2 pb-2 flex flex-col divide-y">
-      <span className="flex flex-row pt-5 text-lg font-semibold">
-        3 reviews, sorted by
-        <select className="underline ">
-          <option value="relevance"> relevance</option>
-          <option value="newest"> newest</option>
-          <option value="helpful"> helpful</option>
-        </select>
-      </span>
-      {reviews.results?.map((review) => (
-        <div className="pt-8" key={review.results?.review_id}>
-          <span className="flex flex-row justify-between">
-            <span className="pb-2">
-
-              <div className="rating">
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 1)} />
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 2)} />
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 3)} />
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 4)} />
-                <input type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === 5)} />
-              </div>
-
-            </span>
-            <p className="font-light text-sm text-gray-400">
-              {`${review.reviewer_name} ${review.date.slice(5, 10)} ${review.date.slice(0, 4)}`}
-            </p>
+      <div className="pt-8">
+        <span className="flex flex-row justify-between">
+          <span className="pb-2">
+            <div className="rating">
+              {[1, 2, 3, 4, 5].map((rating) => (
+                <input type="radio" key={rating} className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === rating)} />
+              ))}
+            </div>
           </span>
-          <h2 className="font-semibold text-lg truncate...">{review.summary}</h2>
-          <div className="pb-5 font-extalight">{review.body}</div>
-          <div>
-            {review.response ? (
-              <div className="bg-gray-300 pb-4">
-                <p>Response from seller:</p>
+          <p className="font-light text-sm text-gray-400">
+            {`${review.reviewer_name} ${review.date.slice(5, 10)} ${review.date.slice(0, 4)}`}
+          </p>
+        </span>
+        <h2 className="font-semibold text-lg truncate...">{review.summary}</h2>
+        <div className="pb-5 font-extalight">{review.body}</div>
+        <div>
+          {review.response && (
+            <div className="bg-gray-300 pb-4">
+              <p>Response from seller:</p>
                 {review.response}
-              </div>
-
-            ) : (
-              null)}
-          </div>
-          <span className="text-sm text-gray-600 font-light">
-            Helpful?
-            <a className="divide-x text-sm no-underline hover:underline" href="/reviews">     Yes   </a>
-            <a className="text-xs" href="/reviews">(10)  |  </a>
-            <a href="/">   Report </a>
-          </span>
+            </div>
+          )}
         </div>
-      ))}
+        <span className="text-sm text-gray-600 font-light">
+          Helpful?
+          <a className="divide-x text-sm no-underline hover:underline" href="/reviews">     Yes   </a>
+          <a className="text-xs" href="/reviews">(10)  |  </a>
+          <a href="/">   Report </a>
+        </span>
+      </div>
     </div>
   );
 }
