@@ -10,24 +10,34 @@ function Reviews() {
   const url = `/reviews?product_id=${productID}`;
   const reviewUrl = `/reviews/meta?product_id=${productID}`;
   //  update: promise.all
-  const [reviews, setReviews] = useState('');
+  const [reviews, setReviews] = useState({ results: [] });
   const [ratings, setRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(2);
-  // const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState(null);
+  const [currentView, setCurrentView] = useState([]);
+  const [numReviews, setNumReviews] = useState(0);
   // update: swap out with context
 
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
-  // const resultReviews = { ...reviews, results: reviews.results?.slice(0, displayedReviews) };
-  const reviewResults = reviews.results?.slice(0, displayedReviews); // update: refactor
 
+  // setNumReviews(reviews.results?.length);
+  const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
+  console.log(getTotalReviews(5));
   const totalReviews = reviews.results?.length;
+
+  const reviewResults = !filter ? reviews.results?.slice(0, displayedReviews).filter((review) => review.rating >= 3) : reviews.results?.slice(0, displayedReviews); // update: refactor
+
+  // const addStarFilter = (star) => {
+  //   const filteredReviews = reviews.results?.slice(0, displayedReviews).filter((review) => review.rating === star);
+  //   setCurrentView((prev) => [...prev, ...filteredReviews]);
+  // };
 
   const getReviews = () => {
     axios.get(url)
       .then((response) => {
-        const ratingFilter = response.data.results.filter((review) => review.rating >= 1); // filter in initial get req
-        setReviews({ ...response.data, results: ratingFilter }); // update
+        const ratingFilter = response;// filter in initial get req
+        setReviews({ ...response.data, results: response.data.results }); // update
       })
       .catch((err) => {
         console.error('error getting data', err);
@@ -37,13 +47,15 @@ function Reviews() {
     getReviews();
   }, [productID]); // make separate useEffect for filter
 
-  // useEffect(() => {
-  // if (filter) {
-  // setFilteredReviews(reviews.results.filter((review) => review.rating === 3));
-  // } else {
-  //   setFilteredReviews(reviews.results);
-  // }
-  // }, []);
+  useEffect(() => {
+    if (filter) {
+      setCurrentView(reviews.results?.slice(0, displayedReviews).filter((review) => review.rating >= 3));
+      setNumReviews(reviews.results?.slice(0, displayedReviews).filter((review) => review.rating >= 3).length);
+    } else {
+      setCurrentView(reviews.results?.slice(0, displayedReviews).filter((review) => review.rating >= 1));
+      setNumReviews(reviews.results?.filter((review) => review.rating >= 1).length);
+    }
+  }, [filter, reviews, displayedReviews]);
 
   // const starCounts = () => {
   //   setReviews(reviewResults?.filter((review) => review.results.rating === 3));
@@ -64,8 +76,10 @@ function Reviews() {
   }, [productID]);
 
   let starRatings;
+  let totalRatings;
   if (ratings) {
     starRatings = convertStars(ratings);// object with stringified keys
+    totalRatings = Object.values(starRatings).reduce((acc, current) => acc + current);
   }
   const starTotal = 4;// update: hard coded
   return (
@@ -76,7 +90,7 @@ function Reviews() {
         ? (
           <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
             <span className="flex flex-row pt-5 text-lg font-semibold">
-              {`${totalReviews} reviews, sorted by`}
+              {`${numReviews} reviews, sorted by`}
               <select className="underline ">
                 <option value="relevance"> relevance</option>
                 <option value="newest"> newest</option>
@@ -84,7 +98,7 @@ function Reviews() {
               </select>
             </span>
             <ul className="pl-5 pt-2">
-              {reviews.results?.slice(0, displayedReviews).map((review) => (
+              {currentView.map((review) => (
                 <li>
                   <ReviewPosts
                     key={review.review_id}
@@ -112,7 +126,7 @@ function Reviews() {
       {/* ReviewSummary.jsx */}
       {ratings
         ? (
-          <section className="flex flex-col self-start pr-20 pt-4 pb-20">
+          <section className="flex flex-col self-start pr-10 pt-4 pb-20">
             <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
             <div className="flex flex-row pb-4">
               <h2 className="font-bold text-4xl">{starTotal}</h2>
@@ -123,25 +137,30 @@ function Reviews() {
               </div>
             </div>
             <div className="grow text-base text-neutral-600 pb-4">
-              <p className="hover:underline">
+              <p className="flex flex-row hover:underline">
                 <button>5 star</button>
-                <progress className="pl-2" value={starRatings.stars5} max={totalReviews} />
+                <progress className="pl-2" value={getTotalReviews(5)} max={totalReviews} />
+                <p>{`${getTotalReviews(5)} review(s)`}</p>
               </p>
-              <p className="hover:underline">
-                4 star
-                <progress className="pl-2" value={starRatings.stars4} max={totalReviews} />
+              <p className="flex flex-row hover:underline">
+                <button>4 star</button>
+                <progress className="pl-2" value={getTotalReviews(4)} max={totalReviews} />
+                <p>{`${getTotalReviews(4)} review(s)`}</p>
               </p>
-              <p className="hover:underline">
-                3 star
-                <progress className="pl-2" value={starRatings.stars3} max={totalReviews} />
+              <p className="flex flex-row hover:underline">
+                <button>3 star</button>
+                <progress className="pl-2" value={getTotalReviews(3)} max={totalReviews} />
+                <p>{`${getTotalReviews(3)} review(s)`}</p>
               </p>
-              <p className="hover:underline">
-                2 star
-                <progress className="pl-2" value={starRatings.stars2} max={totalReviews} />
+              <p className="flex flex-row hover:underline">
+                <button>2 star</button>
+                <progress className="pl-2" value={getTotalReviews(2)} max={totalReviews} />
+                <p>{`${getTotalReviews(2)} review(s)`}</p>
               </p>
-              <p className="hover:underline">
-                1 star
-                <progress className="pl-2" value={starRatings.stars1} max={totalReviews} />
+              <p className="flex flex-row hover:underline">
+                <button>1 star</button>
+                <progress className="pl-2" value={getTotalReviews(1)} max={totalReviews} />
+                <p>{`${getTotalReviews(1)} review(s)`}</p>
               </p>
 
               <div className="pb-4 pt-4 flex flex-col">
@@ -182,7 +201,7 @@ function ReviewPosts({ review }) {
           <span className="pb-2">
             <div className="rating">
               {[1, 2, 3, 4, 5].map((rating) => (
-                <input type="radio" key={rating} className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === rating)} />
+                <input key={rating} type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === rating)} />
               ))}
             </div>
           </span>
