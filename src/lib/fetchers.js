@@ -22,7 +22,7 @@ export const getStyles = async (productID, dispatch) => {
 };
 
 export const getQuestions = async (productID, dispatch) => {
-  const res = await axios.get(`/qa/questions?product_id=${productID}&count=2`);
+  const res = await axios.get(`/qa/questions?product_id=${productID}&count=3333`);
   dispatch({
     type: 'setProductDetails',
     payload: {
