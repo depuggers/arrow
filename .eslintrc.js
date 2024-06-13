@@ -21,5 +21,6 @@ module.exports = {
     'react/jsx-no-constructed-context-values': 'off',
     'react/jsx-filename-extension': 'off',
     'no-nested-ternary': 'off',
+    'no-case-declarations': 'off',
   },
 };
