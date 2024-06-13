@@ -4,6 +4,14 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
+* {
+  scrollbar-color: auto !important;
+}
+
+html {
+  overflow-y: scroll;
+}
+
 dialog[open] {
   @apply w-full max-w-full h-full max-h-full bg-transparent flex justify-center items-center;
 }
@@ -12,10 +20,25 @@ dialog[open] {
   background: hsla(0,0%,0%,.88)
 }
 
-html {
-  overflow-y: scroll;
+.form-input {
+  @apply p-4 border-2 border-neutral-500 text-neutral-600 bg-transparent font-bold;
 }
 
 .skelly {
   @apply bg-neutral-100;
+  animation: .5s skeleton infinite alternate;
+}
+
+@keyframes skeleton {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .5;
+  }
+}
+
+.rating * {
+  animation: none;
 }
