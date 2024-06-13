@@ -42,8 +42,6 @@ function Overview() {
   // console.log(product, styles, rating);
   const loading = !(product && styles && rating);
 
-  console.log(selectedSKU);
-
   return (
     <section className="w-full grid grid-cols-[5fr_2fr] justify-items-center text-base-content">
       <ImageGallery />
@@ -174,8 +172,8 @@ function Overview() {
           <ul className="flex flex-col gap-3 w-fit">
             {loading
               ? Array.from({ length: 3 }).map((v, i) => <div key={i} className="w-48 h-4 skelly" />)
-              : product.features.map((feature) => (
-                <li className="min-w-fit flex items-center gap-2" key={feature.feature}>
+              : product.features.map((feature, i) => (
+                <li className="min-w-fit flex items-center gap-2" key={i}>
                   <FaCheck size={24} />
                   {` ${feature.value} ${feature.feature}`}
                 </li>

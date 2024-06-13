@@ -23,8 +23,6 @@ function Header() {
     }
   }
 
-  console.log(theme);
-
   useLayoutEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
