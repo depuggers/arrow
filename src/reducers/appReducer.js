@@ -1,5 +1,5 @@
 const appReducer = (state, action) => {
-  console.log(JSON.stringify(action));
+  // console.log(JSON.stringify(action));
   switch (action.type) {
     case 'setProductDetails':
       return {
@@ -23,7 +23,7 @@ const appReducer = (state, action) => {
         selectedImage: action.payload,
       };
     case 'switchImage':
-      console.log(state.styles, state.selectedStyle, state.styles[state.selectedStyle]);
+      // console.log(state.styles, state.selectedStyle, state.styles[state.selectedStyle]);
       return {
         ...state,
         selectedImage: Math.min(Math.max(state.selectedImage + action.payload, 0), state.styles[state.selectedStyle].photos.length - 1),

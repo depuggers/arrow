@@ -21,13 +21,13 @@ function QnA() {
   const filteredQuestions = filter.length >= 3 ? questions.filter((question) => question.question_body.toLowerCase().includes(filter.toLowerCase())) : questions;
   const sortedQuestions = filteredQuestions ? filteredQuestions.sort((a, b) => (a.question_helpfulness >= b.question_helpfulness ? -1 : 1)) : null;
 
-  console.log(questions);
+  // console.log(questions);
 
   useEffect(() => {
     if (questionsRef.current && questionsRef.current.scrollHeight > questionsRef.current.clientHeight) {
       setScrolling(true);
     }
-    console.log('scrolling: ', scrolling, questionsRef.current?.scrollHeight, questionsRef.current?.clientHeight);
+    // console.log('scrolling: ', scrolling, questionsRef.current?.scrollHeight, questionsRef.current?.clientHeight);
   }, [visibleQuestions]);
 
   return (
@@ -48,7 +48,7 @@ function QnA() {
             className={`flex flex-col gap-6 overflow-y-auto ${scrolling ? 'pr-6' : ''}`}
             ref={questionsRef}
           >
-            {sortedQuestions.slice(0, visibleQuestions).map((question) => <QnAItem filter={filter} question={question} />)}
+            {sortedQuestions.slice(0, visibleQuestions).map((question) => <QnAItem key={question.question_id} filter={filter} question={question} />)}
           </div>
           <div className="flex gap-4">
             {visibleQuestions < sortedQuestions.length ? <button className="form-input" onClick={() => setVisibleQuestions(visibleQuestions + 2)}>MORE ANSWERED QUESTIONS</button> : null}

@@ -28,7 +28,7 @@ function Overview() {
   let sizes;
   if (styles) {
     sizes = Object.entries(styles[selectedStyle].skus).map((sku) => ({ sku: sku[0], size: sku[1].size }));
-    console.log('sizes ', sizes);
+    // console.log('sizes ', sizes);
   }
 
   let maxQuantity;
@@ -40,7 +40,7 @@ function Overview() {
     dispatch({ type: 'addToCart', payload: { sku_id: selectedSKU, count: selectedQty } });
   };
 
-  console.log(product, styles, rating);
+  // console.log(product, styles, rating);
 
   return (
     <section className="grid grid-cols-[5fr_2fr] justify-items-center text-neutral-600">

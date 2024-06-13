@@ -15,7 +15,7 @@ function StyleSelector() {
         <span className="font-bold">STYLE  &gt;</span>
         <span className="uppercase">{styles[selectedStyle].name}</span>
       </p>
-      <ul className="grid grid-cols-4 gap-4">
+      <ul data-testid="style-selector" className="grid grid-cols-4 gap-4">
         {styles ? styles.map((style, i) => (
           <li className="w-full aspect-square cursor-pointer relative" key={style.style_id} onClick={() => dispatch({ type: 'setSelectedStyle', payload: i })}>
             <img className={`h-full w-full object-cover rounded-full ${selectedStyle === i ? 'outline outline-offset-2 outline-primary' : ''}`} src={style.photos[0].thumbnail_url ?? missing} alt="" />

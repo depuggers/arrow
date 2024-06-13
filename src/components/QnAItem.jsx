@@ -12,10 +12,10 @@ function QnAItem({ question, filter }) {
   const {
     showModal, dispatch, store: { helpfulQs }, store: { helpfulAs }, store: { reportedAs },
   } = useContext(AppContext);
-  console.log(helpfulQs);
+  // console.log(helpfulQs);
 
   const sortedAnswers = Object.values(question.answers).sort((a, b) => (a.helpfulness >= b.helpfulness || a.answerer_name.toLowerCase() === 'seller' ? -1 : 1));
-  console.log(sortedAnswers);
+  // console.log(sortedAnswers);
 
   const markQuestionHelpful = async (id) => {
     if (!helpfulQs.includes(id)) {
@@ -58,7 +58,7 @@ function QnAItem({ question, filter }) {
         }}
       >
         {sortedAnswers.slice(0, visibleAnswers).map((answer) => (
-          <div className="flex gap-2">
+          <div key={answer.id} className="flex gap-2">
             <span className="text-xl font-bold">A: </span>
             <div className="flex flex-col gap-4 pt-[0.125rem]">
               <p>{answer.body}</p>
