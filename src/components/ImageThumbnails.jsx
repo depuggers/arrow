@@ -81,7 +81,7 @@ function ImageThumbnails({ orientation, textColor }) {
         }}
       >
         {loading
-          ? Array.from({ length: count }).map((v, i) => <li key={i} className="w-[96px] m-2 aspect-square skelly" />)
+          ? Array.from({ length: count }).map((v, i) => <li key={i} className="w-[88px] m-2 aspect-square skelly" />)
           : photos.map((photo, i) => (
             <li
               className="w-[96px] p-2 aspect-square overflow-hidden cursor-pointer"

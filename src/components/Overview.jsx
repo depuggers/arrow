@@ -13,8 +13,6 @@ import StyleSelector from './StyleSelector';
 
 import AppContext from '../context/AppContext';
 
-import '../styles/overview.css';
-
 function Overview() {
   // const [selectedSKU, setSelectedSKU] = useState(null);
   const [selectedQty, setSelectedQty] = useState(null);
