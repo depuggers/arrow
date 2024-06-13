@@ -7,6 +7,8 @@ import {
 } from 'react-icons/pi';
 import AppContext from '../context/AppContext';
 
+import missing from '../images/missing.png';
+
 function ImageThumbnails({ orientation, textColor }) {
   const [imageIndex, setImageIndex] = useState(0);
 
@@ -23,6 +25,7 @@ function ImageThumbnails({ orientation, textColor }) {
   // const photos = styles[selectedStyle].photos.slice(0,3)
   // const photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
   const count = Math.min(photos.length, 7);
+  // const count = 3;
 
   useEffect(() => {
     const initialPosition = Math.max(Math.min(selectedImage, photos.length - count), 0);
@@ -32,7 +35,7 @@ function ImageThumbnails({ orientation, textColor }) {
       behavior: 'smooth',
     });
     setImageIndex(initialPosition);
-  }, []);
+  }, [selectedImage]);
 
   const scrollThumbs = (e, direction) => {
     e.stopPropagation();
@@ -46,7 +49,7 @@ function ImageThumbnails({ orientation, textColor }) {
     setImageIndex(nextIndex);
   };
 
-  const selectedImageStyle = 'border-2 border-primary';
+  const selectedImageStyle = 'outline outline-offset-2 outline-primary';
   const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-8 flex-col' : 'left-1/2 bottom-4 flex-row -translate-x-1/2';
 
   return (
@@ -81,7 +84,7 @@ function ImageThumbnails({ orientation, textColor }) {
               dispatch({ type: 'setSelectedImage', payload: i });
             }}
           >
-            <img className={`w-full h-full object-cover ${selectedImage === i ? selectedImageStyle : ''}`} src={photo.thumbnail_url} alt="" />
+            <img className={`w-full h-full object-cover ${selectedImage === i ? selectedImageStyle : ''}`} src={photo.thumbnail_url ?? missing} alt="" />
           </li>
         ))}
       </ul>
