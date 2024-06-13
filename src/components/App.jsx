@@ -58,7 +58,7 @@ function App() {
       <Header />
       <main className="flex flex-col gap-6 items-center">
         <Overview />
-        <div className="flex flex-col gap-6 items-center w-[80%]">
+        <div className="flex flex-col gap-6 items-center w-[80%] pb-6">
           {/* <RelatedProducts /> */}
           <QnA />
           {/* <Reviews /> */}
