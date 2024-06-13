@@ -84,7 +84,7 @@ function RelatedProducts() {
         </button>
       )}
       <div className="overflow-hidden w-full flex items-center px-20 relative">
-        <div className="flex space-x-5 w-3/4 mx-auto overflow-hidden relative items-center" ref={carouselRef}>
+        <div className="flex space-x-5 w-4/5 mx-auto overflow-hidden relative items-center" ref={carouselRef}>
           {relatedProductImages ? defaultProducts.map((item, index) => (
             <RelatedProduct
               defaultProduct={item}

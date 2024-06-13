@@ -5,16 +5,18 @@ import axios from 'axios';
 import Header from './Header';
 import Overview from './Overview';
 import RelatedProducts from './RelatedProducts';
+import OutfitList from './OutfitList';
 import QnA from './QnA';
 import Reviews from './Reviews';
 
 import AppContext from '../context/AppContext';
+import { OutfitProvider } from '../context/OutfitContext';
 
 import appReducer from '../reducers/appReducer';
 
-import calculateRating from '../lib/calculateRating'
+import calculateRating from '../lib/calculateRating';
 
-import convertStars from '../lib/convertStars'
+import convertStars from '../lib/convertStars';
 
 import '../styles/global.css';
 
@@ -52,15 +54,12 @@ function App() {
     fetchData();
   }, [productID]);
 
-
-
   const url = `/reviews?product_id=${productID}`;
   const reviewUrl = `/reviews/meta?product_id=${productID}`;
 
   const [reviews, setReviews] = useState('');
   const [ratings, setRatings] = useState('');
   // will swap out with context
-
 
   useEffect(() => {
     axios.get(url)
@@ -71,7 +70,6 @@ function App() {
         console.error('error getting data', err);
       });
   }, [productID]);
-
 
   useEffect(() => {
     axios.get(reviewUrl)
@@ -98,24 +96,24 @@ function App() {
     starRatings = convertStars(ratings);
   }
 
-
-
-
   return (
     <AppContext.Provider value={{
       productID, setProductID, showModal, hideModal, store, dispatch,
     }}
     >
-      <Header />
-      <main className="flex flex-col gap-6 items-center">
-        <Overview />
-        <div className="flex flex-col gap-6 items-center w-[80%]">
-          <RelatedProducts />
-          <QnA />
-          <Reviews />
-        </div>
-      </main>
-      { modal }
+      <OutfitProvider>
+        <Header />
+        <main className="flex flex-col gap-6 items-center">
+          <Overview />
+          <div className="flex flex-col gap-6 items-center w-[80%]">
+            <RelatedProducts />
+            <OutfitList />
+            <QnA />
+            <Reviews />
+          </div>
+        </main>
+        { modal }
+      </OutfitProvider>
     </AppContext.Provider>
   );
 }
