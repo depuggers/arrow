@@ -9,6 +9,7 @@ import { FaCheck, FaPlus } from 'react-icons/fa6';
 import { PiCaretDownBold } from 'react-icons/pi';
 
 import ImageGallery from './ImageGallery';
+import StarRating from './StarRating';
 import StyleSelector from './StyleSelector';
 
 import AppContext from '../context/AppContext';
@@ -54,13 +55,7 @@ function Overview() {
               {/* (
                 {rating ? rating.average : null}
                 ) */}
-              <div className="rating">
-                <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 1} />
-                <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 2} />
-                <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 3} />
-                <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 4} />
-                <input type="radio" name="rating-2" className="mask mask-star-2 bg-primary" disabled checked={Math.round(rating.average) === 5} />
-              </div>
+              <StarRating rating={rating.average} />
               <button
                 onClick={() => document.getElementById('reviews').scrollIntoView({
                   behavior: 'smooth',
