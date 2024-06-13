@@ -15,25 +15,31 @@ function ImageGallery() {
     showModal, store: { styles }, store: { selectedStyle }, store: { selectedImage }, dispatch,
   } = useContext(AppContext);
 
+  const loading = !styles;
+
+  let photos;
+  if (!loading) {
+    photos = styles[selectedStyle].photos;
+  }
+
   const switchImage = (direction) => {
     dispatch({ type: 'switchImage', payload: direction });
   };
 
-  const { photos } = styles[selectedStyle];
   // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
     <section id="image-gallery" className="h-[800px] w-full relative pt-6 pl-6">
-      {styles
-        ? (
+      {loading
+        ? <div className="h-full aspect-[2/3] mx-auto skelly" />
+        : (
           <>
             <img className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url ?? missing} alt="" />
-            <ImageThumbnails orientation="vertical" textColor="neutral-600" />
             {selectedImage > 0 ? <ImageGalleryButton styles="text-neutral-600 left-[160px]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
             {selectedImage < photos.length - 1 ? <ImageGalleryButton styles="text-neutral-600 right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
           </>
-        )
-        : null}
+        )}
+      <ImageThumbnails orientation="vertical" textColor="neutral-600" />
     </section>
   );
 }
