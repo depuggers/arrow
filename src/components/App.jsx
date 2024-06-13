@@ -16,19 +16,17 @@ import appReducer from '../reducers/appReducer';
 
 import calculateRating from '../lib/calculateRating';
 
-import convertStars from '../lib/convertStars';
-
 import '../styles/global.css';
 
 import useModal from '../hooks/useModal';
 
 function App() {
-  const [productID, setProductID] = useState(40346);
+  const [productID, setProductID] = useState(40344);
 
   const { modal, showModal, hideModal } = useModal();
 
   const [store, dispatch] = useReducer(appReducer, {
-    selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: [],
+    selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: JSON.parse(localStorage.getItem('cart')) ?? [], helpfulQs: JSON.parse(localStorage.getItem('helpfulQs')) ?? [], helpfulAs: JSON.parse(localStorage.getItem('helpfulAs')) ?? [], reportedAs: JSON.parse(localStorage.getItem('reportedAs')) ?? [],
   });
 
   const fetchData = async () => {
@@ -54,48 +52,6 @@ function App() {
     fetchData();
   }, [productID]);
 
-  const url = `/reviews?product_id=${productID}`;
-  const reviewUrl = `/reviews/meta?product_id=${productID}`;
-
-  const [reviews, setReviews] = useState('');
-  const [ratings, setRatings] = useState('');
-  // will swap out with context
-
-  useEffect(() => {
-    axios.get(url)
-      .then((response) => {
-        setReviews(response.data);
-      })
-      .catch((err) => {
-        console.error('error getting data', err);
-      });
-  }, [productID]);
-
-  useEffect(() => {
-    axios.get(reviewUrl)
-      .then((response) => {
-        setRatings(response.data);
-      })
-      .catch((err) => {
-        console.error('error getting data', err);
-      });
-  }, [productID]);
-
-  const convertStars = (data) => {
-    if (!data || !data.ratings) {
-      console.error('invalid data');
-      return {};
-    }
-
-    const stars = Object.fromEntries(Object.entries(data.ratings).map(([k, v]) => [`stars${k}`, parseInt(v)]));
-    return stars;
-  };
-
-  let starRatings;
-  if (ratings) {
-    starRatings = convertStars(ratings);
-  }
-
   return (
     <AppContext.Provider value={{
       productID, setProductID, showModal, hideModal, store, dispatch,
@@ -105,11 +61,11 @@ function App() {
         <Header />
         <main className="flex flex-col gap-6 items-center">
           <Overview />
-          <div className="flex flex-col gap-6 items-center w-[80%]">
-            <RelatedProducts />
+          <div className="flex flex-col gap-6 items-center w-[80%] pb-6">
+            {/* <RelatedProducts /> */}
             <OutfitList />
             <QnA />
-            <Reviews />
+            {/* <Reviews /> */}
           </div>
         </main>
         { modal }
