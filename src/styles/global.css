@@ -20,8 +20,10 @@ dialog[open] {
   background: hsla(0,0%,0%,.88)
 }
 
-.form-input {
-  @apply p-4 border-2 border-neutral-500 text-neutral-600 bg-transparent font-bold;
+@layer components {
+  .form-input {
+    @apply p-4 border-2 border-neutral-500 text-neutral-600 bg-transparent font-bold;
+  }
 }
 
 .skelly {

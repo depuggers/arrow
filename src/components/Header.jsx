@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 
+import { PiShoppingCart } from 'react-icons/pi';
+
 import Logo from '../images/atelierlogo.svg';
 
 import AppContext from '../context/AppContext';
-
-import { PiShoppingCart } from "react-icons/pi";
 
 function Header() {
   const { store: { cart } } = useContext(AppContext);
@@ -14,7 +14,7 @@ function Header() {
       <Logo height={96} />
       <span className="flex gap-2 items-center">
         <PiShoppingCart size={32} />
-        {cart.length > 0 ? `(${cart.length})` : null}
+        {cart.length > 0 ? `( ${cart.length} )` : null}
       </span>
     </header>
   );

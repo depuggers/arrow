@@ -41,6 +41,8 @@ function Overview() {
   // console.log(product, styles, rating);
   const loading = !(product && styles && rating);
 
+  console.log(selectedSKU)
+
   return (
     <section className="w-full grid grid-cols-[5fr_2fr] justify-items-center text-neutral-600">
       <ImageGallery />
