@@ -34,7 +34,7 @@ function ImageGallery() {
         ? <div className="h-full aspect-[2/3] mx-auto skelly" />
         : (
           <>
-            <img className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url ?? missing} alt="" />
+            <img data-testid="main-image" className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url ?? missing} alt="" />
             {selectedImage > 0 ? <ImageGalleryButton styles="text-base-content left-[160px]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
             {selectedImage < photos.length - 1 ? <ImageGalleryButton styles="text-base-content right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
           </>

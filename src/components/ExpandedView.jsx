@@ -34,12 +34,20 @@ function ExpandedView({ switchImage }) {
     big.height = imgRef.current.naturalHeight * 2.5;
   }
 
-  let { photos } = styles[selectedStyle];
+  const { photos } = styles[selectedStyle];
   // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
-    <div className={`relative w-full h-full p-4 pb-[120px] overflow-hidden ${zoomed ? 'cursor-[url(../images/minus.png),auto] flex justify-center items-center' : 'cursor-[url(../images/plus.png),auto]'}`} onClick={() => setZoomed(!zoomed)} onPointerMove={(e) => setMousePos({ x: e.clientX, y: e.clientY })}>
+    <div
+      className={`relative w-full h-full p-4 pb-[120px] overflow-hidden ${zoomed ? 'cursor-[url(../images/minus.png),auto] flex justify-center items-center' : 'cursor-[url(../images/plus.png),auto]'}`}
+      onClick={() => setZoomed(!zoomed)}
+      onPointerMove={(e) => {
+        console.log(e.clientX, e.clientY);
+        setMousePos({ x: e.clientX, y: e.clientY });
+      }}
+    >
       <img
+        data-testid="expanded-image"
         className="w-full h-full max-w-none object-contain"
         src={photos[selectedImage].url ?? missing}
         style={zoomed ? {
@@ -54,8 +62,8 @@ function ExpandedView({ switchImage }) {
       {!zoomed ? (
         <>
           <ImageThumbnails orientation="horizontal" textColor="white" />
-          <ImageGalleryButton icon="&lt;" styles="left-8 text-base-content" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
-          <ImageGalleryButton icon="&gt;" styles="right-8 text-base-content" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
+          <ImageGalleryButton testid="expanded-left" styles="left-8 text-base-content" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
+          <ImageGalleryButton testid="expanded-right" styles="right-8 text-base-content" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
         </>
       ) : null}
     </div>

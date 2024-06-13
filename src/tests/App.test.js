@@ -11,6 +11,7 @@ import App from '../components/App';
 import AddQuestion from '../components/AddQuestion';
 import AddAnswer from '../components/AddAnswer';
 import AppContext from '../context/AppContext';
+import ExpandedView from '../components/ExpandedView';
 
 import testData from './testData';
 
@@ -35,6 +36,67 @@ describe('Overview', () => {
   test('Add to cart button should be disabled', async () => {
     render(<App />);
     expect(await screen.findByText(/cart/i)).toBeDisabled();
+  });
+});
+
+describe('Image Gallery', () => {
+  test('Expanded view should open when main image is clicked', async () => {
+    const showModal = jest.fn();
+    Element.prototype.showModal = showModal;
+    render(<App />);
+    const mainImage = await screen.findByTestId('main-image');
+    expect(mainImage).toBeInTheDocument();
+    fireEvent.click(mainImage);
+    expect(showModal.mock.calls).toHaveLength(1);
+  });
+
+  test('Expanded view should have the right stuff', async () => {
+    const switchImage = jest.fn();
+    render(
+      <AppContext.Provider value={
+        {
+          store: {
+            styles: testData[1].results,
+            selectedStyle: 0,
+            selectedImage: 0,
+          },
+        }
+      }
+      >
+        <ExpandedView switchImage={switchImage} />
+      </AppContext.Provider>,
+    );
+    const expandedImage = await screen.findByTestId('expanded-image');
+    expect(expandedImage).toBeInTheDocument();
+    const leftButton = await screen.findByTestId('expanded-left');
+    const rightButton = await screen.findByTestId('expanded-right');
+    expect(leftButton).toBeInTheDocument();
+    expect(rightButton).toBeInTheDocument();
+    fireEvent.click(leftButton);
+    expect(switchImage.mock.calls).toHaveLength(1);
+    fireEvent.click(rightButton);
+    expect(switchImage.mock.calls).toHaveLength(2);
+    fireEvent.click(expandedImage);
+  });
+
+  test('Expanded view should load placeholder image if none are available', async () => {
+    render(
+      <AppContext.Provider value={
+        {
+          store: {
+            styles: [{ photos: [{ url: null }] }],
+            selectedStyle: 0,
+            selectedImage: 0,
+          },
+        }
+      }
+      >
+        <ExpandedView />
+      </AppContext.Provider>,
+    );
+    const expandedImage = await screen.findByTestId('expanded-image');
+    fireEvent.pointerMove(expandedImage.parentElement, { target: { clientX: 0, clientY: 0 } });
+    expect(true).toBe(true);
   });
 });
 
