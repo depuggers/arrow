@@ -64,25 +64,29 @@ function OutfitList() {
   };
 
   return (
-    <div className="flex flex-col gap-6 text-neutral-600 w-full">
+    <div className="flex flex-col gap-6 text-neutral-600 w-full relative">
       <h3 className="text-neutral-600">YOUR OUTFIT</h3>
       {canScrollLeft && (
         <button
           onClick={scrollLeft}
-          className="absolute left-20 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full z-10"
+          className="absolute -left-0 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full z-10"
           aria-label="Scroll left"
         >
           <GoChevronLeft size={24} />
         </button>
       )}
-      <div className="carousel overflow-x-auto space-x-5 flex w-4/5" ref={carouselRef}>
-        <div className="firstCard border border-gray-300 p-4 bg-white w-60 h-80 items-center" onClick={handleAddToOutfit}>
-          <div className="imageContainer relative w-48 h-48 overflow-hidden rounded-lg mx-auto">
-            <img src={plusBig} alt="Add to Outfit" className="w-full h-full object-cover p-1 rounded-lg bg-gray-200" />
+      <div className="overflow-hidden w-full flex items-center px-20 relative">
+        <div className="carousel overflow-hidden space-x-5 flex w-4/5 ml-20" ref={carouselRef}>
+          <div className="firstCard border border-gray-300 p-4 bg-white w-60 h-80 items-center" onClick={handleAddToOutfit}>
+            <div className="imageContainer relative w-48 h-48 overflow-hidden rounded-lg mx-auto">
+              <img src={plusBig} alt="Add to Outfit" className="w-full h-full object-cover p-1 rounded-lg bg-gray-200" />
+            </div>
+            <p className="text-neutral-600 text-center p-6 font-bold">Add to Outfit</p>
           </div>
-          <p className="text-neutral-600 text-center p-6 font-bold">Add to Outfit</p>
+          {outfit && outfit.map((item) => (
+            <OutfitCard product={item} key={item.id} />
+          ))}
         </div>
-        {outfit && outfit.map((item) => <OutfitCard product={item} key={item.id} />)}
       </div>
       {canScrollRight && (
         <button
