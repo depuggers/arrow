@@ -32,7 +32,7 @@ function QnA() {
 
   return (
     <section
-      className="flex flex-col gap-6 text-neutral-600 w-full"
+      className="flex flex-col gap-6 text-base-content w-full"
       style={{
         maxHeight: document.documentElement.clientHeight,
       }}

@@ -54,8 +54,8 @@ function ExpandedView({ switchImage }) {
       {!zoomed ? (
         <>
           <ImageThumbnails orientation="horizontal" textColor="white" />
-          <ImageGalleryButton icon="&lt;" styles="left-8 text-white" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
-          <ImageGalleryButton icon="&gt;" styles="right-8 text-white" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
+          <ImageGalleryButton icon="&lt;" styles="left-8 text-base-content" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
+          <ImageGalleryButton icon="&gt;" styles="right-8 text-base-content" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
         </>
       ) : null}
     </div>

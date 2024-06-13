@@ -22,12 +22,12 @@ dialog[open] {
 
 @layer components {
   .form-input {
-    @apply p-4 border-2 border-neutral-500 text-neutral-600 bg-transparent font-bold;
+    @apply p-4 border-2 border-neutral-500 text-base-content bg-base-100 font-bold;
   }
 }
 
 .skelly {
-  @apply bg-neutral-100;
+  @apply bg-base-300;
   animation: .5s skeleton infinite alternate;
 }
 
@@ -43,4 +43,8 @@ dialog[open] {
 
 .rating * {
   animation: none;
+}
+
+input::placeholder {
+  @apply text-neutral-content;
 }
