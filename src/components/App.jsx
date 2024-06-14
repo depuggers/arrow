@@ -43,9 +43,9 @@ function App() {
     >
       <OutfitProvider>
         <Header />
-        <main className="flex flex-col gap-6 items-center">
+        <main className="flex flex-col gap-6 items-center pb-6">
           <Overview />
-          <div className="flex flex-col gap-6 items-center w-[80%] pb-6">
+          <div className="flex flex-col gap-6 items-center px-6 md:px-0 md:w-[80%]">
             {/* <RelatedProducts /> */}
             {/* <OutfitList /> */}
             <QnA />

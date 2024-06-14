@@ -4,7 +4,7 @@ function Helpful({
   children, helpfulCount, helpfulAction, childAction,
 }) {
   return (
-    <div className="divide-x-2 flex gap-4">
+    <div className="divide-x-2 flex gap-4 text-sm text-neutral-500">
       <p className="flex gap-2">
         Helpful?
         <span onClick={helpfulAction} className="underline cursor-pointer">Yes</span>

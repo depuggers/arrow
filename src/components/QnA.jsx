@@ -1,5 +1,5 @@
 import React, {
-  useContext, useState, useRef, useEffect,
+  useContext, useState, useRef, useEffect, useLayoutEffect,
 } from 'react';
 
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
@@ -13,6 +13,7 @@ function QnA() {
   const [visibleQuestions, setVisibleQuestions] = useState(2);
   const [filter, setFilter] = useState('');
   const [scrolling, setScrolling] = useState(false);
+  const [mobile, setMobile] = useState(false);
 
   const questionsRef = useRef(null);
 
@@ -33,6 +34,21 @@ function QnA() {
     // console.log('scrolling: ', scrolling, questionsRef.current?.scrollHeight, questionsRef.current?.clientHeight);
   }, [visibleQuestions]);
 
+  useLayoutEffect(() => {
+    const checkMobile = () => {
+      if (document.documentElement.clientWidth < 768) {
+        setMobile(true);
+      } else {
+        setMobile(false);
+      }
+    };
+    checkMobile();
+
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [mobile]);
+
   return (
     <section
       className="flex flex-col gap-6 text-base-content w-full"
@@ -42,7 +58,7 @@ function QnA() {
     >
       <h3>QUESTIONS & ANSWERS</h3>
       <div className="relative">
-        <input type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder="HAVE A QUESTION? SEARCH FOR ANSWERS..." className="form-input w-full" />
+        <input type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder={mobile ? 'SEARCH FOR ANSWERS...' : 'HAVE A QUESTION? SEARCH FOR ANSWERS...'} className="form-input w-full" />
         <FaMagnifyingGlass size={20} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
       </div>
       {!loading ? (

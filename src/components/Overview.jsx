@@ -43,9 +43,9 @@ function Overview() {
   const loading = !(product && styles && rating);
 
   return (
-    <section className="w-full flex flex-col md:grid grid-cols-[minmax(0,5fr)_3fr] lg:grid-cols-[minmax(0,5fr)_2fr]  justify-items-center text-base-content">
+    <section className="w-full flex flex-col md:grid grid-cols-[1fr_minmax(20rem,min(30rem,30vw))] justify-items-center text-base-content">
       <ImageGallery />
-      <section className="w-full flex flex-col justify-end px-8 py-8 gap-8">
+      <section className="w-full flex flex-col justify-between px-8 py-8 gap-8">
         {loading
           ? <div className="w-3/4 h-4 skelly" />
           : (

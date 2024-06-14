@@ -33,14 +33,15 @@ function ImageThumbnails({ orientation, textColor }) {
   }, [styles]);
 
   const responsiveCount = () => {
-    if (document.documentElement.clientWidth < 640) {
+    if (document.documentElement.clientWidth < 768) {
       setCount(3);
     } else {
       setCount(Math.max(Math.min(photos.current.length, 7)), 1);
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    responsiveCount();
     window.addEventListener('resize', responsiveCount);
 
     return () => window.removeEventListener('resize', responsiveCount);
@@ -61,7 +62,6 @@ function ImageThumbnails({ orientation, textColor }) {
   const scrollThumbs = (e, direction) => {
     e.stopPropagation();
     const nextIndex = Math.min(Math.max(imageIndex + direction, 0), photos.current.length - count);
-    console.log(nextIndex, thumbnailContainerRef.current);
     thumbnailContainerRef.current.scrollTo({
       top: thumbnailsRef.current[nextIndex].offsetTop,
       left: thumbnailsRef.current[nextIndex].offsetLeft,
@@ -74,7 +74,7 @@ function ImageThumbnails({ orientation, textColor }) {
   const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-8 flex-col' : 'left-1/2 bottom-4 flex-row -translate-x-1/2';
 
   return (
-    <div className={`absolute flex ${orientationContainerStyle} text-${textColor}`}>
+    <div className={`absolute flex ${orientationContainerStyle} text-base-content`}>
       <button className={`flex justify-center items-center ${imageIndex > 0 ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
         {orientation === 'vertical' ? <PiCaretUpBold size={24} /> : <PiCaretLeftBold size={24} />}
       </button>
