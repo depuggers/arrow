@@ -14,8 +14,10 @@ function Reviews() {
   const [reviews, setReviews] = useState({ results: [] });
   const [ratings, setRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(2);
-  const [filter, setFilter] = useState(3);
+
+  const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
+
   const [numReviews, setNumReviews] = useState(0);
   // update: useContext
 
@@ -38,12 +40,58 @@ function Reviews() {
     getReviews();
   }, [productID]);
 
+  // Star rating filters
+  const filterByRating = (rating) => (review) => review.rating === rating;
+
+  const applyFilters = (activeFilters) => {
+    if (activeFilters.length === 0) {
+      setCurrentView(reviews.results?.slice(0, displayedReviews));
+    } else {
+      const newFilteredData = reviews.results?.filter((review) => activeFilters.some((filter) => filterByRating(filter)(review)));
+      setCurrentView(newFilteredData.slice(0, displayedReviews));
+      console.log(newFilteredData);
+    }
+  };
+  const toggleSearch = (rating) => {
+    const newFilters = filters.includes(rating)
+      ? filters.filter((filter) => filter !== rating)
+      : [...filters, rating];
+    console.log(newFilters);
+    setFilters(newFilters);
+    applyFilters(newFilters);
+  };
+
+  // const filteredReviews = reviews.results?.filter((review) => (
+  //   filters ? review.rating === filters : true)).slice(0, displayedReviews);
+  // if (filterCount > 0) {
+  //   setCurrentView([...currentView, ...filteredReviews]);
+  //   setNumReviews(filteredReviews.length);
+  //   setFilterCount(filterCount + 1);
+  //   setFilter('');
+  // } else {
+  //   setCurrentView(filteredReviews);
+  //   setNumReviews(filteredReviews.length);
+  //   setFilterCount(filterCount + 1);
+  //   setFilters('');
+  //   //  if filter, return matches, else return whole arr
+  // }
+  // }, [filters, reviews, displayedReviews]);
   useEffect(() => {
     const filteredReviews = reviews.results?.filter((review) => (
-      filter ? review.rating === filter : true)).slice(0, displayedReviews); // if filter, return matches, else return whole arr
-    setCurrentView(filteredReviews);
+      filters ? review.rating === filters : true)).slice(0, displayedReviews);
+
+    setCurrentView([filteredReviews]);
     setNumReviews(filteredReviews.length);
-  }, [filter, reviews, displayedReviews]);
+  }, []);
+  //  if filter, return matches, else return whole arr
+
+  // const removeStarFilter = (starRating) => { // click handler
+  //   const removedFilter = currentView.filter((review) => (filters ? review.rating === starRating : true));
+  //   if (filterCount > 0) {
+  //     setCurrentView(removedFilter);
+  //     setFilterCount(filterCount - 1);
+  //   }
+  // };
 
   const getRatings = () => {
     axios.get(reviewUrl)
@@ -114,10 +162,10 @@ function Reviews() {
                 ))}
               </div>
             </div>
-            <div className="grow text-base text-neutral-600 pb-4">
+            <div className="grow text-base text-neutral-600">
               {[5, 4, 3, 2, 1].map((star) => (
-                <p className="flex flex-row hover:underline">
-                  <button key={star} onClick={() => setFilter(star)}>{`${star} star`}</button>
+                <p className="flex flex-row hover:underline pb-2 text-sm">
+                  <button key={star} onClick={() => toggleSearch(star)}>{`${star} star`}</button>
                   <progress className="pl-2" value={getTotalReviews(star)} max={totalReviews} />
                   <p>{`${getTotalReviews(star)} review(s)`}</p>
                 </p>
@@ -152,6 +200,9 @@ function Reviews() {
 }
 
 function ReviewPosts({ review }) {
+  const reviewDate = new Date(review.date);
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
   return (
     <div className=" pt-2 pb-2 flex flex-col divide-y">
       <div className="pt-8">
@@ -164,7 +215,7 @@ function ReviewPosts({ review }) {
             </div>
           </span>
           <p className="font-light text-sm text-gray-400">
-            {`${review.reviewer_name} ${review.date.slice(5, 10)} ${review.date.slice(0, 4)}`}
+            {`${review.reviewer_name}, ${monthNames[reviewDate.getMonth()]} ${reviewDate.getDate()}, ${reviewDate.getFullYear()} `}
           </p>
         </span>
         <h2 className="font-semibold text-lg truncate...">{review.summary}</h2>
