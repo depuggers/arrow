@@ -5,10 +5,12 @@ import axios from 'axios';
 import Header from './Header';
 import Overview from './Overview';
 import RelatedProducts from './RelatedProducts';
+import OutfitList from './OutfitList';
 import QnA from './QnA';
 import Reviews from './Reviews';
 
 import AppContext from '../context/AppContext';
+import { OutfitProvider } from '../context/OutfitContext';
 
 import appReducer from '../reducers/appReducer';
 
@@ -41,16 +43,19 @@ function App() {
       productID, setProductID, showModal, hideModal, store, dispatch,
     }}
     >
-      <Header />
-      <main className="w-full flex flex-col gap-6 items-center">
-        <Overview />
-        <div className="flex flex-col gap-6 items-center w-[80%] pb-6">
-          {/* <RelatedProducts /> */}
-          <QnA />
-          {/* <Reviews /> */}
-        </div>
-      </main>
-      { modal }
+      <OutfitProvider>
+        <Header />
+        <main className="flex flex-col gap-6 items-center">
+          <Overview />
+          <div className="flex flex-col gap-6 items-center w-[80%] pb-6">
+            <RelatedProducts />
+            <OutfitList />
+            <QnA />
+            <Reviews />
+          </div>
+        </main>
+        { modal }
+      </OutfitProvider>
     </AppContext.Provider>
   );
 }
