@@ -43,7 +43,7 @@ function Overview() {
   const loading = !(product && styles && rating);
 
   return (
-    <section className="w-full grid grid-cols-[5fr_2fr] justify-items-center text-base-content">
+    <section className="w-full flex flex-col md:grid grid-cols-[minmax(0,5fr)_3fr] lg:grid-cols-[minmax(0,5fr)_2fr]  justify-items-center text-base-content">
       <ImageGallery />
       <section className="w-full flex flex-col justify-end px-8 py-8 gap-8">
         {loading
@@ -150,8 +150,8 @@ function Overview() {
           </button>
         </div>
       </section>
-      <section className="col-span-2 w-[80%] py-6 flex divide-x">
-        <div className="px-8 flex-shrink flex-grow">
+      <section className="col-span-2 w-full md:w-[80%] py-6 flex flex-col md:flex-row divide-y md:divide-x md:divide-y-0 items-center">
+        <div className="pb-8 md:pb-0 px-8 flex-shrink flex-grow">
           {loading
             ? (
               <div className="flex flex-col gap-2">
@@ -168,7 +168,7 @@ function Overview() {
             ) }
 
         </div>
-        <div className="px-8 flex-shrink-0 w-fit">
+        <div className="pt-8 md:pt-0 px-8 flex-shrink-0 w-fit">
           <ul className="flex flex-col gap-3 w-fit">
             {loading
               ? Array.from({ length: 3 }).map((v, i) => <div key={i} className="w-48 h-4 skelly" />)

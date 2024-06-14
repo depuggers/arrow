@@ -53,7 +53,7 @@ function QnA() {
           {sortedQuestions.slice(0, visibleQuestions).map((question) => <QnAItem key={question.question_id} filter={filter} question={question} />)}
         </div>
       ) : null}
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         {visibleQuestions < sortedQuestions.length ? <button className="form-input" onClick={() => setVisibleQuestions(visibleQuestions + 2)}>MORE ANSWERED QUESTIONS</button> : null}
         <button className="form-input flex justify-between items-center gap-4" onClick={() => showModal(<AddQuestion />)}>
           ADD A QUESTION

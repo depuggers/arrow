@@ -21,7 +21,7 @@ import '../styles/global.css';
 import useModal from '../hooks/useModal';
 
 function App() {
-  const [productID, setProductID] = useState(40359);
+  const [productID, setProductID] = useState(40344);
 
   const { modal, showModal, hideModal } = useModal();
 
@@ -46,10 +46,10 @@ function App() {
         <main className="flex flex-col gap-6 items-center">
           <Overview />
           <div className="flex flex-col gap-6 items-center w-[80%] pb-6">
-            <RelatedProducts />
-            <OutfitList />
+            {/* <RelatedProducts /> */}
+            {/* <OutfitList /> */}
             <QnA />
-            <Reviews />
+            {/* <Reviews /> */}
           </div>
         </main>
         { modal }

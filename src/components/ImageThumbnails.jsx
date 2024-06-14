@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, useContext, useEffect,
+  useState, useRef, useContext, useEffect, useLayoutEffect,
 } from 'react';
 
 import {
@@ -11,6 +11,7 @@ import missing from '../images/missing.png';
 
 function ImageThumbnails({ orientation, textColor }) {
   const [imageIndex, setImageIndex] = useState(0);
+  const [count, setCount] = useState(5);
 
   const {
     store: { styles }, store: { selectedStyle }, store: { selectedImage }, dispatch,
@@ -23,18 +24,30 @@ function ImageThumbnails({ orientation, textColor }) {
   const thumbnails = {};
   const thumbnailsRef = useRef(thumbnails);
 
-  let photos = [];
-  let count = 5;
-  if (!loading) {
-    photos = styles[selectedStyle].photos;
-    count = Math.min(photos.length, 7);
-  }
-  // const photos = styles[selectedStyle].photos.slice(0,3)
-  // const photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
-  // const count = 3;
+  const photos = useRef([]);
 
   useEffect(() => {
-    const initialPosition = Math.max(Math.min(selectedImage, photos.length - count), 0);
+    if (styles) {
+      photos.current = styles[selectedStyle].photos;
+    }
+  }, [styles]);
+
+  const responsiveCount = () => {
+    if (document.documentElement.clientWidth < 640) {
+      setCount(3);
+    } else {
+      setCount(Math.max(Math.min(photos.current.length, 7)), 1);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', responsiveCount);
+
+    return () => window.removeEventListener('resize', responsiveCount);
+  }, []);
+
+  useEffect(() => {
+    const initialPosition = Math.max(Math.min(selectedImage, photos.current.length - count), 0);
     if (thumbnailContainerRef.current && thumbnailsRef.current[0]) {
       thumbnailContainerRef.current.scrollTo({
         top: thumbnailsRef.current[initialPosition].offsetTop,
@@ -47,7 +60,7 @@ function ImageThumbnails({ orientation, textColor }) {
 
   const scrollThumbs = (e, direction) => {
     e.stopPropagation();
-    const nextIndex = Math.min(Math.max(imageIndex + direction, 0), photos.length - count);
+    const nextIndex = Math.min(Math.max(imageIndex + direction, 0), photos.current.length - count);
     console.log(nextIndex, thumbnailContainerRef.current);
     thumbnailContainerRef.current.scrollTo({
       top: thumbnailsRef.current[nextIndex].offsetTop,
@@ -82,9 +95,9 @@ function ImageThumbnails({ orientation, textColor }) {
       >
         {loading
           ? Array.from({ length: count }).map((v, i) => <li key={i} className="w-[88px] m-2 aspect-square skelly" />)
-          : photos.map((photo, i) => (
+          : photos.current.map((photo, i) => (
             <li
-              className="w-[96px] p-2 aspect-square overflow-hidden cursor-pointer"
+              className="w-[max(96px,6vw)] p-2 aspect-square overflow-hidden cursor-pointer"
               key={i}
               ref={(node) => {
                 thumbnailsRef.current[i] = node;
@@ -98,7 +111,7 @@ function ImageThumbnails({ orientation, textColor }) {
             </li>
           ))}
       </ul>
-      <button className={`flex justify-center items-center ${imageIndex < photos.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
+      <button className={`flex justify-center items-center ${imageIndex < photos.current.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
         {orientation === 'vertical' ? <PiCaretDownBold size={24} /> : <PiCaretRightBold size={24} />}
       </button>
     </div>

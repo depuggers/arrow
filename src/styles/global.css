@@ -22,7 +22,7 @@ dialog[open] {
 
 @layer components {
   .form-input {
-    @apply p-4 border-2 border-neutral-500 text-base-content bg-base-100 font-bold;
+    @apply p-4 border-2 border-neutral-500 text-base-content bg-base-100 font-bold text-xs md:text-base;
   }
 }
 

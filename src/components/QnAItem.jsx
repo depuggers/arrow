@@ -45,11 +45,11 @@ function QnAItem({ question, filter }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between md:items-center">
         <p className="text-xl font-bold">
           {`Q: ${question.question_body}`}
         </p>
-        <span className="text-sm text-neutral-500"><Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)} helpfulAction={() => markQuestionHelpful(question.question_id)}>Add Answer</Helpful></span>
+        <span className="text-sm text-neutral-500 pl-8"><Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)} helpfulAction={() => markQuestionHelpful(question.question_id)}>Add Answer</Helpful></span>
       </div>
       <div
         className="flex flex-col gap-4 overflow-y-auto"

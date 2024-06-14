@@ -29,12 +29,12 @@ function ImageGallery() {
   // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
-    <section id="image-gallery" className="h-[800px] w-full relative pt-6 pl-6">
+    <section id="image-gallery" className="h-full max-h-[80vh] w-full relative pt-6 pl-6 pr-8 md:pr-0">
       {loading
         ? <div className="h-full aspect-[2/3] mx-auto skelly" />
         : (
           <>
-            <img data-testid="main-image" className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url ?? missing} alt="" />
+            <img data-testid="main-image" className="w-full h-full max-h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url ?? missing} alt="" />
             {selectedImage > 0 ? <ImageGalleryButton testid="image-left" styles="text-base-content left-[160px]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
             {selectedImage < photos.length - 1 ? <ImageGalleryButton testid="image-right" styles="text-base-content right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
           </>
