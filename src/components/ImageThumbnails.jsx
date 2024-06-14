@@ -74,8 +74,6 @@ function ImageThumbnails({ orientation, textColor }) {
   const selectedImageStyle = 'outline outline-offset-2 outline-primary';
   const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-2 flex-col text-base-content' : 'left-1/2 bottom-4 flex-row -translate-x-1/2 text-[#d4d4d4]';
 
-  console.log(count);
-
   return (
     <div className={`absolute flex ${orientationContainerStyle}`}>
       <button className={`flex justify-center items-center ${imageIndex > 0 && count < photos.current.length ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>

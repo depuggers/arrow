@@ -18,23 +18,31 @@ function QnAItem({ question, filter }) {
   // console.log(sortedAnswers);
 
   const markQuestionHelpful = async (id) => {
+    console.log(id);
     if (!helpfulQs.includes(id)) {
       const response = await axios.put(`/qa/questions/${id}/helpful`);
       console.log(response);
       if (response.status === 204) {
         dispatch({ type: 'setQuestionHelpful', payload: id });
+        return true;
       }
+      return false;
     }
+    console.log('skipped')
+    return false;
   };
 
   const markAnswerHelpful = async (id) => {
     if (!helpfulAs.includes(id)) {
       const response = await axios.put(`/qa/answers/${id}/helpful`);
-      console.log(response);
+      // console.log(response);
       if (response.status === 204) {
         dispatch({ type: 'setAnswerHelpful', payload: id });
+        return true;
       }
+      return false;
     }
+    return false;
   };
 
   const reportAnswer = (id) => {
@@ -49,7 +57,7 @@ function QnAItem({ question, filter }) {
         <span className="text-xl font-bold">Q:</span>
         <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center w-full">
           <span className="text-xl font-bold">{question.question_body}</span>
-        <Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)} helpfulAction={() => markQuestionHelpful(question.question_id)}>Add Answer</Helpful>
+          <Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)} helpfulAction={() => markQuestionHelpful(question.question_id)}>Add Answer</Helpful>
         </div>
       </div>
       <div
