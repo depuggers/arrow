@@ -1,6 +1,6 @@
 import React from 'react';
 
-function StarRating({ rating }) {
+function StarRating({ rating, name }) {
   // const rating = { average: 3.75 };
   // console.log(rating.average);
 
@@ -12,7 +12,7 @@ function StarRating({ rating }) {
         <input
           key={i}
           type="radio"
-          name="rating"
+          name={name}
           className="mask mask-star-2 bg-primary"
           disabled
           checked={Math.round(rating * 4) === i + 1}

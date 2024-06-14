@@ -53,7 +53,7 @@ function Overview() {
               {/* (
                 {rating ? rating.average : null}
                 ) */}
-              <StarRating rating={rating.average} />
+              <StarRating rating={rating.average} name="overviewstars" />
               <button
                 onClick={() => document.getElementById('reviews').scrollIntoView({
                   behavior: 'smooth',
