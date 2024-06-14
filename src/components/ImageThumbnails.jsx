@@ -45,7 +45,7 @@ function ImageThumbnails({ orientation, textColor }) {
     window.addEventListener('resize', responsiveCount);
 
     return () => window.removeEventListener('resize', responsiveCount);
-  }, []);
+  }, [photos.current]);
 
   useEffect(() => {
     const initialPosition = Math.max(Math.min(selectedImage, photos.current.length - count), 0);
@@ -67,15 +67,18 @@ function ImageThumbnails({ orientation, textColor }) {
       left: thumbnailsRef.current[nextIndex].offsetLeft,
       behavior: 'smooth',
     });
+    console.log(thumbnailContainerRef.current, thumbnailsRef.current[nextIndex]);
     setImageIndex(nextIndex);
   };
 
   const selectedImageStyle = 'outline outline-offset-2 outline-primary';
-  const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-8 flex-col' : 'left-1/2 bottom-4 flex-row -translate-x-1/2';
+  const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-2 flex-col text-base-content' : 'left-1/2 bottom-4 flex-row -translate-x-1/2 text-[#d4d4d4]';
+
+  console.log(count);
 
   return (
-    <div className={`absolute flex ${orientationContainerStyle} text-base-content`}>
-      <button className={`flex justify-center items-center ${imageIndex > 0 ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
+    <div className={`absolute flex ${orientationContainerStyle}`}>
+      <button className={`flex justify-center items-center ${imageIndex > 0 && count < photos.current.length ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
         {orientation === 'vertical' ? <PiCaretUpBold size={24} /> : <PiCaretLeftBold size={24} />}
       </button>
       <ul
