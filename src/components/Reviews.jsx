@@ -7,36 +7,28 @@ import convertStars from '../lib/convertStars';
 
 function Reviews() {
   const productID = 40387;
+
   const url = `/reviews?product_id=${productID}`;
   const reviewUrl = `/reviews/meta?product_id=${productID}`;
   //  update: promise.all
   const [reviews, setReviews] = useState({ results: [] });
   const [ratings, setRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(2);
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState(3);
   const [currentView, setCurrentView] = useState([]);
   const [numReviews, setNumReviews] = useState(0);
-  // update: swap out with context
+  // update: useContext
 
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
-  // setNumReviews(reviews.results?.length);
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
-  console.log(getTotalReviews(5));
   const totalReviews = reviews.results?.length;
-
-  const reviewResults = !filter ? reviews.results?.slice(0, displayedReviews).filter((review) => review.rating >= 3) : reviews.results?.slice(0, displayedReviews); // update: refactor
-
-  // const addStarFilter = (star) => {
-  //   const filteredReviews = reviews.results?.slice(0, displayedReviews).filter((review) => review.rating === star);
-  //   setCurrentView((prev) => [...prev, ...filteredReviews]);
-  // };
+  // setNumReviews(reviews.results?.length);
 
   const getReviews = () => {
     axios.get(url)
       .then((response) => {
-        const ratingFilter = response;// filter in initial get req
         setReviews({ ...response.data, results: response.data.results }); // update
       })
       .catch((err) => {
@@ -45,22 +37,18 @@ function Reviews() {
   };
   useEffect(() => {
     getReviews();
-  }, [productID]); // make separate useEffect for filter
+  }, [productID]);
 
   useEffect(() => {
+    const filteredReviews = reviews.results?.slice(0, displayedReviews);
     if (filter) {
-      setCurrentView(reviews.results?.slice(0, displayedReviews).filter((review) => review.rating >= 3));
-      setNumReviews(reviews.results?.slice(0, displayedReviews).filter((review) => review.rating >= 3).length);
+      setCurrentView(filteredReviews.filter((review) => review.rating === filter));
+      setNumReviews(filteredReviews.length);
     } else {
-      setCurrentView(reviews.results?.slice(0, displayedReviews).filter((review) => review.rating >= 1));
-      setNumReviews(reviews.results?.filter((review) => review.rating >= 1).length);
+      setCurrentView(filteredReviews);
+      setNumReviews(filteredReviews.length);
     }
   }, [filter, reviews, displayedReviews]);
-
-  // const starCounts = () => {
-  //   setReviews(reviewResults?.filter((review) => review.results.rating === 3));
-  // };
-  // starCounts();
 
   const getRatings = () => {
     axios.get(reviewUrl)
@@ -71,22 +59,17 @@ function Reviews() {
         console.error('error getting data', err);
       });
   };
+
   useEffect(() => {
     getRatings();
   }, [productID]);
 
-  let starRatings;
-  let totalRatings;
-  if (ratings) {
-    starRatings = convertStars(ratings);// object with stringified keys
-    totalRatings = Object.values(starRatings).reduce((acc, current) => acc + current);
-  }
   const starTotal = 4;// update: hard coded
+
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
 
       {reviews
-
         ? (
           <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
             <span className="flex flex-row pt-5 text-lg font-semibold">
@@ -137,31 +120,13 @@ function Reviews() {
               </div>
             </div>
             <div className="grow text-base text-neutral-600 pb-4">
-              <p className="flex flex-row hover:underline">
-                <button>5 star</button>
-                <progress className="pl-2" value={getTotalReviews(5)} max={totalReviews} />
-                <p>{`${getTotalReviews(5)} review(s)`}</p>
-              </p>
-              <p className="flex flex-row hover:underline">
-                <button>4 star</button>
-                <progress className="pl-2" value={getTotalReviews(4)} max={totalReviews} />
-                <p>{`${getTotalReviews(4)} review(s)`}</p>
-              </p>
-              <p className="flex flex-row hover:underline">
-                <button>3 star</button>
-                <progress className="pl-2" value={getTotalReviews(3)} max={totalReviews} />
-                <p>{`${getTotalReviews(3)} review(s)`}</p>
-              </p>
-              <p className="flex flex-row hover:underline">
-                <button>2 star</button>
-                <progress className="pl-2" value={getTotalReviews(2)} max={totalReviews} />
-                <p>{`${getTotalReviews(2)} review(s)`}</p>
-              </p>
-              <p className="flex flex-row hover:underline">
-                <button>1 star</button>
-                <progress className="pl-2" value={getTotalReviews(1)} max={totalReviews} />
-                <p>{`${getTotalReviews(1)} review(s)`}</p>
-              </p>
+              {[5, 4, 3, 2, 1].map((star) => (
+                <p className="flex flex-row hover:underline">
+                  <button key={star} onClick={() => setFilter(star)}>{`${star} star`}</button>
+                  <progress className="pl-2" value={getTotalReviews(star)} max={totalReviews} />
+                  <p>{`${getTotalReviews(star)} review(s)`}</p>
+                </p>
+              ))}
 
               <div className="pb-4 pt-4 flex flex-col">
                 <h4 className="text-sm">Size</h4>
@@ -184,7 +149,6 @@ function Reviews() {
                 </span>
               </div>
             </div>
-
           </section>
         )
         : null}
@@ -194,7 +158,6 @@ function Reviews() {
 
 function ReviewPosts({ review }) {
   return (
-
     <div className=" pt-2 pb-2 flex flex-col divide-y">
       <div className="pt-8">
         <span className="flex flex-row justify-between">
@@ -221,6 +184,7 @@ function ReviewPosts({ review }) {
         </div>
         <span className="text-sm text-gray-600 font-light">
           Helpful?
+          {/* update to match Q&A */}
           <a className="divide-x text-sm no-underline hover:underline" href="/reviews">     Yes   </a>
           <a className="text-xs" href="/reviews">(10)  |  </a>
           <a href="/">   Report </a>
