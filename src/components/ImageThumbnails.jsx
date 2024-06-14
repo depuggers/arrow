@@ -16,24 +16,32 @@ function ImageThumbnails({ orientation, textColor }) {
     store: { styles }, store: { selectedStyle }, store: { selectedImage }, dispatch,
   } = useContext(AppContext);
 
+  const loading = !styles;
+
   const thumbnailContainerRef = useRef(null);
 
   const thumbnails = {};
   const thumbnailsRef = useRef(thumbnails);
 
-  const { photos } = styles[selectedStyle];
+  let photos = [];
+  let count = 5;
+  if (!loading) {
+    photos = styles[selectedStyle].photos;
+    count = Math.min(photos.length, 7);
+  }
   // const photos = styles[selectedStyle].photos.slice(0,3)
   // const photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
-  const count = Math.min(photos.length, 7);
   // const count = 3;
 
   useEffect(() => {
     const initialPosition = Math.max(Math.min(selectedImage, photos.length - count), 0);
-    thumbnailContainerRef.current.scrollTo({
-      top: thumbnailsRef.current[initialPosition].offsetTop,
-      left: thumbnailsRef.current[initialPosition].offsetLeft,
-      behavior: 'smooth',
-    });
+    if (thumbnailContainerRef.current && thumbnailsRef.current[0]) {
+      thumbnailContainerRef.current.scrollTo({
+        top: thumbnailsRef.current[initialPosition].offsetTop,
+        left: thumbnailsRef.current[initialPosition].offsetLeft,
+        behavior: 'smooth',
+      });
+    }
     setImageIndex(initialPosition);
   }, [selectedImage]);
 
@@ -72,21 +80,23 @@ function ImageThumbnails({ orientation, textColor }) {
           gridAutoFlow: 'column',
         }}
       >
-        {photos.map((photo, i) => (
-          <li
-            className="w-[96px] p-2 aspect-square overflow-hidden cursor-pointer"
-            key={i}
-            ref={(node) => {
-              thumbnailsRef.current[i] = node;
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch({ type: 'setSelectedImage', payload: i });
-            }}
-          >
-            <img className={`w-full h-full object-cover ${selectedImage === i ? selectedImageStyle : ''}`} src={photo.thumbnail_url ?? missing} alt="" />
-          </li>
-        ))}
+        {loading
+          ? Array.from({ length: count }).map((v, i) => <li key={i} className="w-[88px] m-2 aspect-square skelly" />)
+          : photos.map((photo, i) => (
+            <li
+              className="w-[96px] p-2 aspect-square overflow-hidden cursor-pointer"
+              key={i}
+              ref={(node) => {
+                thumbnailsRef.current[i] = node;
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch({ type: 'setSelectedImage', payload: i });
+              }}
+            >
+              <img className={`w-full h-full object-cover ${selectedImage === i ? selectedImageStyle : ''}`} src={photo.thumbnail_url ?? missing} alt="" />
+            </li>
+          ))}
       </ul>
       <button className={`flex justify-center items-center ${imageIndex < photos.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
         {orientation === 'vertical' ? <PiCaretDownBold size={24} /> : <PiCaretRightBold size={24} />}

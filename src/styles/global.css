@@ -4,10 +4,47 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
+* {
+  scrollbar-color: auto;
+}
+
+html {
+  overflow-y: scroll;
+}
+
 dialog[open] {
   @apply w-full max-w-full h-full max-h-full bg-transparent flex justify-center items-center;
 }
 
 ::backdrop {
   background: hsla(0,0%,0%,.88)
+}
+
+@layer components {
+  .form-input {
+    @apply p-4 border-2 border-neutral-500 text-base-content bg-base-100 font-bold;
+  }
+}
+
+.skelly {
+  @apply bg-base-300;
+  animation: .5s skeleton infinite alternate;
+}
+
+@keyframes skeleton {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .5;
+  }
+}
+
+.rating * {
+  animation: none;
+}
+
+input::placeholder {
+  @apply text-neutral-content;
 }

@@ -1,7 +1,0 @@
-.form-input {
-  @apply p-4 border-2 border-neutral-500 text-neutral-600 bg-transparent font-bold;
-}
-
-* {
-  scrollbar-color: auto !important;
-}
