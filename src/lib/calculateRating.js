@@ -9,3 +9,8 @@ const calculateRating = (data) => {
 };
 
 export default calculateRating;
+
+// starRatings is object with stringified keys
+// if (ratings) {
+//   starRatings = convertStars(ratings);
+// }

@@ -24,7 +24,6 @@ function Reviews() {
 
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
   const totalReviews = reviews.results?.length;
-  // setNumReviews(reviews.results?.length);
 
   const getReviews = () => {
     axios.get(url)
@@ -40,14 +39,10 @@ function Reviews() {
   }, [productID]);
 
   useEffect(() => {
-    const filteredReviews = reviews.results?.slice(0, displayedReviews);
-    if (filter) {
-      setCurrentView(filteredReviews.filter((review) => review.rating === filter));
-      setNumReviews(filteredReviews.length);
-    } else {
-      setCurrentView(filteredReviews);
-      setNumReviews(filteredReviews.length);
-    }
+    const filteredReviews = reviews.results?.filter((review) => (
+      filter ? review.rating === filter : true)).slice(0, displayedReviews); // if filter, return matches, else return whole arr
+    setCurrentView(filteredReviews);
+    setNumReviews(filteredReviews.length);
   }, [filter, reviews, displayedReviews]);
 
   const getRatings = () => {
