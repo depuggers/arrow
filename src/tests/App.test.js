@@ -35,16 +35,7 @@ describe('Header', () => {
       matches: true,
     });
     render(
-      <AppContext.Provider value={
-        {
-          store: {
-            cart: [],
-          },
-        }
-      }
-      >
-        <App />
-      </AppContext.Provider>,
+      <App />,
     );
     await screen.findAllByText(/./i);
     expect(true).toBe(true);
