@@ -18,21 +18,19 @@ function QnAItem({ question, filter }) {
   // console.log(sortedAnswers);
 
   const markQuestionHelpful = async (id) => {
-    console.log(id);
     if (!helpfulQs.includes(id)) {
       const response = await axios.put(`/qa/questions/${id}/helpful`);
-      console.log(response);
       if (response.status === 204) {
         dispatch({ type: 'setQuestionHelpful', payload: id });
         return true;
       }
       return false;
     }
-    console.log('skipped')
     return false;
   };
 
   const markAnswerHelpful = async (id) => {
+    console.log('answer: ', id)
     if (!helpfulAs.includes(id)) {
       const response = await axios.put(`/qa/answers/${id}/helpful`);
       // console.log(response);
@@ -48,7 +46,9 @@ function QnAItem({ question, filter }) {
   const reportAnswer = (id) => {
     if (!reportedAs.includes(id)) {
       dispatch({ type: 'setAnswerReported', payload: id });
+      return true;
     }
+    return false;
   };
 
   return (
