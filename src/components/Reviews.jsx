@@ -7,17 +7,14 @@ import convertStars from '../lib/convertStars';
 
 function Reviews() {
   const productID = 40387;
-
   const url = `/reviews?product_id=${productID}`;
   const reviewUrl = `/reviews/meta?product_id=${productID}`;
   //  update: promise.all
   const [reviews, setReviews] = useState({ results: [] });
   const [ratings, setRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(2);
-
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
-
   const [numReviews, setNumReviews] = useState(0);
   // update: useContext
 
@@ -31,6 +28,8 @@ function Reviews() {
     axios.get(url)
       .then((response) => {
         setReviews({ ...response.data, results: response.data.results }); // update
+        setCurrentView(response.data.results);
+        setNumReviews(response.data.results.length);
       })
       .catch((err) => {
         console.error('error getting data', err);
@@ -40,58 +39,22 @@ function Reviews() {
     getReviews();
   }, [productID]);
 
-  // Star rating filters
-  const filterByRating = (rating) => (review) => review.rating === rating;
-
-  const applyFilters = (activeFilters) => {
-    if (activeFilters.length === 0) {
+  useEffect(() => {
+    if (filters.length === 0) {
       setCurrentView(reviews.results?.slice(0, displayedReviews));
     } else {
-      const newFilteredData = reviews.results?.filter((review) => activeFilters.some((filter) => filterByRating(filter)(review)));
-      setCurrentView(newFilteredData.slice(0, displayedReviews));
-      console.log(newFilteredData);
+      const filteredReviews = reviews.results?.filter((review) => filters.includes(review.rating));
+      setCurrentView(filteredReviews.slice(0, displayedReviews));
     }
-  };
+  }, [filters, displayedReviews, reviews]);
+
   const toggleSearch = (rating) => {
     const newFilters = filters.includes(rating)
       ? filters.filter((filter) => filter !== rating)
       : [...filters, rating];
-    console.log(newFilters);
+    console.log(newFilters);// array adds and subtracts
     setFilters(newFilters);
-    applyFilters(newFilters);
   };
-
-  // const filteredReviews = reviews.results?.filter((review) => (
-  //   filters ? review.rating === filters : true)).slice(0, displayedReviews);
-  // if (filterCount > 0) {
-  //   setCurrentView([...currentView, ...filteredReviews]);
-  //   setNumReviews(filteredReviews.length);
-  //   setFilterCount(filterCount + 1);
-  //   setFilter('');
-  // } else {
-  //   setCurrentView(filteredReviews);
-  //   setNumReviews(filteredReviews.length);
-  //   setFilterCount(filterCount + 1);
-  //   setFilters('');
-  //   //  if filter, return matches, else return whole arr
-  // }
-  // }, [filters, reviews, displayedReviews]);
-  useEffect(() => {
-    const filteredReviews = reviews.results?.filter((review) => (
-      filters ? review.rating === filters : true)).slice(0, displayedReviews);
-
-    setCurrentView([filteredReviews]);
-    setNumReviews(filteredReviews.length);
-  }, []);
-  //  if filter, return matches, else return whole arr
-
-  // const removeStarFilter = (starRating) => { // click handler
-  //   const removedFilter = currentView.filter((review) => (filters ? review.rating === starRating : true));
-  //   if (filterCount > 0) {
-  //     setCurrentView(removedFilter);
-  //     setFilterCount(filterCount - 1);
-  //   }
-  // };
 
   const getRatings = () => {
     axios.get(reviewUrl)
