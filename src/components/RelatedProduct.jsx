@@ -4,8 +4,16 @@ import ComparisonForm from './ComparisonForm';
 
 function RelatedProduct({ defaultProduct, defaultProductUrl }) {
   const { showModal, setProductID } = useContext(AppContext);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
   const handleClick = () => {
     setProductID(defaultProduct.id);
+    scrollToTop();
   };
 
   return (
