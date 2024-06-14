@@ -40,7 +40,7 @@ function ImageThumbnails({ orientation, textColor }) {
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     responsiveCount();
     window.addEventListener('resize', responsiveCount);
 
@@ -67,7 +67,7 @@ function ImageThumbnails({ orientation, textColor }) {
       left: thumbnailsRef.current[nextIndex].offsetLeft,
       behavior: 'smooth',
     });
-    console.log(thumbnailContainerRef.current, thumbnailsRef.current[nextIndex]);
+    // console.log(thumbnailContainerRef.current, thumbnailsRef.current[nextIndex]);
     setImageIndex(nextIndex);
   };
 
@@ -76,12 +76,13 @@ function ImageThumbnails({ orientation, textColor }) {
 
   return (
     <div className={`absolute flex ${orientationContainerStyle}`}>
-      <button className={`flex justify-center items-center ${imageIndex > 0 && count < photos.current.length ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
+      <button data-testid="scroll-thumbnails-up" className={`flex justify-center items-center ${imageIndex > 0 && count < photos.current.length ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
         {orientation === 'vertical' ? <PiCaretUpBold size={24} /> : <PiCaretLeftBold size={24} />}
       </button>
       <ul
         className="overflow-hidden grid relative"
         ref={thumbnailContainerRef}
+        data-testid="thumbnail-container"
         style={orientation === 'vertical' ? {
           aspectRatio: `1 / ${count}`,
           gridAutoFlow: 'row',
@@ -98,6 +99,7 @@ function ImageThumbnails({ orientation, textColor }) {
           ? Array.from({ length: count }).map((v, i) => <li key={i} className="w-[88px] m-2 aspect-square skelly" />)
           : photos.current.map((photo, i) => (
             <li
+              data-testid="thumbnail"
               className="w-[max(96px,6vw)] p-2 aspect-square overflow-hidden cursor-pointer"
               key={i}
               ref={(node) => {
@@ -112,7 +114,7 @@ function ImageThumbnails({ orientation, textColor }) {
             </li>
           ))}
       </ul>
-      <button className={`flex justify-center items-center ${imageIndex < photos.current.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
+      <button data-testid="scroll-thumbnails-down" className={`flex justify-center items-center ${imageIndex < photos.current.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
         {orientation === 'vertical' ? <PiCaretDownBold size={24} /> : <PiCaretRightBold size={24} />}
       </button>
     </div>

@@ -9,8 +9,10 @@ import axios from 'axios';
 
 import App from '../components/App';
 import ImageGallery from '../components/ImageGallery';
+import ImageThumbnails from '../components/ImageThumbnails';
 import AppContext from '../context/AppContext';
 import ExpandedView from '../components/ExpandedView';
+import appReducer from '../reducers/appReducer';
 
 import testData from './testData';
 
@@ -37,6 +39,54 @@ describe('Image Gallery', () => {
     leftButton = screen.queryByTestId('image-left');
     expect(leftButton).toBeInTheDocument();
     fireEvent.click(leftButton);
+  });
+
+  test('Should switch image when thumbnail is clicked', async () => {
+    const mockFn = jest.fn(() => appReducer({}, { type: 'setSelectedImage' }));
+    jest.fn(() => appReducer({}, { type: 'doNothing' }))();
+    render(
+      <AppContext.Provider value={{
+        store: {
+          styles: testData[1].results,
+          selectedStyle: 0,
+          selectedImage: 0,
+        },
+        dispatch: mockFn,
+      }}
+      >
+        <ImageThumbnails />
+      </AppContext.Provider>,
+    );
+    const thumbnailContainer = await screen.findByTestId('thumbnail-container');
+    expect(thumbnailContainer).toBeInTheDocument();
+    const thumbnails = await screen.findAllByTestId('thumbnail');
+    expect(thumbnails[0]).toBeInTheDocument();
+    fireEvent.click(thumbnails[1]);
+  });
+
+  test('Should switch image when little arrow buttons are clicked', async () => {
+    const mockFn = jest.fn();
+    render(
+      <AppContext.Provider value={{
+        store: {
+          styles: testData[1].results,
+          selectedStyle: 0,
+          selectedImage: 0,
+        },
+        dispatch: mockFn,
+      }}
+      >
+        <ImageThumbnails />
+      </AppContext.Provider>,
+    );
+    const thumbnailContainer = await screen.findByTestId('thumbnail-container');
+    expect(thumbnailContainer).toBeInTheDocument();
+    const scrollDownButton = await screen.findByTestId('scroll-thumbnails-down');
+    const scrollUpButton = await screen.findByTestId('scroll-thumbnails-up');
+    expect(scrollDownButton).toBeInTheDocument();
+    expect(scrollUpButton).toBeInTheDocument();
+    fireEvent.click(scrollDownButton);
+    fireEvent.click(scrollUpButton);
   });
 
   test('Should display placeholder image when none are provided', async () => {

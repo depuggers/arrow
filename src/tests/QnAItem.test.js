@@ -200,7 +200,6 @@ describe('Q&A Item', () => {
       </AppContext.Provider>,
     );
     const reportButton = await screen.findByText('Reported');
-    console.log(reportButton);
     expect(reportButton).toBeInTheDocument();
     fireEvent.click(reportButton);
     expect(mockFn.mock.calls).toHaveLength(0);

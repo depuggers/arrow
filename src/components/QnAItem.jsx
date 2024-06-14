@@ -30,7 +30,7 @@ function QnAItem({ question, filter }) {
   };
 
   const markAnswerHelpful = async (id) => {
-    console.log('answer: ', id)
+    // console.log('answer: ', id)
     if (!helpfulAs.includes(id)) {
       const response = await axios.put(`/qa/answers/${id}/helpful`);
       // console.log(response);
