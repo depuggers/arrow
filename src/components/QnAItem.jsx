@@ -35,7 +35,7 @@ function QnAItem({ question, filter }) {
       const response = await axios.put(`/qa/answers/${id}/helpful`);
       // console.log(response);
       if (response.status === 204) {
-        dispatch({ type: 'setAnswerHelpful', payload: id });
+        dispatch({ type: 'setAnswerHelpful', payload: { id, question_id: question.question_id } });
         return true;
       }
       return false;
