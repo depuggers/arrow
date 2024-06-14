@@ -1,51 +1,52 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState, useEffect, useRef, useContext,
+} from 'react';
 import { GoChevronRight, GoChevronLeft } from 'react-icons/go';
 import axios from 'axios';
 import RelatedProduct from './RelatedProduct';
+import AppContext from '../context/AppContext';
+import calculateRating from '../lib/calculateRating';
 
 function RelatedProducts() {
 //  const [allProducts, setAllProducts] = useState([]);
   const [defaultProducts, setDefaultProducts] = useState([]);
   const [relatedProductImages, setRelatedProductImages] = useState(null);
+  const [rpRatings, setRPRatings] = useState(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const carouselRef = useRef(null);
-
-  /* useEffect(() => {
-    axios.get('/products')
-      .then((response) => {
-        setAllProducts(response.data);
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error('There was an error making  the request:', error);
-      });
-  }, []); */
+  const { productID } = useContext(AppContext);
 
   useEffect(() => {
-    axios.get('/products/40346/related')
-      .then((response) => {
-        console.log(response.data);
-        const relatedProductIds = response.data.map((item) => axios.get(`/products/${item}`));
-        return Promise.all(relatedProductIds);
-      })
-      .then((responses) => {
-        console.log(responses);
-        const relatedProductsData = responses.map((item) => item.data);
+    const fetchRelatedProducts = async () => {
+      try {
+        const response = await axios.get(`/products/${productID}/related`);
+        const relatedProductIds = response.data;
+
+        const productPromises = relatedProductIds.map((item) => axios.get(`/products/${item}`));
+        const ratingPromises = relatedProductIds.map((item) => axios.get(`/reviews/meta?product_id=${item}`));
+
+        const productResponses = await Promise.all(productPromises);
+        const ratingResponses = await Promise.all(ratingPromises);
+
+        const relatedProductsData = productResponses.map((res) => res.data);
         setDefaultProducts(relatedProductsData);
 
-        const relatedProductStyles = relatedProductsData.map((product) => axios.get(`/products/${product.id}/styles`));
-        return Promise.all(relatedProductStyles);
-      })
-      .then((responses) => {
-        const relatedStylesData = responses.map((item) => item.data.results[0]);
-        console.log(relatedStylesData);
+        const ratings = ratingResponses.map((res) => calculateRating(res.data));
+        setRPRatings(ratings);
+
+        const stylePromises = relatedProductsData.map((product) => axios.get(`/products/${product.id}/styles`));
+        const styleResponses = await Promise.all(stylePromises);
+
+        const relatedStylesData = styleResponses.map((res) => res.data.results[0]);
         setRelatedProductImages(relatedStylesData);
-      })
-      .catch((error) => {
-        console.error('Error fetching related products or styles:', error);
-      });
-  }, []);
+      } catch (error) {
+        console.error('Error fetching related products, ratings, or styles:', error);
+      }
+    };
+
+    fetchRelatedProducts();
+  }, [productID]);
 
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -85,13 +86,14 @@ function RelatedProducts() {
       )}
       <div className="overflow-hidden w-full flex items-center px-20 relative">
         <div className="flex space-x-5 w-4/5 ml-20 overflow-hidden relative items-center" ref={carouselRef}>
-          {relatedProductImages ? defaultProducts.map((item, index) => (
+          {relatedProductImages && rpRatings.length > 0 && defaultProducts.map((item, index) => (
             <RelatedProduct
               defaultProduct={item}
               key={item.id}
               defaultProductUrl={relatedProductImages[index]}
+              defaultProductRating={rpRatings[index]}
             />
-          )) : null}
+          )) }
         </div>
       </div>
       {canScrollRight && (

@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, memo } from 'react';
 import { CiCircleRemove } from 'react-icons/ci';
 import { OutfitContext } from '../context/OutfitContext';
+import StarRating from './StarRating';
 
-const OutfitCard = React.memo(({ product }) => {
+const OutfitCard = memo(({ product }) => {
   const { removeFromOutfitList } = useContext(OutfitContext);
 
   const handleRemove = () => {
@@ -33,7 +34,9 @@ const OutfitCard = React.memo(({ product }) => {
             {product.oriPrice}
           </p>
         )}
-
+      <div className="transform scale-75">
+        <StarRating rating={product.stars} name={`${product.id}of`} />
+      </div>
     </div>
   );
 });
