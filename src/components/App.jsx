@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
 
-import axios from 'axios';
-
 import Header from './Header';
 import Overview from './Overview';
 import RelatedProducts from './RelatedProducts';
