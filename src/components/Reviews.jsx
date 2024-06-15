@@ -7,26 +7,19 @@ import convertStars from '../lib/convertStars';
 // import ProductDetails from './ProductDetails';
 
 function Reviews() {
-  const productID = 40388;
-  const url = `/reviews?product_id=${productID}`;
-  const reviewUrl = `/reviews/meta?product_id=${productID}`;
-  //  update: promise.all
+  const productID = 40387;
+
   const [reviews, setReviews] = useState({ results: [] });
   const [ratings, setRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(2);
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
   const [numReviews, setNumReviews] = useState(0);
+  const [sizeFeedback, setSizeFeedback] = useState('');
   // update: useContext
 
-  const hasMoreReviews = displayedReviews < reviews.results?.length;
-  const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
-
-  const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
-  const totalReviews = reviews.results?.length;
-
-  const getReviews = () => {
-    axios.get(url)
+  useEffect(() => {
+    axios.get(`/reviews?product_id=${productID}`)
       .then((response) => {
         setReviews({ ...response.data, results: response.data.results }); // update
         setCurrentView(response.data.results);
@@ -35,10 +28,23 @@ function Reviews() {
       .catch((err) => {
         console.error('error getting data', err);
       });
-  };
-  useEffect(() => {
-    getReviews();
+    axios.get(`/reviews/meta?product_id=${productID}`)
+      .then((response) => {
+        setRatings(response.data);
+        const productFeatures = ratings.characteristics.size.map((sizes) => sizes.value);
+        setSizeFeedback(productFeatures);
+      })
+      .catch((err) => {
+        console.error('error getting data', err);
+      });
   }, [productID]);
+
+  // console.log(ratings.map((rd) => rd.characteristics));
+  console.log(ratings.characteristics);
+  console.log(sizeFeedback);
+  // console.log(productFeatures)
+  // const getRatings = () => {
+  // };
 
   useEffect(() => {
     if (filters.length === 0) {
@@ -56,27 +62,23 @@ function Reviews() {
     setFilters(newFilters);
   };
 
-  const getRatings = () => {
-    axios.get(reviewUrl)
-      .then((response) => {
-        setRatings(response.data);
-      })
-      .catch((err) => {
-        console.error('error getting data', err);
-      });
-  };
+  const hasMoreReviews = displayedReviews < reviews.results?.length;
+  const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
-  useEffect(() => {
-    getRatings();
-  }, [productID]);
+  const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
+  const totalReviews = reviews.results?.length;
 
   const starTotal = 4;// update: hard coded
-
-  const dateSort = () => {
-    // setCurrentView(currentView.sort((a, b) => a.date - b.date));
-    console.log(reviews.results?.map((data) => data.date));// date arr
+  const featureAvg = (starTotal / 5) * 100;
+  const selectionRating = {
+    left: '20%',
   };
 
+  let starRatings;
+  if (ratings) {
+    starRatings = convertStars(ratings);
+  }
+  console.log(starRatings);
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
 
@@ -86,9 +88,9 @@ function Reviews() {
             <span className="flex flex-row pt-5 text-lg font-semibold">
               {`${numReviews} reviews, sorted by`}
               <select className="underline ">
-                <option value="relevance"> relevance</option>
-                <option onClick={dateSort} value="newest"> newest</option>
-                <option value="helpful"> helpful</option>
+                <option onClick="" value="relevance"> relevance</option>
+                <option onClick="" value="newest"> newest</option>
+                <option onClick="" value="helpful"> helpful</option>
               </select>
             </span>
             <ul className="pl-5 pt-2">
@@ -142,38 +144,31 @@ function Reviews() {
                   <p>{`${getTotalReviews(star)} review(s)`}</p>
                 </p>
               ))}
-
-              <div className="pb-4 pt-4 flex flex-col">
-                <h4 className="text-sm">Size</h4>
-                <div className="grid grid-cols-5">
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+              <h4 className="text-sm">Size</h4>
+              <div className="pb-6 pt-1 flex flex-col">
+                <div className="flex flex-row pb-2">
+                  <span className="flex flex-row" style={{ position: 'absolute', left: '10%' }}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  {/* 10% to 30% */}
                 </div>
-                <progress className="w-full h-2.5" value={0} />
-                <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
-                  <p>Too Small</p>
+                <progress className="w-full h-2" value={0} />
+                <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
+                  <p className="">Too Small</p>
                   <p>Perfect</p>
                   <p>Too Large</p>
-                </span>
+                </div>
               </div>
-              <div className="">
-                <h4 className="text-sm ">Comfort</h4>
-                <div className="grid grid-cols-5">
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+              <h4 className="text-sm">Comfort</h4>
+              <div className="pb-6 pt-1 flex flex-col">
+                <div className="flex flex-row pb-2">
+                  <span className="flex flex-row" style={{ position: 'absolute', left: '27%' }}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  {/* 10% to 30% */}
                 </div>
-                <progress className="w-full h-2.5" value={0} />
-                <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
-                  <p>Too Small</p>
+                <progress className="w-full h-2" value={0} />
+                <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
+                  <p className="">Too Small</p>
                   <p>Perfect</p>
                   <p>Too Large</p>
-                </span>
+                </div>
               </div>
             </div>
           </section>
@@ -225,3 +220,8 @@ function ReviewPosts({ review }) {
 }
 
 export default Reviews;
+
+// const dateSort = () => {
+// setCurrentView(currentView.sort((a, b) => a.date - b.date));
+// console.log(reviews.results?.map((data) => data.date));// date arr
+// };
