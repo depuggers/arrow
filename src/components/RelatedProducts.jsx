@@ -8,7 +8,6 @@ import AppContext from '../context/AppContext';
 import calculateRating from '../lib/calculateRating';
 
 function RelatedProducts() {
-//  const [allProducts, setAllProducts] = useState([]);
   const [defaultProducts, setDefaultProducts] = useState([]);
   const [relatedProductImages, setRelatedProductImages] = useState(null);
   const [rpRatings, setRPRatings] = useState(null);
