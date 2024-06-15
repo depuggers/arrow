@@ -8,30 +8,38 @@ import AppContext from '../context/AppContext';
 
 import ImageGalleryButton from './ImageGalleryButton';
 
+import missing from '../images/missing.svg?url';
+
 function ImageGallery() {
   const {
     showModal, store: { styles }, store: { selectedStyle }, store: { selectedImage }, dispatch,
   } = useContext(AppContext);
 
+  const loading = !styles;
+
+  let photos;
+  if (!loading) {
+    photos = styles[selectedStyle].photos;
+  }
+
   const switchImage = (direction) => {
     dispatch({ type: 'switchImage', payload: direction });
   };
 
-  let { photos } = styles[selectedStyle];
   // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
-    <section id="image-gallery" className="h-[800px] w-full relative pt-6">
-      {styles
-        ? (
+    <section id="image-gallery" className="h-full w-full md:max-h-[80vh] relative pt-6 pl-6 pr-8 md:pr-0">
+      {loading
+        ? <div className="h-full aspect-[2/3] mx-auto skelly" />
+        : (
           <>
-            <img className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url} alt="" />
-            <ImageThumbnails orientation="vertical" textColor="neutral-600" />
-            {selectedImage > 0 ? <ImageGalleryButton styles="text-neutral-600 left-[160px]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
-            {selectedImage < photos.length - 1 ? <ImageGalleryButton styles="text-neutral-600 right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
+            <img data-testid="main-image" className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url ?? missing} alt="" />
+            {selectedImage > 0 ? <ImageGalleryButton testid="image-left" styles="text-base-content left-[160px]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
+            {selectedImage < photos.length - 1 ? <ImageGalleryButton testid="image-right" styles="right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
           </>
-        )
-        : null}
+        )}
+      <ImageThumbnails orientation="vertical" textColor="base-content" />
     </section>
   );
 }

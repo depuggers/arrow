@@ -5,4 +5,10 @@ module.exports = {
     '\\.svg$': '<rootDir>/src/tests/mocks/svg.js',
     '\\.css$': '<rootDir>/src/tests/mocks/styles.js',
   },
+<<<<<<< HEAD
+=======
+  collectCoverage: true,
+  collectCoverageFrom: ['./src/components/**', './src/reducers/**', './src/lib/**', './src/hooks/**'],
+  verbose: true,
+>>>>>>> main
 };

@@ -10,9 +10,10 @@ function AddQuestion() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log(e.target)
     const data = Object.fromEntries(new FormData(e.target));
     data.product_id = parseInt(data.product_id);
-    console.log(data);
+    // console.log(data);
     const response = await axios.post('/qa/questions', data);
     if (response.status === 201) {
       hideModal();
@@ -20,7 +21,7 @@ function AddQuestion() {
   };
 
   return (
-    <div className="bg-white text-neutral-600 p-6 flex flex-col gap-4 relative">
+    <div className="bg-base-100 text-base-content p-6 flex flex-col gap-4 relative">
       <div>
         <h1 className="text-3xl font-bold">Ask Your Question</h1>
         <h2>{`About the ${product.name}`}</h2>

@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
+import { BiWindowClose } from "react-icons/bi";
 import AppContext from '../context/AppContext';
 
 function ComparisonForm({ defaultProduct }) {
@@ -12,7 +13,6 @@ function ComparisonForm({ defaultProduct }) {
   console.log(defaultProduct.features);
   const defaultProductFeatures = defaultProduct.features;
   const defaultProductName = defaultProduct.name;
-
 
   useEffect(() => {
     axios.get(`/products/${productID}`)
@@ -32,14 +32,14 @@ function ComparisonForm({ defaultProduct }) {
       combinedFeatures.push({
         feature: feature.value,
         defaultFeatureValue: '✔️',
-        currentFeatureValue: currentProductFeatures.find((cpf) => cpf.feature === feature.feature) ? '✔️' : '✖️',
+        currentFeatureValue: currentProductFeatures.find((cpf) => cpf.value === feature.value) ? '✔️' : '',
       });
     });
     currentProductFeatures.forEach((feature) => {
-      if (!defaultProductFeatures.some((dpf) => dpf.feature === feature.feature)) {
+      if (!defaultProductFeatures.some((dpf) => dpf.value === feature.value)) {
         combinedFeatures.push({
           feature: feature.value,
-          defaultFeatureValue: '✖️',
+          defaultFeatureValue: '',
           currentFeatureValue: '✔️',
         });
       }
@@ -48,40 +48,39 @@ function ComparisonForm({ defaultProduct }) {
     setAllFeatures(combinedFeatures);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (defaultProductFeatures && currentProductFeatures) {
       combineAllFeatures(defaultProductFeatures, currentProductFeatures);
     }
-  }, [defaultProductFeatures, currentProductFeatures])
+  }, [defaultProductFeatures, currentProductFeatures]);
 
   return (
     <>
-    {allFeatures ? (
-    <div className="text-neutral-600 bg-white z-10">
-      <h2>COMPARING</h2>
-      <button onClick={hideModal}>❎</button>
-      <table>
-        <thead>
-          <tr>
-            <th>{currentProductName}</th>
-            <th></th>
-            <th>{defaultProductName}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allFeatures.map((feature, index) => (
-            <tr key={index}>
-              <td>{feature.currentFeatureValue}</td>
-              <td>{feature.feature}</td>
-              <td>{feature.defaultFeatureValue}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  ) : null
-}
-</>
+      {allFeatures ? (
+        <div className="relative overflow-x-auto text-neutral-600 bg-white z-10 p-4">
+          <h2 className="text-center p-2">COMPARING</h2>
+          <button onClick={hideModal} className="absolute right-2 top-2 text-xl" aria-label="close"><BiWindowClose /></button>
+          <table className="w-full text-center text-neutral-600">
+            <thead className="text-neutral-600 bg-gray-50">
+              <tr>
+                <th scope="col" className="px-6 py-2">{currentProductName}</th>
+                <th scope="col" className="px-6 py-2" aria-label="space" />
+                <th scope="col" className="px-6 py-2">{defaultProductName}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allFeatures.map((feature, index) => (
+                <tr key={index} className="border-b">
+                  <td className="px-6 py-2">{feature.currentFeatureValue}</td>
+                  <td className="px-6 py-2">{feature.feature}</td>
+                  <td className="px-6 py-2">{feature.defaultFeatureValue}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : null}
+    </>
   );
 }
 

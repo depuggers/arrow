@@ -19,5 +19,9 @@ module.exports = {
     radix: 'off',
     'react/button-has-type': 'off',
     'react/jsx-no-constructed-context-values': 'off',
+    'react/jsx-filename-extension': 'off',
+    'no-nested-ternary': 'off',
+    'no-case-declarations': 'off',
+    'react/no-array-index-key': 'off',
   },
 };
