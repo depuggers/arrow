@@ -16,10 +16,10 @@ function Reviews() {
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
   const [numReviews, setNumReviews] = useState(0);
-  const [sizeFeedback, setSizeFeedback] = useState('');
   // update: useContext
 
   useEffect(() => {
+
     axios.get(`/reviews?product_id=${productID}`)
       .then((response) => {
         setReviews({ ...response.data, results: response.data.results }); // update
@@ -32,8 +32,6 @@ function Reviews() {
     axios.get(`/reviews/meta?product_id=${productID}`)
       .then((response) => {
         setRatings(response.data);
-        const productFeatures = ratings.characteristics.map((feature) => feature.Comfort.id);
-        setSizeFeedback(productFeatures);
       })
       .catch((err) => {
         console.error('error getting data', err);
@@ -57,29 +55,12 @@ function Reviews() {
   };
 
   console.log(ratings.characteristics);
-  console.log(sizeFeedback);
+  console.log(ratings);
 
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
-  const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
-  const totalReviews = reviews.results?.length;
 
-  const starTotal = 5;// placeholder
-  const featureAvg = ((starTotal - 1) * 25); // 1 star = 0%
-  console.log(featureAvg);
-
-  const selectionRating = {
-    position: 'absolute',
-    left: `${featureAvg}%`,
-    bottom: '40%',
-  };
-
-  let starRatings;
-  if (ratings) {
-    starRatings = convertStars(ratings);
-  }
-  console.log(starRatings);
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
 
@@ -126,54 +107,19 @@ function Reviews() {
       {/* ReviewSummary.jsx */}
       {ratings
         ? (
-          <section className="flex flex-col self-start pr-10 pt-4 pb-20">
-            <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
-            <div className="flex flex-row pb-4">
-              <h2 className="font-bold text-4xl">{starTotal}</h2>
-              <div className="rating">
-                {[1, 2, 3, 4, 5].map((rating) => (
-                  <input key={rating} type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(starTotal === rating)} />
-                ))}
-              </div>
-            </div>
-            <div className="grow text-base text-neutral-600">
-              {[5, 4, 3, 2, 1].map((star) => (
-                <p className="flex flex-row hover:underline pb-2 text-sm">
-                  <button key={star} onClick={() => toggleSearch(star)}>{`${star} star`}</button>
-                  <progress className="pl-2" value={getTotalReviews(star)} max={totalReviews} />
-                  <p>{`${getTotalReviews(star)} review(s)`}</p>
-                </p>
-              ))}
-              <div className="pb-6 pt-1 flex flex-col w-full">
-                <h4 className="text-sm">Size</h4>
-                <div style={{ position: 'relative' }} className="flex flex-row pb-2  w-full">
-                  <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
-                  {/* 10% to 30% -- chaange to grid */}
-                </div>
-                <progress className="w-full h-2" value={0} />
-                <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
-                  <p className="">Too Small</p>
-                  <p>Perfect</p>
-                  <p>Too Large</p>
-                </div>
-              </div>
-              <h4 className="text-sm">Comfort</h4>
-              <div className="pb-6 pt-1 flex flex-col">
-                <div className="">
-                  <span className="flex flex-row" style={{ position: 'absolute', left: '70%' }}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
 
-                </div>
-                <progress className="w-full h-2" value={0} />
-                <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
-                  <p className="">Too Small</p>
-                  <p>Perfect</p>
-                  <p>Too Large</p>
-                </div>
-              </div>
-            </div>
-          </section>
-        )
-        : null}
+          <div>
+            <ReviewSummary
+              // key={ratings.product_id}
+              // characteristics={ratings.characteristics}
+              // recommended={ratings.recommended}
+              reviews={reviews}
+              filters={filters}
+              // filterReviews={toggleSearch(ratings)}
+            />
+
+          </div>
+        ) : null}
     </div>
   );
 }
