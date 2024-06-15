@@ -30,6 +30,7 @@ function OutfitList() {
       photo: styles[selectedStyle].photos[0].url,
       oriPrice: styles[selectedStyle].original_price,
       salePrice: styles[selectedStyle].sale_price || null,
+      stars: rating.average,
     };
     console.log('Adding to outfit:', currentProduct);
     addToOutfitList(currentProduct);

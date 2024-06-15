@@ -2,7 +2,7 @@ import React from 'react';
 
 function StarRating({ rating, name }) {
   // const rating = { average: 3.75 };
-  // console.log(rating.average);
+  // console.log(rating);
 
   const paths = ['0 0, 51% 0, 51% 51%, 0 51%', '0 49%, 51% 49%, 51% 100%, 0 100%', '49% 49%, 100% 49%, 100% 100%, 49% 100%', '49% 0, 100% 0, 100% 51%, 49% 51%'];
 
