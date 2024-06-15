@@ -5,7 +5,9 @@ import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import OutfitCard from './OutfitCard';
 import { OutfitContext } from '../context/OutfitContext';
 import AppContext from '../context/AppContext';
-import plusBig from '../images/plusBig.png';
+import plusBigUrl from '../images/plusBig.svg?url';
+
+console.log(plusBigUrl);
 
 function OutfitList() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -80,7 +82,7 @@ function OutfitList() {
         <div className="carousel overflow-hidden space-x-5 flex w-4/5 ml-20" ref={carouselRef}>
           <div className="firstCard border border-gray-300 p-4 bg-white w-60 h-80 items-center" onClick={handleAddToOutfit}>
             <div className="imageContainer relative w-48 h-48 overflow-hidden rounded-lg mx-auto">
-              <img src={plusBig} alt="Add to Outfit" className="w-full h-full object-cover p-1 rounded-lg bg-gray-200" />
+              <img src={plusBigUrl} alt="Add to Outfit" className="w-full h-full object-cover p-1 rounded-lg bg-gray-200" />
             </div>
             <p className="text-neutral-600 text-center p-6 font-bold">Add to Outfit</p>
           </div>
