@@ -3,6 +3,7 @@ import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import axios from 'axios';
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 import convertStars from '../lib/convertStars';
+import ReviewSummary from './ReviewSummary';
 // import RelatedProducts from './RelatedProducts';
 // import ProductDetails from './ProductDetails';
 
@@ -64,13 +65,14 @@ function Reviews() {
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
   const totalReviews = reviews.results?.length;
 
-  const starTotal = 4;// placeholder
-  const featureAvg = ((starTotal / 5) * 20) + 10;
+  const starTotal = 5;// placeholder
+  const featureAvg = ((starTotal - 1) * 25); // 1 star = 0%
   console.log(featureAvg);
 
   const selectionRating = {
     position: 'absolute',
     left: `${featureAvg}%`,
+    bottom: '40%',
   };
 
   let starRatings;
@@ -114,7 +116,6 @@ function Reviews() {
                 <button className="form-input flex flex-row gap-1" onClick={() => alert('feature coming soon!')}>
                   ADD REVIEW
                   <FaPlus size={24} />
-
                 </button>
               </div>
             </div>
@@ -143,10 +144,10 @@ function Reviews() {
                   <p>{`${getTotalReviews(star)} review(s)`}</p>
                 </p>
               ))}
-              <h4 className="text-sm">Size</h4>
-              <div className="pb-6 pt-1 flex flex-col">
-                <div className="flex flex-row pb-2">
-                  <span className="flex flex-row" style={selectionRating}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+              <div className="pb-6 pt-1 flex flex-col w-full">
+                <h4 className="text-sm">Size</h4>
+                <div style={{ position: 'relative' }} className="flex flex-row pb-2  w-full">
+                  <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
                   {/* 10% to 30% -- chaange to grid */}
                 </div>
                 <progress className="w-full h-2" value={0} />
@@ -158,8 +159,8 @@ function Reviews() {
               </div>
               <h4 className="text-sm">Comfort</h4>
               <div className="pb-6 pt-1 flex flex-col">
-                <div className="flex flex-row pb-2">
-                  <span className="flex flex-row" style={{ position: 'absolute', left: '13%' }}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                <div className="">
+                  <span className="flex flex-row" style={{ position: 'absolute', left: '70%' }}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
 
                 </div>
                 <progress className="w-full h-2" value={0} />
