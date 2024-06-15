@@ -21,7 +21,7 @@ function AddQuestion() {
   };
 
   return (
-    <div className="bg-white text-neutral-600 p-6 flex flex-col gap-4 relative">
+    <div className="bg-base-100 text-base-content p-6 flex flex-col gap-4 relative">
       <div>
         <h1 className="text-3xl font-bold">Ask Your Question</h1>
         <h2>{`About the ${product.name}`}</h2>

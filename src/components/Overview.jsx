@@ -43,9 +43,9 @@ function Overview() {
   const loading = !(product && styles && rating);
 
   return (
-    <section className="w-full grid grid-cols-[5fr_2fr] justify-items-center text-base-content">
+    <section className="w-full flex flex-col md:grid grid-cols-[1fr_minmax(20rem,min(30rem,30vw))] justify-items-center text-base-content">
       <ImageGallery />
-      <section className="w-full flex flex-col justify-end px-8 py-8 gap-8">
+      <section className="w-full flex flex-col justify-between px-8 py-8 gap-8">
         {loading
           ? <div className="w-3/4 h-4 skelly" />
           : (
@@ -53,7 +53,7 @@ function Overview() {
               {/* (
                 {rating ? rating.average : null}
                 ) */}
-              <StarRating rating={rating.average} />
+              <StarRating rating={rating.average} name="overviewstars" />
               <button
                 onClick={() => document.getElementById('reviews').scrollIntoView({
                   behavior: 'smooth',
@@ -107,6 +107,7 @@ function Overview() {
               <div className="relative flex-grow">
                 <select
                   className="form-input w-full uppercase cursor-pointer appearance-none disabled:opacity-25"
+                  data-testid="size-selector"
                   defaultValue=""
                   onChange={(e) => {
                     dispatch({ type: 'setSelectedSKU', payload: parseInt(e.target.value) });
@@ -114,8 +115,8 @@ function Overview() {
                   }}
                   disabled={sizes[0].sku === 'null'}
                 >
-                  <option value="" disabled hidden>{loading ? 'Select Size' : sizes[0].sku !== 'null' ? 'Select Size' : 'OUT OF STOCK'}</option>
-                  {sizes.map((size) => <option key={size.sku} value={size.sku}>{size.size}</option>)}
+                  <option data-testid="size-option" value="" disabled hidden>{loading ? 'Select Size' : sizes[0].sku !== 'null' ? 'Select Size' : 'OUT OF STOCK'}</option>
+                  {sizes.map((size) => <option data-testid="size-option" key={size.sku} value={size.sku}>{size.size}</option>)}
                 </select>
                 <PiCaretDownBold size={24} className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${loading || sizes[0].sku === 'null' ? 'opacity-25' : ''}`} />
               </div>
@@ -150,8 +151,8 @@ function Overview() {
           </button>
         </div>
       </section>
-      <section className="col-span-2 w-[80%] py-6 flex divide-x">
-        <div className="px-8 flex-shrink flex-grow">
+      <section className="col-span-2 w-full md:w-[80%] py-6 flex flex-col md:flex-row divide-y md:divide-x md:divide-y-0 items-center">
+        <div className="pb-8 md:pb-0 px-8 flex-shrink flex-grow">
           {loading
             ? (
               <div className="flex flex-col gap-2">
@@ -168,7 +169,7 @@ function Overview() {
             ) }
 
         </div>
-        <div className="px-8 flex-shrink-0 w-fit">
+        <div className="pt-8 md:pt-0 px-8 flex-shrink-0 w-fit">
           <ul className="flex flex-col gap-3 w-fit">
             {loading
               ? Array.from({ length: 3 }).map((v, i) => <div key={i} className="w-48 h-4 skelly" />)

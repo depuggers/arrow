@@ -13,7 +13,7 @@ html {
 }
 
 dialog[open] {
-  @apply w-full max-w-full h-full max-h-full bg-transparent flex justify-center items-center;
+  @apply w-full max-w-full h-full max-h-full bg-transparent flex justify-center items-center p-6;
 }
 
 ::backdrop {
@@ -22,7 +22,7 @@ dialog[open] {
 
 @layer components {
   .form-input {
-    @apply p-4 border-2 border-neutral-500 text-base-content bg-base-100 font-bold;
+    @apply p-4 border-2 border-neutral-500 text-base-content bg-base-100 font-bold text-sm md:text-base;
   }
 }
 
@@ -45,6 +45,6 @@ dialog[open] {
   animation: none;
 }
 
-input::placeholder {
+input::placeholder, textarea::placeholder {
   @apply text-neutral-content;
 }

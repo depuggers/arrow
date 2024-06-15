@@ -40,44 +40,47 @@ const appReducer = (state, action) => {
       };
 
     case 'setQuestionHelpful':
-      if (!state.helpfulQs.includes(action.payload)) {
-        const newHelpfulQs = [
+      console.log(action);
+      localStorage.setItem('helpfulQs', JSON.stringify([
+        ...state.helpfulQs,
+        action.payload,
+      ]));
+      return {
+        ...state,
+        helpfulQs: [
           ...state.helpfulQs,
           action.payload,
-        ];
-        localStorage.setItem('helpfulQs', JSON.stringify(newHelpfulQs));
-        return {
-          ...state,
-          helpfulQs: newHelpfulQs,
-        };
-      }
-      return state;
+        ],
+        questions: state.questions.map((q) => (q.question_id !== action.payload ? q : { ...q, question_helpfulness: q.question_helpfulness + 1 })),
+      };
+
     case 'setAnswerHelpful':
-      if (!state.helpfulAs.includes(action.payload)) {
-        const newHelpfulAs = [
+      localStorage.setItem('helpfulAs', JSON.stringify([
+        ...state.helpfulAs,
+        action.payload.id,
+      ]));
+      return {
+        ...state,
+        helpfulAs: [
           ...state.helpfulAs,
-          action.payload,
-        ];
-        localStorage.setItem('helpfulAs', JSON.stringify(newHelpfulAs));
-        return {
-          ...state,
-          helpfulAs: newHelpfulAs,
-        };
-      }
-      return state;
+          action.payload.id,
+        ],
+        questions: state.questions.map((q) => (q.question_id !== action.payload.question_id ? q : { ...q, answers: { ...q.answers, [action.payload.id]: { ...q.answers[action.payload.id], helpfulness: q.answers[action.payload.id].helpfulness + 1 } } })),
+      };
+
     case 'setAnswerReported':
-      if (!state.reportedAs.includes(action.payload)) {
-        const newReportedAs = [
+      localStorage.setItem('reportedAs', JSON.stringify([
+        ...state.reportedAs,
+        action.payload,
+      ]));
+      return {
+        ...state,
+        reportedAs: [
           ...state.reportedAs,
           action.payload,
-        ];
-        localStorage.setItem('reportedAs', JSON.stringify(newReportedAs));
-        return {
-          ...state,
-          reportedAs: newReportedAs,
-        };
-      }
-      return state;
+        ],
+      };
+
     default:
       return state;
   }
