@@ -1,5 +1,5 @@
 import React, {
-  useState, useRef, useContext, useEffect, useLayoutEffect,
+  useState, useContext, useRef, useLayoutEffect, useEffect,
 } from 'react';
 
 import {
@@ -9,9 +9,14 @@ import AppContext from '../context/AppContext';
 
 import missing from '../images/missing.svg?url';
 
-function ImageThumbnails({ orientation, textColor }) {
+function ImageThumbnails({ horizontal }) {
   const [imageIndex, setImageIndex] = useState(0);
-  const [count, setCount] = useState(5);
+  const [wide, setWide] = useState(false);
+
+  const thumbnailContainerRef = useRef(null);
+
+  const thumbnails = {};
+  const thumbnailsRef = useRef(thumbnails);
 
   const {
     store: { styles }, store: { selectedStyle }, store: { selectedImage }, dispatch,
@@ -19,36 +24,31 @@ function ImageThumbnails({ orientation, textColor }) {
 
   const loading = !styles;
 
-  const thumbnailContainerRef = useRef(null);
+  let photos = [];
+  if (!loading) photos = styles[selectedStyle].photos;
 
-  const thumbnails = {};
-  const thumbnailsRef = useRef(thumbnails);
+  // const count = !wide ? 3 : loading ? 5 : Math.min(photos.length, 7);
+  const count = 3;
 
-  const photos = useRef([]);
-
-  useEffect(() => {
-    if (styles) {
-      photos.current = styles[selectedStyle].photos;
-    }
-  }, [styles]);
-
-  const responsiveCount = () => {
-    if (document.documentElement.clientWidth < 768) {
-      setCount(3);
-    } else {
-      setCount(Math.max(Math.min(photos.current.length, 7)), 1);
-    }
+  const handleBreakpoint = (e) => {
+    console.log(e.matches);
+    setWide(e.matches);
   };
 
-  useEffect(() => {
-    responsiveCount();
-    window.addEventListener('resize', responsiveCount);
+  useLayoutEffect(() => {
+    if (window.matchMedia('(min-width: 768px)').matches) {
+      setWide(true);
+    }
 
-    return () => window.removeEventListener('resize', responsiveCount);
-  }, [photos.current]);
+    window.matchMedia('(min-width: 768px)').addEventListener('change', handleBreakpoint);
+
+    return () => window.matchMedia('(min-width: 768px)').removeEventListener('change', handleBreakpoint);
+  }, []);
+
+  // console.log(wide, count);
 
   useEffect(() => {
-    const initialPosition = Math.max(Math.min(selectedImage, photos.current.length - count), 0);
+    const initialPosition = Math.max(Math.min(selectedImage, photos.length - count), 0);
     if (thumbnailContainerRef.current && thumbnailsRef.current[0]) {
       thumbnailContainerRef.current.scrollTo({
         top: thumbnailsRef.current[initialPosition].offsetTop,
@@ -61,61 +61,59 @@ function ImageThumbnails({ orientation, textColor }) {
 
   const scrollThumbs = (e, direction) => {
     e.stopPropagation();
-    const nextIndex = Math.min(Math.max(imageIndex + direction, 0), photos.current.length - count);
+    const nextIndex = Math.min(Math.max(imageIndex + direction, 0), photos.length - count);
     thumbnailContainerRef.current.scrollTo({
       top: thumbnailsRef.current[nextIndex].offsetTop,
       left: thumbnailsRef.current[nextIndex].offsetLeft,
       behavior: 'smooth',
     });
-    // console.log(thumbnailContainerRef.current, thumbnailsRef.current[nextIndex]);
+    // console.log(nextIndex, thumbnailContainerRef.current, thumbnailsRef.current[nextIndex]);
     setImageIndex(nextIndex);
   };
 
   const selectedImageStyle = 'outline outline-offset-2 outline-primary';
-  const orientationContainerStyle = orientation === 'vertical' ? 'left-8 top-2 flex-col text-base-content' : 'left-1/2 bottom-4 flex-row -translate-x-1/2 text-[#d4d4d4]';
 
   return (
-    <div className={`absolute flex ${orientationContainerStyle}`}>
-      <button data-testid="scroll-thumbnails-up" className={`flex justify-center items-center ${imageIndex > 0 && count < photos.current.length ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
-        {orientation === 'vertical' ? <PiCaretUpBold size={24} /> : <PiCaretLeftBold size={24} />}
+    <div className={`flex items-center ${wide && !horizontal ? 'flex-col order-first' : 'text-[#d4d4d4]'}`}>
+      <button data-testid="scroll-thumbnails-up" className={`flex justify-center items-center ${imageIndex > 0 && count < photos.length ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
+        {horizontal || !wide ? <PiCaretLeftBold size={32} /> : <PiCaretUpBold size={32} /> }
       </button>
       <ul
-        className="overflow-hidden grid relative"
-        ref={thumbnailContainerRef}
         data-testid="thumbnail-container"
-        style={orientation === 'vertical' ? {
+        ref={thumbnailContainerRef}
+        className="grid relative overflow-hidden"
+        style={wide && !horizontal ? {
+          width: '6rem',
           aspectRatio: `1 / ${count}`,
+          gridTemplateRows: `repeat(${count}, 1fr)`,
           gridAutoFlow: 'row',
-          gridAutoRows: 'min-content',
+          // w-20 aspect-[1/3] grid-rows-[repeat(3,1fr)] grid-flow-row
         } : {
+          height: '6rem',
           aspectRatio: `${count} / 1`,
           gridTemplateColumns: `repeat(${count}, 1fr)`,
-          height: '96px',
-          width: 'auto',
           gridAutoFlow: 'column',
         }}
       >
-        {loading
-          ? Array.from({ length: count }).map((v, i) => <li key={i} className="w-[88px] m-2 aspect-square skelly" />)
-          : photos.current.map((photo, i) => (
-            <li
-              data-testid="thumbnail"
-              className="w-[max(96px,6vw)] p-2 aspect-square overflow-hidden cursor-pointer"
-              key={i}
-              ref={(node) => {
-                thumbnailsRef.current[i] = node;
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                dispatch({ type: 'setSelectedImage', payload: i });
-              }}
-            >
-              <img className={`w-full h-full object-cover ${selectedImage === i ? selectedImageStyle : ''}`} src={photo.thumbnail_url ?? missing} alt="" />
-            </li>
-          ))}
+        {loading ? Array.from({ length: count }).map((v, i) => <div key={i} className="w-full h-full p-1"><div className="w-full h-full skelly" /></div>) : photos.map((thumbnail, i) => (
+          <li
+            key={i}
+            data-testid="thumbnail"
+            ref={(node) => {
+              thumbnailsRef.current[i] = node;
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch({ type: 'setSelectedImage', payload: i });
+            }}
+            className="w-full aspect-square p-1 cursor-pointer"
+          >
+            <img className={`w-full h-full object-cover ${selectedImage === i ? selectedImageStyle : ''}`} src={thumbnail.thumbnail_url ?? missing} alt="" />
+          </li>
+        ))}
       </ul>
-      <button data-testid="scroll-thumbnails-down" className={`flex justify-center items-center ${imageIndex < photos.current.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
-        {orientation === 'vertical' ? <PiCaretDownBold size={24} /> : <PiCaretRightBold size={24} />}
+      <button data-testid="scroll-thumbnails-down" className={`flex justify-center items-center ${imageIndex < photos.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
+        {horizontal || !wide ? <PiCaretRightBold size={32} /> : <PiCaretDownBold size={32} /> }
       </button>
     </div>
   );

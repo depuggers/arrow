@@ -46,11 +46,11 @@ function App() {
         <Overview />
         <div className="flex flex-col gap-6 items-center px-6 md:px-0 w-full md:w-[80%]">
           <OutfitProvider>
-            <RelatedProducts />
-            <OutfitList />
+            {/* <RelatedProducts />
+            <OutfitList /> */}
           </OutfitProvider>
           <QnA />
-          <Reviews />
+          {/* <Reviews /> */}
         </div>
       </main>
       { modal }
