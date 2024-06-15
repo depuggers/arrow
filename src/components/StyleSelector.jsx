@@ -4,7 +4,7 @@ import { FaCheck } from 'react-icons/fa';
 
 import AppContext from '../context/AppContext';
 
-import missing from '../images/missing.png';
+import missing from '../images/missing.svg?url';
 
 function StyleSelector() {
   const { store: { styles }, store: { selectedStyle }, dispatch } = useContext(AppContext);

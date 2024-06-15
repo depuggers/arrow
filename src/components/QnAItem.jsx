@@ -20,36 +20,45 @@ function QnAItem({ question, filter }) {
   const markQuestionHelpful = async (id) => {
     if (!helpfulQs.includes(id)) {
       const response = await axios.put(`/qa/questions/${id}/helpful`);
-      console.log(response);
       if (response.status === 204) {
         dispatch({ type: 'setQuestionHelpful', payload: id });
+        return true;
       }
+      return false;
     }
+    return false;
   };
 
   const markAnswerHelpful = async (id) => {
+    // console.log('answer: ', id)
     if (!helpfulAs.includes(id)) {
       const response = await axios.put(`/qa/answers/${id}/helpful`);
-      console.log(response);
+      // console.log(response);
       if (response.status === 204) {
-        dispatch({ type: 'setAnswerHelpful', payload: id });
+        dispatch({ type: 'setAnswerHelpful', payload: { id, question_id: question.question_id } });
+        return true;
       }
+      return false;
     }
+    return false;
   };
 
   const reportAnswer = (id) => {
     if (!reportedAs.includes(id)) {
       dispatch({ type: 'setAnswerReported', payload: id });
+      return true;
     }
+    return false;
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <p className="text-xl font-bold">
-          {`Q: ${question.question_body}`}
-        </p>
-        <span className="text-sm text-neutral-500"><Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)} helpfulAction={() => markQuestionHelpful(question.question_id)}>Add Answer</Helpful></span>
+      <div className="flex gap-2">
+        <span className="text-xl font-bold">Q:</span>
+        <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center w-full">
+          <span className="text-xl font-bold">{question.question_body}</span>
+          <Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)} helpfulAction={() => markQuestionHelpful(question.question_id)}>Add Answer</Helpful>
+        </div>
       </div>
       <div
         className="flex flex-col gap-4 overflow-y-auto"
@@ -60,16 +69,18 @@ function QnAItem({ question, filter }) {
         {sortedAnswers.slice(0, visibleAnswers).map((answer) => (
           <div key={answer.id} className="flex gap-2">
             <span className="text-xl font-bold">A: </span>
-            <div className="flex flex-col gap-4 pt-[0.125rem]">
+            <div className="flex flex-col gap-2 md:gap-4 pt-[0.125rem]">
               <p>{answer.body}</p>
-              <ul className="grid grid-cols-[repeat(10,1fr)] gap-2">
-                {answer.photos.map((photo, i) => (
-                  <li key={i} className="aspect-square w-full">
-                    <img className="w-full h-full object-cover" src={photo} alt="" />
-                  </li>
-                ))}
-              </ul>
-              <div className="flex gap-4 divide-x-2 text-sm text-neutral-500">
+              {answer.photos.length > 0 ? (
+                <ul className="grid grid-cols-[repeat(5,1fr)] md:grid-cols-[repeat(10,1fr)] gap-2">
+                  {answer.photos.map((photo, i) => (
+                    <li key={i} className="aspect-square w-full">
+                      <img className="w-full h-full object-cover" src={photo} alt="" />
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              <div className="flex flex-col md:flex-row gap-2 md:gap-4 md:divide-x-2 text-sm text-neutral-500">
                 <p>
                   {'by '}
                   <span className={`${answer.answerer_name.toLowerCase() === 'seller' ? 'font-bold' : ''}`}>{answer.answerer_name === 'seller' ? 'Seller' : answer.answerer_name}</span>
@@ -80,7 +91,7 @@ function QnAItem({ question, filter }) {
                     year: 'numeric',
                   })}
                 </p>
-                <div className="pl-4">
+                <div className="md:pl-4">
                   <Helpful helpfulCount={answer.helpfulness} helpfulAction={() => markAnswerHelpful(answer.id)} childAction={() => reportAnswer(answer.id)}>
                     {`Report${reportedAs.includes(answer.id) ? 'ed' : ''}`}
                   </Helpful>
