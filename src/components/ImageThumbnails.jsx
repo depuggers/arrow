@@ -7,7 +7,7 @@ import {
 } from 'react-icons/pi';
 import AppContext from '../context/AppContext';
 
-import missing from '../images/missing.png';
+import missing from '../images/missing.svg?url';
 
 function ImageThumbnails({ orientation, textColor }) {
   const [imageIndex, setImageIndex] = useState(0);

@@ -8,7 +8,7 @@ import AppContext from '../context/AppContext';
 
 import ImageGalleryButton from './ImageGalleryButton';
 
-import missing from '../images/missing.png';
+import missing from '../images/missing.svg?url';
 
 function ImageGallery() {
   const {
