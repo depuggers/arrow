@@ -29,16 +29,18 @@ function ComparisonForm({ defaultProduct }) {
   const combineAllFeatures = (defaultProductFeatures, currentProductFeatures) => {
     const combinedFeatures = [];
     defaultProductFeatures.forEach((feature) => {
+      const featureValue = feature.value || '';
       combinedFeatures.push({
-        feature: feature.value,
+        feature: featureValue.trim() + ' ' + feature.feature.trim(),
         defaultFeatureValue: '✔️',
         currentFeatureValue: currentProductFeatures.find((cpf) => cpf.value === feature.value) ? '✔️' : '',
       });
     });
     currentProductFeatures.forEach((feature) => {
       if (!defaultProductFeatures.some((dpf) => dpf.value === feature.value)) {
+        const featureValue = feature.value || '';
         combinedFeatures.push({
-          feature: feature.value,
+          feature: featureValue.trim() + ' ' + feature.feature.trim(),
           defaultFeatureValue: '',
           currentFeatureValue: '✔️',
         });
