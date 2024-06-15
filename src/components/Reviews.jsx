@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import axios from 'axios';
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 import convertStars from '../lib/convertStars';
@@ -6,7 +7,7 @@ import convertStars from '../lib/convertStars';
 // import ProductDetails from './ProductDetails';
 
 function Reviews() {
-  const productID = 40387;
+  const productID = 40388;
   const url = `/reviews?product_id=${productID}`;
   const reviewUrl = `/reviews/meta?product_id=${productID}`;
   //  update: promise.all
@@ -52,7 +53,6 @@ function Reviews() {
     const newFilters = filters.includes(rating)
       ? filters.filter((filter) => filter !== rating)
       : [...filters, rating];
-    console.log(newFilters);// array adds and subtracts
     setFilters(newFilters);
   };
 
@@ -72,6 +72,11 @@ function Reviews() {
 
   const starTotal = 4;// update: hard coded
 
+  const dateSort = () => {
+    // setCurrentView(currentView.sort((a, b) => a.date - b.date));
+    console.log(reviews.results?.map((data) => data.date));// date arr
+  };
+
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
 
@@ -82,7 +87,7 @@ function Reviews() {
               {`${numReviews} reviews, sorted by`}
               <select className="underline ">
                 <option value="relevance"> relevance</option>
-                <option value="newest"> newest</option>
+                <option onClick={dateSort} value="newest"> newest</option>
                 <option value="helpful"> helpful</option>
               </select>
             </span>
@@ -96,7 +101,7 @@ function Reviews() {
                 </li>
               ))}
             </ul>
-            <div className="flex flex-row gap-4 justify-start">
+            <div className="flex flex-row gap-4">
               {hasMoreReviews
                 ? (
                   <div className="font-bold text-lg ">
@@ -104,8 +109,12 @@ function Reviews() {
                   </div>
                 )
                 : null}
-              <div className="font-bold text-lg ">
-                <button className="form-input" onClick={addReviews}> ADD REVIEW</button>
+              <div className="font-bold text-lg flex flex-row">
+                <button className="form-input flex flex-row gap-1" onClick={addReviews}>
+                  ADD REVIEW
+                  <FaPlus size={24} />
+
+                </button>
               </div>
             </div>
           </div>
@@ -136,8 +145,14 @@ function Reviews() {
 
               <div className="pb-4 pt-4 flex flex-col">
                 <h4 className="text-sm">Size</h4>
-                <h4 className="flex self-center text-sm">🔽</h4>
-                <progress className="w-full" value={0} />
+                <div className="grid grid-cols-5">
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                </div>
+                <progress className="w-full h-2.5" value={0} />
                 <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
                   <p>Too Small</p>
                   <p>Perfect</p>
@@ -145,9 +160,15 @@ function Reviews() {
                 </span>
               </div>
               <div className="">
-                <h4 className="text-sm">Comfort</h4>
-                <h4 className="text-sm">🔽</h4>
-                <progress className="w-full" value={0} />
+                <h4 className="text-sm ">Comfort</h4>
+                <div className="grid grid-cols-5">
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  <span className=""><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                </div>
+                <progress className="w-full h-2.5" value={0} />
                 <span className="mb-1 flex items-center justify-between gap-2 text-xs font-light">
                   <p>Too Small</p>
                   <p>Perfect</p>
