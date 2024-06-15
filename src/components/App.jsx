@@ -21,7 +21,7 @@ import '../styles/global.css';
 import useModal from '../hooks/useModal';
 
 function App() {
-  const [productID, setProductID] = useState(40345);
+  const [productID, setProductID] = useState(40344);
 
   const { modal, showModal, hideModal } = useModal();
 
@@ -41,19 +41,19 @@ function App() {
       productID, setProductID, showModal, hideModal, store, dispatch,
     }}
     >
-      <OutfitProvider>
-        <Header />
-        <main className="flex flex-col gap-6 items-center pb-6">
-          <Overview />
-          <div className="flex flex-col gap-6 items-center px-6 md:px-0 md:w-[80%]">
-            {/* <RelatedProducts /> */}
-            {/* <OutfitList /> */}
-            <QnA />
-            {/* <Reviews /> */}
-          </div>
-        </main>
-        { modal }
-      </OutfitProvider>
+      <Header />
+      <main className="flex flex-col gap-6 items-center pb-6">
+        <Overview />
+        <div className="flex flex-col gap-6 items-center px-6 md:px-0 md:w-[80%]">
+          <OutfitProvider>
+            <RelatedProducts />
+            <OutfitList />
+          </OutfitProvider>
+          <QnA />
+          <Reviews />
+        </div>
+      </main>
+      { modal }
     </AppContext.Provider>
   );
 }
