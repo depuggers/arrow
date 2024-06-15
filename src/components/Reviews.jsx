@@ -68,10 +68,13 @@ function Reviews() {
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
   const totalReviews = reviews.results?.length;
 
-  const starTotal = 4;// update: hard coded
-  const featureAvg = (starTotal / 5) * 100;
+  const starTotal = 4;// placeholder
+  const featureAvg = ((starTotal / 5) * 20) + 10;
+  console.log(featureAvg);
+
   const selectionRating = {
-    left: '20%',
+    position: 'absolute',
+    left: `${featureAvg}%`,
   };
 
   let starRatings;
@@ -112,7 +115,7 @@ function Reviews() {
                 )
                 : null}
               <div className="font-bold text-lg flex flex-row">
-                <button className="form-input flex flex-row gap-1" onClick={addReviews}>
+                <button className="form-input flex flex-row gap-1" onClick={() => alert('feature coming soon!')}>
                   ADD REVIEW
                   <FaPlus size={24} />
 
@@ -147,8 +150,8 @@ function Reviews() {
               <h4 className="text-sm">Size</h4>
               <div className="pb-6 pt-1 flex flex-col">
                 <div className="flex flex-row pb-2">
-                  <span className="flex flex-row" style={{ position: 'absolute', left: '10%' }}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  {/* 10% to 30% */}
+                  <span className="flex flex-row" style={selectionRating}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+                  {/* 10% to 30% -- chaange to grid */}
                 </div>
                 <progress className="w-full h-2" value={0} />
                 <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
@@ -160,8 +163,8 @@ function Reviews() {
               <h4 className="text-sm">Comfort</h4>
               <div className="pb-6 pt-1 flex flex-col">
                 <div className="flex flex-row pb-2">
-                  <span className="flex flex-row" style={{ position: 'absolute', left: '27%' }}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
-                  {/* 10% to 30% */}
+                  <span className="flex flex-row" style={{ position: 'absolute', left: '13%' }}><TbTriangleInvertedFilled className="flex self-center text-sm" /></span>
+
                 </div>
                 <progress className="w-full h-2" value={0} />
                 <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
