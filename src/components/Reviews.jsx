@@ -31,20 +31,13 @@ function Reviews() {
     axios.get(`/reviews/meta?product_id=${productID}`)
       .then((response) => {
         setRatings(response.data);
-        const productFeatures = ratings.characteristics.size.map((sizes) => sizes.value);
+        const productFeatures = ratings.characteristics.map((feature) => feature.Comfort.id);
         setSizeFeedback(productFeatures);
       })
       .catch((err) => {
         console.error('error getting data', err);
       });
   }, [productID]);
-
-  // console.log(ratings.map((rd) => rd.characteristics));
-  console.log(ratings.characteristics);
-  console.log(sizeFeedback);
-  // console.log(productFeatures)
-  // const getRatings = () => {
-  // };
 
   useEffect(() => {
     if (filters.length === 0) {
@@ -61,6 +54,9 @@ function Reviews() {
       : [...filters, rating];
     setFilters(newFilters);
   };
+
+  console.log(ratings.characteristics);
+  console.log(sizeFeedback);
 
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
@@ -180,7 +176,7 @@ function Reviews() {
     </div>
   );
 }
-
+// ReviewPosts.jsx
 function ReviewPosts({ review }) {
   const reviewDate = new Date(review.date);
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
