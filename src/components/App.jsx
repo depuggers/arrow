@@ -44,7 +44,7 @@ function App() {
       <Header />
       <main className="flex flex-col gap-6 items-center pb-6">
         <Overview />
-        <div className="flex flex-col gap-6 items-center px-6 md:px-0 md:w-[80%]">
+        <div className="flex flex-col gap-6 items-center px-6 md:px-0 w-full md:w-[80%]">
           <OutfitProvider>
             <RelatedProducts />
             <OutfitList />
