@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import axios from 'axios';
-import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 import convertStars from '../lib/convertStars';
 
-function ReviewSummary({ ratings, reviews, filters, filterReviews }) {
+function ReviewSummary({
+  ratings, reviews, filters, filterReviews,
+}) {
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
   const totalReviews = reviews.results?.length;
   const productChars = ratings.characteristics;
   console.log(productChars.Comfort);
   const starTotal = 5;// placeholder
-  const featureAvg = ((starTotal - 1) * 25); // 1 star = 0%
-  const selectionRating = {
-    position: 'absolute',
-    left: `${featureAvg}%`,
-    bottom: '40%',
-  };
+  // const featureAvg = ((starTotal - 1) * 25); // 1 star = 0%
 
   let starRatings;
   if (ratings) {
     starRatings = convertStars(ratings);
   }
+  const getFeatureData = (feature) => {
+    // const featureData = `${productChars}.${feature}.value`;
+    const featureData = productChars[feature].value;
+    const featureAvg = ((featureData - 1) * 25); // 1 star = 0%
+    return featureData;
+  };
+
+  const featureAvg = ((5 - 1) * 25); // 1 star = 0%
+  const selectionRating = {
+    position: 'absolute',
+    left: `${featureAvg}%`,
+    bottom: '40%',
+  };
+  console.log(getFeatureData('Comfort'));
   console.log(starRatings);
   return (
     <section className="flex flex-col self-start pr-10 pt-4 pb-20">
@@ -41,14 +51,14 @@ function ReviewSummary({ ratings, reviews, filters, filterReviews }) {
             <p>{`${getTotalReviews(star)} review(s)`}</p>
           </span>
         ))}
-        <div className="pb-6 pt-1 flex flex-col w-full">
+        <div className="pb-6 pt-2 flex flex-col w-full">
           <h4 className="text-sm">Size</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row pb-2  w-full">
+          <div style={{ position: 'relative' }} className="flex flex-row   w-full">
             <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
             {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
-          <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
             <p className="">Too Small</p>
             <p>Perfect</p>
             <p>Too Large</p>
@@ -56,12 +66,12 @@ function ReviewSummary({ ratings, reviews, filters, filterReviews }) {
         </div>
         <div>
           <h4 className="text-sm">Width</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row pb-2  w-full">
+          <div style={{ position: 'relative' }} className="flex flex-row  w-full">
             <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
             {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
-          <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
             <p className="">Too Small</p>
             <p>Perfect</p>
             <p>Too Large</p>
@@ -69,12 +79,12 @@ function ReviewSummary({ ratings, reviews, filters, filterReviews }) {
         </div>
         <div>
           <h4 className="text-sm">Comfort</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row pb-2  w-full">
+          <div style={{ position: 'relative' }} className="flex flex-row w-full">
             <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
             {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
-          <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
             <p className="">Too Small</p>
             <p>Perfect</p>
             <p>Too Large</p>
@@ -82,12 +92,12 @@ function ReviewSummary({ ratings, reviews, filters, filterReviews }) {
         </div>
         <div>
           <h4 className="text-sm">Quality</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row pb-2  w-full">
+          <div style={{ position: 'relative' }} className="flex flex-row w-full">
             <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
             {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
-          <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
             <p className="">Too Small</p>
             <p>Perfect</p>
             <p>Too Large</p>
@@ -95,12 +105,12 @@ function ReviewSummary({ ratings, reviews, filters, filterReviews }) {
         </div>
         <div>
           <h4 className="text-sm">Length</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row pb-2  w-full">
+          <div style={{ position: 'relative' }} className="flex flex-row w-full">
             <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
             {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
-          <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
             <p className="">Too Small</p>
             <p>Perfect</p>
             <p>Too Large</p>
@@ -108,12 +118,12 @@ function ReviewSummary({ ratings, reviews, filters, filterReviews }) {
         </div>
         <div>
           <h4 className="text-sm">Fit</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row pb-2  w-full">
+          <div style={{ position: 'relative' }} className="flex pt-1 flex-row w-full">
             <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
             {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
-          <div className="mb-1 flex items-center w-full justify-between gap-2 text-xs font-light">
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
             <p className="">Too Small</p>
             <p>Perfect</p>
             <p>Too Large</p>
