@@ -40,7 +40,7 @@ function ExpandedView({ switchImage }) {
 
   return (
     <div
-      className={`relative w-full h-full overflow-hidden flex flex-col gap-2 items-center ${zoomed ? 'cursor-[url(../images/minus.png),auto] justify-center max-w-none max-h-none' : 'cursor-[url(../images/plus.png),auto]'}`}
+      className={`relative w-full h-full overflow-hidden flex flex-col gap-2 items-center select-none ${zoomed ? 'cursor-[url(../images/minus.png),auto] justify-center max-w-none max-h-none' : 'cursor-[url(../images/plus.png),auto]'}`}
       onClick={() => setZoomed(!zoomed)}
       onPointerMove={(e) => {
         // console.log(e.clientX, e.clientY);
@@ -64,8 +64,8 @@ function ExpandedView({ switchImage }) {
         <>
           <ImageThumbnails horizontal />
           {/* <ImageThumbnails orientation="horizontal" /> */}
-          <ImageGalleryButton testid="expanded-left" styles="left-8 text-[#d4d4d4]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
-          <ImageGalleryButton testid="expanded-right" styles="right-8 text-[#d4d4d4]" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
+          <ImageGalleryButton testid="expanded-left" flip styles="left-8" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
+          <ImageGalleryButton testid="expanded-right" styles="right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
         </>
       ) : null}
     </div>

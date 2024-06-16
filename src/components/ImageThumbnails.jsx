@@ -31,7 +31,7 @@ function ImageThumbnails({ horizontal }) {
   const count = 3;
 
   const handleBreakpoint = (e) => {
-    console.log(e.matches);
+    // console.log(e.matches);
     setWide(e.matches);
   };
 
