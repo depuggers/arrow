@@ -21,8 +21,10 @@ function QnA() {
 
   const loading = !questions;
 
+  let newerQuestions = [];
   let filteredQuestions = [];
-  filteredQuestions = filter.length >= 3 ? questions.filter((question) => question.question_body.toLowerCase().includes(filter.toLowerCase())) : questions;
+  newerQuestions = !loading ? questions.filter((question) => new Date(question.question_date) > new Date(2024, 5)) : newerQuestions;
+  filteredQuestions = filter.length >= 3 ? newerQuestions.filter((question) => question.question_body.toLowerCase().includes(filter.toLowerCase())) : newerQuestions;
   const sortedQuestions = filteredQuestions ? filteredQuestions.sort((a, b) => (a.question_helpfulness >= b.question_helpfulness ? -1 : 1)) : [];
 
   // console.log(questions);

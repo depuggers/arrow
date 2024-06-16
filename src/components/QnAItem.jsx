@@ -6,7 +6,7 @@ import AddAnswer from './AddAnswer';
 
 import AppContext from '../context/AppContext';
 
-import markText from '../lib/markText'
+import markText from '../lib/markText';
 
 function QnAItem({ question, filter }) {
   const [visibleAnswers, setVisibleAnswers] = useState(2);
@@ -16,11 +16,13 @@ function QnAItem({ question, filter }) {
   } = useContext(AppContext);
   // console.log(helpfulQs);
 
-  const sortedAnswers = Object.values(question.answers).sort((a, b) => (a.helpfulness >= b.helpfulness || a.answerer_name.toLowerCase() === 'seller' ? -1 : 1));
+  const answers = Object.values(question.answers);
+  const newerQuestions = answers.length > 0 ? answers.filter((answer) => new Date(answer.date) > new Date(2024, 5)) : [];
+  const sortedAnswers = newerQuestions.sort((a, b) => (a.helpfulness >= b.helpfulness || a.answerer_name.toLowerCase() === 'seller' ? -1 : 1));
   // console.log(sortedAnswers);
 
   if (filter.length > 3) {
-    console.log(markText(question.question_body, filter))
+    console.log(markText(question.question_body, filter));
   }
 
   const markQuestionHelpful = async (id) => {
