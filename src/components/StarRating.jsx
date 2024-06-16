@@ -22,8 +22,8 @@ function StarRating({ rating, size }) {
             className="aspect-square bg-primary"
             style={{
               width: `${size}rem`,
-              mask: `url(${starMask}) 0 0 / 100% 100%, url(${mask}) 0 0 / 100% 100%`,
-              maskComposite: 'intersect',
+              mask: `url(${starMask}) 0 0 / 100% 100% intersect, url(${mask}) 0 0 / 100% 100% intersect`,
+              // maskComposite: 'intersect',
             }}
           />
         );
