@@ -106,7 +106,7 @@ function Overview() {
             <div className="flex gap-4">
               <div className="relative flex-grow">
                 <select
-                  className="form-input w-full uppercase cursor-pointer appearance-none disabled:opacity-25"
+                  className=" form-input w-full uppercase cursor-pointer appearance-none disabled:opacity-25"
                   data-testid="size-selector"
                   defaultValue=""
                   onChange={(e) => {

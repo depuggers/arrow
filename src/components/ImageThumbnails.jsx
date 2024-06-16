@@ -75,7 +75,7 @@ function ImageThumbnails({ horizontal }) {
 
   return (
     <div className={`flex items-center ${wide && !horizontal ? 'flex-col order-first' : !wide && !horizontal ? '' : 'text-[#d4d4d4]'}`}>
-      <button data-testid="scroll-thumbnails-up" className={`flex justify-center items-center ${imageIndex > 0 && count < photos.length ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
+      <button data-testid="scroll-thumbnails-up" className={`flex justify-center items-center clickable ${imageIndex > 0 && count < photos.length ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
         {horizontal || !wide ? <PiCaretLeftBold size={32} /> : <PiCaretUpBold size={32} /> }
       </button>
       <ul
@@ -106,13 +106,13 @@ function ImageThumbnails({ horizontal }) {
               e.stopPropagation();
               dispatch({ type: 'setSelectedImage', payload: i });
             }}
-            className="w-full aspect-square p-1 cursor-pointer"
+            className="w-full aspect-square p-1 cursor-pointer clickable"
           >
             <img className={`w-full h-full object-cover ${selectedImage === i ? selectedImageStyle : ''}`} src={thumbnail.thumbnail_url ?? missing} alt="" />
           </li>
         ))}
       </ul>
-      <button data-testid="scroll-thumbnails-down" className={`flex justify-center items-center ${imageIndex < photos.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
+      <button data-testid="scroll-thumbnails-down" className={`flex justify-center items-center clickable ${imageIndex < photos.length - count ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, 1)}>
         {horizontal || !wide ? <PiCaretRightBold size={32} /> : <PiCaretDownBold size={32} /> }
       </button>
     </div>
