@@ -7,7 +7,9 @@ import ImageThumbnails from './ImageThumbnails';
 
 import AppContext from '../context/AppContext';
 
-import missing from '../images/missing.png';
+import missing from '../images/missing.svg?url';
+import cursorPlus from '../images/plus.svg?url';
+import cursorMinus from '../images/minus.svg?url';
 
 function ExpandedView({ switchImage }) {
   const [zoomed, setZoomed] = useState(false);
@@ -33,14 +35,14 @@ function ExpandedView({ switchImage }) {
     big.width = imgRef.current.naturalWidth * 2.5;
     big.height = imgRef.current.naturalHeight * 2.5;
   }
-  console.log(big);
+  // console.log(big);
 
   const { photos } = styles[selectedStyle];
   // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
     <div
-      className={`relative w-full h-full overflow-hidden flex flex-col gap-2 items-center select-none ${zoomed ? 'cursor-[url(../images/minus.png),auto] justify-center max-w-none max-h-none' : 'cursor-[url(../images/plus.png),auto]'}`}
+      className={`relative w-full h-full overflow-hidden flex flex-col gap-2 items-center select-none ${zoomed ? 'cursor-[url(../images/minus.svg),auto] justify-center max-w-none max-h-none' : 'cursor-[url(../images/plus.svg),auto]'}`}
       onClick={() => setZoomed(!zoomed)}
       onPointerMove={(e) => {
         // console.log(e.clientX, e.clientY);
