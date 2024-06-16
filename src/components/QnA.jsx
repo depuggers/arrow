@@ -63,7 +63,7 @@ function QnA() {
         <input data-testid="qna-search" type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder={mobile ? 'SEARCH FOR ANSWERS...' : 'HAVE A QUESTION? SEARCH FOR ANSWERS...'} className="form-input w-full" />
         <FaMagnifyingGlass size={20} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
       </div>
-      {loading ? 'Loading...' : questions.length === 0 ? <p>No questions yet. Be the first!</p> : filter.length >= 3 && sortedQuestions.length === 0 ? <p>No results found.</p> : sortedQuestions.length > 0 ? (
+      {loading ? 'Loading...' : newerQuestions.length === 0 ? <p>No questions yet. Be the first!</p> : filter.length >= 3 && sortedQuestions.length === 0 ? <p>No results found.</p> : sortedQuestions.length > 0 ? (
         <div
           data-testid="questions"
           className={`w-full flex flex-col gap-6 overflow-y-auto ${scrolling ? 'pr-6' : ''}`}
