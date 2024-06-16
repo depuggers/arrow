@@ -31,6 +31,13 @@ function ReviewSummary({
     return selectionRating;
   };
 
+  const toggleSearch = (rating) => {
+    const newFilters = filters.includes(rating)
+      ? filters.filter((filter) => filter !== rating)
+      : [...filters, rating];
+    setFilters(newFilters);
+  };
+
   const selectionRating = {
     position: 'absolute',
     left: `${getFeatureData('Comfort')}%`,

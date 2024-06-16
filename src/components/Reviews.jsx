@@ -12,7 +12,7 @@ function Reviews() {
 
   const [reviews, setReviews] = useState({ results: [] });
   const [ratings, setRatings] = useState('');
-  const [displayedReviews, setDisplayedReviews] = useState(2);
+  const [displayedReviews, setDisplayedReviews] = useState(4);
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
   const [numReviews, setNumReviews] = useState(0);
@@ -44,15 +44,28 @@ function Reviews() {
     }
   }, [filters, displayedReviews, reviews]);
 
+  const sortByHelpfulness = currentView.sort((a, b) => a.helpfulness - b.helpfulness);
+  const sortByDate = currentView.sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+
+    if (dateA < dateB) {
+      return -1;
+    } if (dateB < dateA) {
+      return 1;
+    }
+    return 0;
+  });
+
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
+
   const toggleSearch = (rating) => {
     const newFilters = filters.includes(rating)
       ? filters.filter((filter) => filter !== rating)
       : [...filters, rating];
     setFilters(newFilters);
   };
-
   console.log(ratings.characteristics);
   console.log(ratings);
 
@@ -111,6 +124,7 @@ function Reviews() {
               ratings={ratings}
               reviews={reviews}
               filters={filters}
+              setFilters={setFilters}
               // filterReviews={toggleSearch(ratings)}
             />
 
