@@ -44,18 +44,23 @@ function Reviews() {
     }
   }, [filters, displayedReviews, reviews]);
 
-  const sortByHelpfulness = currentView.sort((a, b) => a.helpfulness - b.helpfulness);
-  const sortByDate = currentView.sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
+  // const sortByRelevance =
+  const sortByHelpfulness = () => {
+    currentView.sort((a, b) => a.helpfulness - b.helpfulness);
+  };
+  const sortByDate =  () => {
+    currentView.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
 
-    if (dateA < dateB) {
-      return -1;
-    } if (dateB < dateA) {
-      return 1;
-    }
-    return 0;
-  });
+      if (dateA < dateB) {
+        return -1;
+      } if (dateB < dateA) {
+        return 1;
+      }
+      return 0;
+    });
+  };
 
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
@@ -77,10 +82,12 @@ function Reviews() {
           <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
             <span className="flex flex-row pt-5 text-lg font-semibold">
               {`${numReviews} reviews, sorted by`}
-              <select className="underline ">
-                <option onClick="" value="relevance"> relevance</option>
-                <option onClick="" value="newest"> newest</option>
-                <option onClick="" value="helpful"> helpful</option>
+              <select value={currentView}  className="underline"
+                onChange={sortByDate}
+              >
+                <option onChange="" value="relevance"> relevance</option>
+                <option onChange={sortByDate} value="newest"> newest</option>
+                <option onChange={sortByHelpfulness} value="helpful"> helpful</option>
               </select>
             </span>
             <ul className="pl-5 pt-2">

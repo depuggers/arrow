@@ -4,7 +4,7 @@ import axios from 'axios';
 import convertStars from '../lib/convertStars';
 
 function ReviewSummary({
-  ratings, reviews, filters, filterReviews,
+  ratings, reviews, filters, setFilters,
 }) {
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
   const totalReviews = reviews.results?.length;
@@ -38,6 +38,8 @@ function ReviewSummary({
     setFilters(newFilters);
   };
 
+
+
   const selectionRating = {
     position: 'absolute',
     left: `${getFeatureData('Comfort')}%`,
@@ -60,7 +62,7 @@ function ReviewSummary({
       <div className="grow text-base text-neutral-600">
         {[5, 4, 3, 2, 1].map((star) => (
           <span className="flex flex-row hover:underline pb-2 text-sm">
-            <button key={star} onClick={() => filterReviews(star)}>{`${star} star`}</button>
+            <button key={star} onClick={() => toggleSearch(star)}>{`${star} star`}</button>
             <progress className="pl-2" value={getTotalReviews(star)} max={totalReviews} />
             <p>{`${getTotalReviews(star)} review(s)`}</p>
           </span>
