@@ -19,23 +19,20 @@ function Reviews() {
   // update: useContext
 
   useEffect(() => {
-
-    axios.get(`/reviews?product_id=${productID}`)
-      .then((response) => {
-        setReviews({ ...response.data, results: response.data.results }); // update
-        setCurrentView(response.data.results);
-        setNumReviews(response.data.results.length);
-      })
-      .catch((err) => {
-        console.error('error getting data', err);
-      });
-    axios.get(`/reviews/meta?product_id=${productID}`)
-      .then((response) => {
-        setRatings(response.data);
-      })
-      .catch((err) => {
-        console.error('error getting data', err);
-      });
+    try {
+      axios.get(`/reviews?product_id=${productID}`)
+        .then((response) => {
+          setReviews({ ...response.data, results: response.data.results }); // update
+          setCurrentView(response.data.results);
+          setNumReviews(response.data.results.length);
+        });
+      axios.get(`/reviews/meta?product_id=${productID}`)
+        .then((response) => {
+          setRatings(response.data);
+        });
+    } catch (err) {
+      console.error('error getting data', err);
+    }
   }, [productID]);
 
   useEffect(() => {
@@ -47,6 +44,8 @@ function Reviews() {
     }
   }, [filters, displayedReviews, reviews]);
 
+  const hasMoreReviews = displayedReviews < reviews.results?.length;
+  const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
   const toggleSearch = (rating) => {
     const newFilters = filters.includes(rating)
       ? filters.filter((filter) => filter !== rating)
@@ -56,10 +55,6 @@ function Reviews() {
 
   console.log(ratings.characteristics);
   console.log(ratings);
-
-  const hasMoreReviews = displayedReviews < reviews.results?.length;
-  const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
-
 
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
@@ -110,9 +105,10 @@ function Reviews() {
 
           <div>
             <ReviewSummary
-              // key={ratings.product_id}
+              key={ratings.product_id}
               // characteristics={ratings.characteristics}
               // recommended={ratings.recommended}
+              ratings={ratings}
               reviews={reviews}
               filters={filters}
               // filterReviews={toggleSearch(ratings)}
