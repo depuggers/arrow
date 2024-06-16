@@ -74,7 +74,7 @@ function ImageThumbnails({ horizontal }) {
   const selectedImageStyle = 'outline outline-offset-2 outline-primary';
 
   return (
-    <div className={`flex items-center ${wide && !horizontal ? 'flex-col order-first' : 'text-[#d4d4d4]'}`}>
+    <div className={`flex items-center ${wide && !horizontal ? 'flex-col order-first' : !wide && !horizontal ? '' : 'text-[#d4d4d4]'}`}>
       <button data-testid="scroll-thumbnails-up" className={`flex justify-center items-center ${imageIndex > 0 && count < photos.length ? 'visible' : 'invisible'}`} onClick={(e) => scrollThumbs(e, -1)}>
         {horizontal || !wide ? <PiCaretLeftBold size={32} /> : <PiCaretUpBold size={32} /> }
       </button>
