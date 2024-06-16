@@ -26,7 +26,7 @@ function ReviewSummary({
     const selectionRating = {
       position: 'absolute',
       left: `${featureAvg}%`,
-      bottom: '40%',
+      top: '90%',
     };
     return selectionRating;
   };
@@ -62,7 +62,6 @@ function ReviewSummary({
           <h4 className="text-sm">Size</h4>
           <div style={{ position: 'relative' }} className="flex flex-row   w-full">
             <span className="pr-2" style={getFeatureData('Comfort')}><TbTriangleInvertedFilled className="text-sm" /></span>
-            {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
@@ -74,12 +73,11 @@ function ReviewSummary({
         <div>
           <h4 className="text-sm">Width</h4>
           <div style={{ position: 'relative' }} className="flex flex-row  w-full">
-            <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
-            {/* 10% to 30% -- chaange to grid */}
+            <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
           </div>
           <progress className="w-full h-2" value={0} />
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Too Small</p>
+            <p className="">Too Narrow</p>
             <p>Perfect</p>
             <p>Too Large</p>
           </div>
@@ -87,53 +85,50 @@ function ReviewSummary({
         <div>
           <h4 className="text-sm">Comfort</h4>
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
-            {/* 10% to 30% -- chaange to grid */}
+            <span className="pr-2" style={getFeatureData('Comfort')}><TbTriangleInvertedFilled className="text-sm" /></span>
           </div>
           <progress className="w-full h-2" value={0} />
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Too Small</p>
+            <p className="">Uncomfortable</p>
+            <p>OK</p>
             <p>Perfect</p>
-            <p>Too Large</p>
           </div>
         </div>
         <div>
           <h4 className="text-sm">Quality</h4>
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
-            {/* 10% to 30% -- chaange to grid */}
+            <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
           </div>
           <progress className="w-full h-2" value={0} />
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Too Small</p>
+            <p className="">Poor</p>
+            <p>What I expected</p>
             <p>Perfect</p>
-            <p>Too Large</p>
           </div>
         </div>
         <div>
           <h4 className="text-sm">Length</h4>
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
-            {/* 10% to 30% -- chaange to grid */}
+            <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
           </div>
           <progress className="w-full h-2" value={0} />
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Too Small</p>
+            <p className="">Runs Short</p>
             <p>Perfect</p>
-            <p>Too Large</p>
+            <p>Runs Long</p>
           </div>
         </div>
         <div>
           <h4 className="text-sm">Fit</h4>
           <div style={{ position: 'relative' }} className="flex pt-1 flex-row w-full">
-            <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
+            <span className="pr-2" style={getFeatureData('Fit')}><TbTriangleInvertedFilled className="text-sm" /></span>
             {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Too Small</p>
+            <p className="">Runs Tight</p>
             <p>Perfect</p>
-            <p>Too Large</p>
+            <p>Runs Long</p>
           </div>
         </div>
 
