@@ -33,7 +33,7 @@ function ExpandedView({ switchImage }) {
     big.width = imgRef.current.naturalWidth * 2.5;
     big.height = imgRef.current.naturalHeight * 2.5;
   }
-  // console.log(big);
+  console.log(big);
 
   const { photos } = styles[selectedStyle];
   // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
@@ -49,12 +49,11 @@ function ExpandedView({ switchImage }) {
     >
       <img
         data-testid="expanded-image"
-        className={`w-full h-full object-contain ${zoomed ? '' : 'min-h-0'}`}
+        className={`${zoomed ? 'absolute max-w-none' : 'w-full h-full object-contain min-h-0'}`}
         src={photos[selectedImage].url ?? missing}
         style={zoomed ? {
           width: big.width,
           height: big.height,
-          objectFit: 'fill',
           transform: `translateX(${(big.width - document.documentElement.clientWidth) * -position.left}px) translateY(${(big.height - document.documentElement.clientHeight) * -position.top}px)`,
         } : {}}
         ref={imgRef}
