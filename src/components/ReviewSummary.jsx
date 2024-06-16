@@ -17,21 +17,28 @@ function ReviewSummary({
   if (ratings) {
     starRatings = convertStars(ratings);
   }
+
   const getFeatureData = (feature) => {
     // const featureData = `${productChars}.${feature}.value`;
     const featureData = productChars[feature].value;
-    const featureAvg = ((featureData - 1) * 25); // 1 star = 0%
-    return featureData;
+    const featureAvg = ((featureData) * 20); // 1 star = 0%
+    // featureAvg;
+    const selectionRating = {
+      position: 'absolute',
+      left: `${featureAvg}%`,
+      bottom: '40%',
+    };
+    return selectionRating;
   };
 
-  const featureAvg = ((5 - 1) * 25); // 1 star = 0%
   const selectionRating = {
     position: 'absolute',
-    left: `${featureAvg}%`,
+    left: `${getFeatureData('Comfort')}%`,
     bottom: '40%',
   };
+
   console.log(getFeatureData('Comfort'));
-  console.log(starRatings);
+
   return (
     <section className="flex flex-col self-start pr-10 pt-4 pb-20">
       <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
@@ -54,7 +61,7 @@ function ReviewSummary({
         <div className="pb-6 pt-2 flex flex-col w-full">
           <h4 className="text-sm">Size</h4>
           <div style={{ position: 'relative' }} className="flex flex-row   w-full">
-            <span className="pr-2" style={selectionRating}><TbTriangleInvertedFilled className="text-sm" /></span>
+            <span className="pr-2" style={getFeatureData('Comfort')}><TbTriangleInvertedFilled className="text-sm" /></span>
             {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
