@@ -6,6 +6,8 @@ import AddAnswer from './AddAnswer';
 
 import AppContext from '../context/AppContext';
 
+import markText from '../lib/markText'
+
 function QnAItem({ question, filter }) {
   const [visibleAnswers, setVisibleAnswers] = useState(2);
 
@@ -16,6 +18,10 @@ function QnAItem({ question, filter }) {
 
   const sortedAnswers = Object.values(question.answers).sort((a, b) => (a.helpfulness >= b.helpfulness || a.answerer_name.toLowerCase() === 'seller' ? -1 : 1));
   // console.log(sortedAnswers);
+
+  if (filter.length > 3) {
+    console.log(markText(question.question_body, filter))
+  }
 
   const markQuestionHelpful = async (id) => {
     if (!helpfulQs.includes(id)) {
@@ -56,7 +62,7 @@ function QnAItem({ question, filter }) {
       <div className="flex gap-2">
         <span className="text-xl font-bold">Q:</span>
         <div className="flex flex-col gap-2 md:flex-row md:justify-between md:items-center w-full">
-          <span className="text-xl font-bold">{question.question_body}</span>
+          <span className="text-xl font-bold">{filter.length >= 3 ? markText(question.question_body, filter) : question.question_body}</span>
           <Helpful helpfulCount={question.question_helpfulness} childAction={() => showModal(<AddAnswer question={question} />)} helpfulAction={() => markQuestionHelpful(question.question_id)}>Add Answer</Helpful>
         </div>
       </div>
