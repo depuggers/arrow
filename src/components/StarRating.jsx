@@ -7,7 +7,7 @@ import starMask2 from '../images/star-mask-2.svg?url';
 import starMask3 from '../images/star-mask-3.svg?url';
 import starMask4 from '../images/star-mask-4.svg?url';
 
-function StarRating({ rating, size }) {
+function StarRating({ rating, size = 1.5 }) {
 
   const masks = [starMask0, starMask1, starMask2, starMask3];
 
