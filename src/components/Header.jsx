@@ -3,7 +3,7 @@ import React, { useContext, useLayoutEffect, useState } from 'react';
 import { PiShoppingCart } from 'react-icons/pi';
 import { BsMoonStars, BsSun } from 'react-icons/bs';
 
-import Logo from '../images/atelierlogo.svg';
+import Logo from '../images/arrowlogo.svg';
 
 import AppContext from '../context/AppContext';
 
