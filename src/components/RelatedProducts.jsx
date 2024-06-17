@@ -8,7 +8,6 @@ import AppContext from '../context/AppContext';
 import calculateRating from '../lib/calculateRating';
 
 function RelatedProducts() {
-//  const [allProducts, setAllProducts] = useState([]);
   const [defaultProducts, setDefaultProducts] = useState([]);
   const [relatedProductImages, setRelatedProductImages] = useState(null);
   const [rpRatings, setRPRatings] = useState(null);
@@ -77,7 +76,7 @@ function RelatedProducts() {
   };
 
   return (
-    <div className="relative w-full flex flex-col gap-6">
+    <div className="relative w-full flex flex-col gap-6  text-neutral-600">
       <h3 className="text-neutral-600">RELATED PRODUCTS</h3>
       {canScrollLeft && (
         <button onClick={scrollLeft} className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full z-10" aria-label="Scroll left">

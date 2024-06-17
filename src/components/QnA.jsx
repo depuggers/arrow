@@ -57,14 +57,14 @@ function QnA() {
       }}
     >
       <h3>QUESTIONS & ANSWERS</h3>
-      <div className="relative">
+      <div className="relative w-full">
         <input data-testid="qna-search" type="search" name="qna_search" onChange={(e) => setFilter(e.target.value)} placeholder={mobile ? 'SEARCH FOR ANSWERS...' : 'HAVE A QUESTION? SEARCH FOR ANSWERS...'} className="form-input w-full" />
         <FaMagnifyingGlass size={20} className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" />
       </div>
       {!loading ? (
         <div
           data-testid="questions"
-          className={`flex flex-col gap-6 overflow-y-auto ${scrolling ? 'pr-6' : ''}`}
+          className={`w-full flex flex-col gap-6 overflow-y-auto ${scrolling ? 'pr-6' : ''}`}
           ref={questionsRef}
         >
           {sortedQuestions.slice(0, visibleQuestions).map((question) => <QnAItem key={question.question_id} filter={filter} question={question} />)}
