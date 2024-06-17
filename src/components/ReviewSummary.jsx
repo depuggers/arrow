@@ -8,12 +8,8 @@ function ReviewSummary({
   ratings, reviews, avgRatings, filters, setFilters,
 }) {
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
-
   const totalReviews = reviews.results?.length;
   const productChars = ratings.characteristics;
-
-  const starTotal = 5;// placeholder
-  // const featureAvg = ((starTotal - 1) * 25); // 1 star = 0%
 
   const getFeatureData = (feature) => {
     // const featureData = `${productChars}.${feature}.value`;
@@ -35,26 +31,23 @@ function ReviewSummary({
     setFilters(newFilters);
   };
 
-  console.log(avgRatings);
+  const roundedAvg = Math.round(avgRatings.average * 10) / 10;
 
   return (
     <section className="flex flex-col self-start pr-10 pt-4 pb-20">
       <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
       <div className="flex flex-row pb-4">
         <h2 className="font-bold text-4xl">
-          {avgRatings.average}
+          {roundedAvg}
         </h2>
-        <div className="rating">
+        <div className="rating pr-1">
           {ratings
                && (
                <StarRating
-                 rating={avgRatings.average}
+                 rating={roundedAvg}
                  name="reviewSummaryStars"
                />
                )}
-          {/* {[1, 2, 3, 4, 5].map((starRating) => (
-            <input key={starRating} type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(starTotal === starRating)} />
-          ))} */}
         </div>
       </div>
       <div className="grow text-base text-neutral-600">

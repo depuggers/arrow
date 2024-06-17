@@ -36,6 +36,7 @@ function Reviews() {
       console.error('error getting data', err);
     }
   }, [productID]);
+
   useEffect(() => {
     if (filters.length === 0) {
       setCurrentView(reviews.results?.slice(0, displayedReviews));
@@ -51,13 +52,12 @@ function Reviews() {
     // }
     // const sortType = event.target.value;
 
+    // const sortByRelevance = {
+
+    // }
     const sortByHelpfulness = () => {
       currentView.sort((a, b) => a.helpfulness - b.helpfulness);
     };
-      // const sortByRelevance = {
-
-    // }
-
     const sortByDate = () => {
       setCurrentView(currentView.sort((a, b) => {
         const dateA = new Date(a.date);
@@ -71,7 +71,6 @@ function Reviews() {
         return 0;
       }));
     };
-
     if (sortType === 'Newest') {
       sortByDate();
     } else if (sortType === 'Helpfulness') {
@@ -79,19 +78,15 @@ function Reviews() {
     }
   };
 
-  // const sortByDate = () => {
-  //   setCurrentView(currentView.sort((a, b) => {
-  //     const dateA = new Date(a.date);
-  //     const dateB = new Date(b.date);
+  // let starRatings;
+  // if (ratings) {
+  //   starRatings = convertStars(ratings);
+  // }
 
-  //     if (dateA < dateB) {
-  //       return -1;
-  //     } if (dateB < dateA) {
-  //       return 1;
-  //     }
-  //     return 0;
-  //   }));
-  // };
+  function handleSortMethod(e) {
+    currentView.sort((a, b) => a.helpfulness - b.helpfulness);
+    setCurrentView(e.target.value);
+  }
 
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
@@ -99,10 +94,6 @@ function Reviews() {
   console.log(ratings.characteristics);
   console.log(currentView);
 
-  // let starRatings;
-  // if (ratings) {
-  //   starRatings = convertStars(ratings);
-  // }
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
 
@@ -113,16 +104,14 @@ function Reviews() {
               {`${numReviews} reviews, sorted by`}
               <select
                 className="underline"
+                // onChange={ setValue, then  trigger re-render}
                 // onChange={sortBy`${value}(${value})`}
-                value={handleSort('Helpfulness')}
-                onChange={handleSort('Helpfulness')}
+                value={currentView}
+                onChange={handleSortMethod}
               >
                 {['Relevance', 'Newest', 'Helpfulness'].map((sortType, index) => (
                   <option key={index}>{sortType}</option>
                 ))}
-                {/* <option value="Relevance"> relevance</option>
-                <option value="Newest"> newest</option>
-                <option value="Helpfulness"> helpful</option> */}
               </select>
             </span>
             <ul className="pl-5 pt-2">
