@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import axios from 'axios';
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
-import convertStars from '../lib/convertStars';
+import calculateRating from '../lib/calculateRating';
 import ReviewSummary from './ReviewSummary';
 // import RelatedProducts from './RelatedProducts';
 // import ProductDetails from './ProductDetails';
@@ -12,6 +12,7 @@ function Reviews() {
 
   const [reviews, setReviews] = useState({ results: [] });
   const [ratings, setRatings] = useState('');
+  const [avgRatings, setAvgRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(4);
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
@@ -29,12 +30,12 @@ function Reviews() {
       axios.get(`/reviews/meta?product_id=${productID}`)
         .then((response) => {
           setRatings(response.data);
+          setAvgRatings(calculateRating(response.data));
         });
     } catch (err) {
       console.error('error getting data', err);
     }
   }, [productID]);
-
   useEffect(() => {
     if (filters.length === 0) {
       setCurrentView(reviews.results?.slice(0, displayedReviews));
@@ -53,7 +54,7 @@ function Reviews() {
     const sortByHelpfulness = () => {
       currentView.sort((a, b) => a.helpfulness - b.helpfulness);
     };
-    // const sortByRelevance = {
+      // const sortByRelevance = {
 
     // }
 
@@ -98,6 +99,10 @@ function Reviews() {
   console.log(ratings.characteristics);
   console.log(currentView);
 
+  // let starRatings;
+  // if (ratings) {
+  //   starRatings = convertStars(ratings);
+  // }
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
 
@@ -106,7 +111,8 @@ function Reviews() {
           <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
             <span className="flex flex-row pt-5 text-lg font-semibold">
               {`${numReviews} reviews, sorted by`}
-              <select className="underline"
+              <select
+                className="underline"
                 // onChange={sortBy`${value}(${value})`}
                 value={handleSort('Helpfulness')}
                 onChange={handleSort('Helpfulness')}
@@ -154,9 +160,9 @@ function Reviews() {
           <div>
             <ReviewSummary
               key={ratings.product_id}
-              // recommended={ratings.recommended}
               ratings={ratings}
               reviews={reviews}
+              avgRatings={avgRatings}
               filters={filters}
               setFilters={setFilters}
             />

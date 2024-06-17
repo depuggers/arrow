@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
-import axios from 'axios';
 import convertStars from '../lib/convertStars';
+import calculateRating from '../lib/calculateRating';
+import StarRating from './StarRating';
 
 function ReviewSummary({
-  ratings, reviews, filters, setFilters,
+  ratings, reviews, avgRatings, filters, setFilters,
 }) {
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
+
   const totalReviews = reviews.results?.length;
   const productChars = ratings.characteristics;
-  console.log(productChars.Comfort);
+
   const starTotal = 5;// placeholder
   // const featureAvg = ((starTotal - 1) * 25); // 1 star = 0%
-
-  let starRatings;
-  if (ratings) {
-    starRatings = convertStars(ratings);
-  }
 
   const getFeatureData = (feature) => {
     // const featureData = `${productChars}.${feature}.value`;
@@ -38,17 +35,26 @@ function ReviewSummary({
     setFilters(newFilters);
   };
 
-  console.log(getFeatureData('Comfort'));
+  console.log(avgRatings);
 
   return (
     <section className="flex flex-col self-start pr-10 pt-4 pb-20">
       <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
       <div className="flex flex-row pb-4">
-        <h2 className="font-bold text-4xl">{starTotal}</h2>
+        <h2 className="font-bold text-4xl">
+          {avgRatings.average}
+        </h2>
         <div className="rating">
-          {[1, 2, 3, 4, 5].map((starRating) => (
+          {ratings
+               && (
+               <StarRating
+                 rating={avgRatings.average}
+                 name="reviewSummaryStars"
+               />
+               )}
+          {/* {[1, 2, 3, 4, 5].map((starRating) => (
             <input key={starRating} type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(starTotal === starRating)} />
-          ))}
+          ))} */}
         </div>
       </div>
       <div className="grow text-base text-neutral-600">
