@@ -107,7 +107,7 @@ function Reviews() {
                 // onChange={ setValue, then  trigger re-render}
                 // onChange={sortBy`${value}(${value})`}
                 value={currentView}
-                onChange={handleSortMethod}
+                onChange={currentView}
               >
                 {['Relevance', 'Newest', 'Helpfulness'].map((sortType, index) => (
                   <option key={index}>{sortType}</option>
