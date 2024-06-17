@@ -1,7 +1,5 @@
 import React from 'react';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
-import convertStars from '../lib/convertStars';
-import calculateRating from '../lib/calculateRating';
 import StarRating from './StarRating';
 
 function ReviewSummary({
@@ -17,7 +15,6 @@ function ReviewSummary({
     // const featureData = `${productChars}.${feature}.value`;
     const featureData = productChars[feature].value;
     const featureAvg = ((featureData) * 20);
-    // featureAvg;
     const selectionRating = {
       position: 'absolute',
       left: `${featureAvg}%`,
@@ -45,7 +42,7 @@ function ReviewSummary({
                && (
                <StarRating
                  rating={roundedAvg}
-                 name="reviewSummaryStars"
+                 size={1.5}
                />
                )}
         </div>
@@ -122,7 +119,6 @@ function ReviewSummary({
           <h4 className="text-sm">Fit</h4>
           <div style={{ position: 'relative' }} className="flex pt-1 flex-row w-full">
             <span className="pr-2" style={getFeatureData('Fit')}><TbTriangleInvertedFilled className="text-sm" /></span>
-            {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
