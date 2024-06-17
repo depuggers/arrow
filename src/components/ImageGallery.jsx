@@ -26,20 +26,19 @@ function ImageGallery() {
     dispatch({ type: 'switchImage', payload: direction });
   };
 
-  // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
-
   return (
-    <section id="image-gallery" className="h-full w-full md:max-h-[80vh] relative pt-6 pl-6 pr-8 md:pr-0">
+    <section id="image-gallery" className="h-full w-full md:max-h-[80vh] flex flex-col md:flex-row items-center gap-2 relative pt-6 pl-6 pr-8 md:pr-0 select-none">
       {loading
         ? <div className="h-full aspect-[2/3] mx-auto skelly" />
         : (
-          <>
+          <div className="w-full h-full relative">
             <img data-testid="main-image" className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url ?? missing} alt="" />
-            {selectedImage > 0 ? <ImageGalleryButton testid="image-left" styles="text-base-content left-[160px]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
-            {selectedImage < photos.length - 1 ? <ImageGalleryButton testid="image-right" styles="right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
-          </>
+            {selectedImage > 0 ? <ImageGalleryButton testid="image-left" flip styles="left-4" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
+            {selectedImage < photos.length - 1 ? <ImageGalleryButton strokeWidth={20} testid="image-right" styles="right-4" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
+          </div>
+
         )}
-      <ImageThumbnails orientation="vertical" textColor="base-content" />
+      <ImageThumbnails />
     </section>
   );
 }

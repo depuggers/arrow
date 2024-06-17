@@ -53,7 +53,7 @@ function Overview() {
               {/* (
                 {rating ? rating.average : null}
                 ) */}
-              <StarRating rating={rating.average} name="overviewstars" />
+              <StarRating rating={rating.average} size={1.5} />
               <button
                 onClick={() => document.getElementById('reviews').scrollIntoView({
                   behavior: 'smooth',
@@ -106,7 +106,7 @@ function Overview() {
             <div className="flex gap-4">
               <div className="relative flex-grow">
                 <select
-                  className="form-input w-full uppercase cursor-pointer appearance-none disabled:opacity-25"
+                  className=" form-input w-full uppercase cursor-pointer appearance-none disabled:opacity-25"
                   data-testid="size-selector"
                   defaultValue=""
                   onChange={(e) => {

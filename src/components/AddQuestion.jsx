@@ -6,7 +6,7 @@ import { IoClose } from 'react-icons/io5';
 import AppContext from '../context/AppContext';
 
 function AddQuestion() {
-  const { store: { product }, productID, hideModal } = useContext(AppContext);
+  const { store: { product }, productID, hideModal, updateQnA } = useContext(AppContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +16,7 @@ function AddQuestion() {
     // console.log(data);
     const response = await axios.post('/qa/questions', data);
     if (response.status === 201) {
+      updateQnA();
       hideModal();
     }
   };

@@ -1,32 +1,34 @@
 import React from 'react';
 
-function StarRating({ rating, name }) {
-  // const rating = { average: 3.75 };
-  // console.log(rating);
+import starMask from '../images/star-mask.svg?url';
+import starMask0 from '../images/star-mask-0.svg?url';
+import starMask1 from '../images/star-mask-1.svg?url';
+import starMask2 from '../images/star-mask-2.svg?url';
+import starMask3 from '../images/star-mask-3.svg?url';
+import starMask4 from '../images/star-mask-4.svg?url';
 
-  const paths = ['0 0, 51% 0, 51% 51%, 0 51%', '0 49%, 51% 49%, 51% 100%, 0 100%', '49% 49%, 100% 49%, 100% 100%, 49% 100%', '49% 0, 100% 0, 100% 51%, 49% 51%'];
+function StarRating({ rating, size }) {
+
+  const masks = [starMask0, starMask1, starMask2, starMask3];
 
   return (
-    <div className="rating grid grid-cols-[repeat(5,1fr)]">
-      {Array.from({ length: 20 }).map((v, i) => (
-        <input
-          key={i}
-          type="radio"
-          name={name}
-          className="mask mask-star-2 bg-primary"
-          disabled
-          checked={Math.round(rating * 4) === i + 1}
-          style={
-          {
-            gridColumn: `${Math.floor(i / 4) + 1} / ${Math.floor(i / 4) + 1}`,
-            gridRow: 1,
-            clipPath: `polygon(${paths[Math.floor(i % 4)]})`,
-          }
-        }
-        />
-      ))}
-
-    </div>
+    <ul className="grid grid-cols-[repeat(5,1fr)]">
+      {Array.from({ length: 5 }).map((star, i) => {
+        const fraction = Math.floor((rating % 1) * 4);
+        const mask = rating >= i + 1 ? starMask4 : rating - i + 1 < 1 ? starMask0 : masks[fraction];
+        return (
+          <li
+            key={i}
+            className="aspect-square bg-primary"
+            style={{
+              width: `${size}rem`,
+              mask: `url(${starMask}) 0 0 / 100% 100% intersect, url(${mask}) 0 0 / 100% 100% intersect`,
+              // maskComposite: 'intersect',
+            }}
+          />
+        );
+      })}
+    </ul>
   );
 }
 

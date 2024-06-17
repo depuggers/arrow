@@ -8,16 +8,17 @@ import AppContext from '../context/AppContext';
 function AddAnswer({ question }) {
   const [photos, setPhotos] = useState([]);
 
-  const { store: { product }, hideModal } = useContext(AppContext);
+  const { store: { product }, hideModal, updateQnA } = useContext(AppContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target));
-    data.question_id = parseInt(data.question_id);
+    // data.question_id = parseInt(data.question_id);
     data.photos = photos;
-    // console.log(data);
-    const response = await axios.post('/qa/questions', data);
+    console.log(data);
+    const response = await axios.post(`/qa/questions/${question.question_id}/answers`, data);
     if (response.status === 201) {
+      updateQnA();
       hideModal();
     }
   };
@@ -51,7 +52,7 @@ function AddAnswer({ question }) {
           {photos.map((photo, i) => <img key={i} className="w-[96px] aspect-square object-cover" src={photo} alt="" />)}
         </div>
         {photos.length < 5 ? <button type="button" onClick={addPhoto} className="form-input w-fit mx-auto">Add photo</button> : null}
-        <input type="hidden" name="question_id" value={question.question_id} />
+        {/* <input type="hidden" name="question_id" value={question.question_id} /> */}
         <button type="submit" className="form-input">Submit Answer</button>
       </form>
       <button className="absolute right-4 top-4" onClick={hideModal}><IoClose size={32} /></button>

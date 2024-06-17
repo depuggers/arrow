@@ -48,3 +48,11 @@ dialog[open] {
 input::placeholder, textarea::placeholder {
   @apply text-neutral-content;
 }
+
+.clickable {
+  @apply hover:scale-[102%] active:scale-[98%] origin-center;
+}
+
+button:not([disabled]) {
+  @apply clickable;
+}

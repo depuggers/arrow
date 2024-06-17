@@ -38,7 +38,7 @@ function App() {
 
   return (
     <AppContext.Provider value={{
-      productID, setProductID, showModal, hideModal, store, dispatch,
+      productID, setProductID, showModal, hideModal, store, dispatch, updateQnA: () => getQuestions(productID, dispatch),
     }}
     >
       <Header />
