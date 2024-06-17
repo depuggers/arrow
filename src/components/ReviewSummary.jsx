@@ -11,10 +11,12 @@ function ReviewSummary({
   const totalReviews = reviews.results?.length;
   const productChars = ratings.characteristics;
 
+  const roundedAvg = Math.round(avgRatings.average * 10) / 10;
+
   const getFeatureData = (feature) => {
     // const featureData = `${productChars}.${feature}.value`;
     const featureData = productChars[feature].value;
-    const featureAvg = ((featureData) * 20); // 1 star = 0%
+    const featureAvg = ((featureData) * 20);
     // featureAvg;
     const selectionRating = {
       position: 'absolute',
@@ -30,8 +32,6 @@ function ReviewSummary({
       : [...filters, rating];
     setFilters(newFilters);
   };
-
-  const roundedAvg = Math.round(avgRatings.average * 10) / 10;
 
   return (
     <section className="flex flex-col self-start pr-10 pt-4 pb-20">

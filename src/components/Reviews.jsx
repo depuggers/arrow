@@ -17,7 +17,7 @@ function Reviews() {
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
   const [numReviews, setNumReviews] = useState(0);
-  // update: useContext
+  // useContext
 
   useEffect(() => {
     try {
@@ -45,16 +45,8 @@ function Reviews() {
       setCurrentView(filteredReviews.slice(0, displayedReviews));
     }
   }, [filters, displayedReviews, reviews]);
-
-  const handleSort = (sortType) => {
-    // if (sortType === 'relevance') {
-    //   sortByRelevance();
-    // }
-    // const sortType = event.target.value;
-
-    // const sortByRelevance = {
-
-    // }
+  // to async
+  const handleSortMethod = (sortType) => {
     const sortByHelpfulness = () => {
       currentView.sort((a, b) => a.helpfulness - b.helpfulness);
     };
@@ -77,16 +69,13 @@ function Reviews() {
       sortByHelpfulness();
     }
   };
+  // currentView.sort((a, b) => a.helpfulness - b.helpfulness);
+  // ;
 
   // let starRatings;
   // if (ratings) {
   //   starRatings = convertStars(ratings);
   // }
-
-  function handleSortMethod(e) {
-    currentView.sort((a, b) => a.helpfulness - b.helpfulness);
-    setCurrentView(e.target.value);
-  }
 
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
