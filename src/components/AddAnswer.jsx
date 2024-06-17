@@ -12,10 +12,11 @@ function AddAnswer({ question }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(e.target));
-    // data.question_id = parseInt(data.question_id);
-    data.photos = photos;
-    // console.log(data);
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    data.photos = formData.getAll('photos');
+    console.log(data);
+    // return;
     const response = await axios.post(`/qa/questions/${question.question_id}/answers`, data);
     if (response.status === 201) {
       updateQnA();
@@ -24,7 +25,7 @@ function AddAnswer({ question }) {
   };
 
   const addPhoto = () => {
-    setPhotos((prevPhotos) => [...prevPhotos, 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80']);
+    setPhotos((prevPhotos) => [...prevPhotos, (<input key={prevPhotos.length} type="text" name="photos" placeholder="Enter URL" spellCheck={false} className="form-input" />)]);
   };
 
   return (
@@ -48,9 +49,11 @@ function AddAnswer({ question }) {
           <input type="email" name="email" placeholder="Example: jack@email.com" className="form-input" maxLength={60} required />
           <p className="text-sm text-neutral-400">For authentication reasons, you will not be emailed</p>
         </label>
-        <div data-testid="answer-photos" className="w-full flex justify-center gap-2">
+        {/* <div data-testid="answer-photos" className="w-full flex justify-center gap-2">
           {photos.map((photo, i) => <img key={i} className="w-[96px] aspect-square object-cover" src={photo} alt="" />)}
-        </div>
+        </div> */}
+        {photos}
+        {/* <input type="file" name="photos" accept="image/png, image/jpeg" /> */}
         {photos.length < 5 ? <button type="button" onClick={addPhoto} className="form-input w-fit mx-auto">Add photo</button> : null}
         {/* <input type="hidden" name="question_id" value={question.question_id} /> */}
         <button type="submit" className="form-input">Submit Answer</button>
