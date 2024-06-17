@@ -74,17 +74,21 @@ describe('Overview', () => {
     expect(mockFn.mock.calls).toHaveLength(1);
   });
 
-  test('Selecting a size should enable add to cart button', async () => {
+  test('Selecting a size should enable add to cart button and qty selector', async () => {
     render(<App />);
     await screen.findByText(/1905/i);
     const cartButton = await screen.findByText(/cart/i);
     expect(cartButton).toBeDisabled();
     const sizeSelect = await screen.findByTestId('size-selector');
     expect(sizeSelect).toBeInTheDocument();
+    const qtySelect = await screen.findByTestId('qty-selector');
+    expect(qtySelect).toBeDisabled();
     const options = await screen.findAllByTestId('size-option');
     fireEvent.change(sizeSelect, { target: { value: '1394771' } });
     expect(options[3].selected).toBeTruthy();
     expect(cartButton).not.toBeDisabled();
+    expect(qtySelect).not.toBeDisabled();
+    fireEvent.change(qtySelect, { target: { value: '1' } });
   });
 
   test('Pressing ADD TO CART after selecting a size should ADD TO CART', async () => {

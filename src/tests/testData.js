@@ -110,7 +110,7 @@ const testData = [
         style_id: 240501,
         name: 'Desert Brown & Tan',
         original_price: '140.00',
-        sale_price: null,
+        sale_price: '6.00',
         'default?': false,
         photos: [
           {
@@ -409,7 +409,7 @@ const testData = [
       {
         question_id: 647659,
         question_body: 'do we have size guide for the jacket?',
-        question_date: '2024-03-06T00:00:00.000Z',
+        question_date: '2024-06-06T00:00:00.000Z',
         asker_name: 'user123',
         question_helpfulness: 0,
         reported: false,
@@ -417,7 +417,7 @@ const testData = [
           5993739: {
             id: 5993739,
             body: 'nah not really',
-            date: '2024-03-08T00:00:00.000Z',
+            date: '2024-06-08T00:00:00.000Z',
             answerer_name: 'seller',
             helpfulness: 9,
             photos: [],
@@ -425,7 +425,7 @@ const testData = [
           5993742: {
             id: 5993742,
             body: 'YES SIR',
-            date: '2024-03-08T00:00:00.000Z',
+            date: '2024-06-08T00:00:00.000Z',
             answerer_name: 'andreezy',
             helpfulness: 0,
             photos: [],
@@ -433,7 +433,7 @@ const testData = [
           5993769: {
             id: 5993769,
             body: 'wo wow wowowowowow',
-            date: '2024-03-09T00:00:00.000Z',
+            date: '2024-06-09T00:00:00.000Z',
             answerer_name: 'wow man',
             helpfulness: 0,
             photos: [],
@@ -441,7 +441,7 @@ const testData = [
           5993776: {
             id: 5993776,
             body: 'wow AMAZING',
-            date: '2024-03-09T00:00:00.000Z',
+            date: '2024-06-09T00:00:00.000Z',
             answerer_name: 'test1',
             helpfulness: 0,
             photos: [],
@@ -449,7 +449,7 @@ const testData = [
           5993798: {
             id: 5993798,
             body: 'yes',
-            date: '2024-03-10T00:00:00.000Z',
+            date: '2024-06-10T00:00:00.000Z',
             answerer_name: 'sdfasdfa',
             helpfulness: 0,
             photos: [],
@@ -457,7 +457,7 @@ const testData = [
           5993799: {
             id: 5993799,
             body: 'photototototo testtt',
-            date: '2024-03-10T00:00:00.000Z',
+            date: '2024-06-10T00:00:00.000Z',
             answerer_name: 'sfasfasfa',
             helpfulness: 0,
             photos: [],
@@ -465,7 +465,7 @@ const testData = [
           5993855: {
             id: 5993855,
             body: 'Look in the reviews section!',
-            date: '2024-03-14T00:00:00.000Z',
+            date: '2024-06-14T00:00:00.000Z',
             answerer_name: 'Bababooey90',
             helpfulness: 0,
             photos: [
@@ -475,7 +475,7 @@ const testData = [
           5993871: {
             id: 5993871,
             body: 'Look at the reviews - they tell if you if it runs big or small or whatever.',
-            date: '2024-03-14T00:00:00.000Z',
+            date: '2024-06-14T00:00:00.000Z',
             answerer_name: 'AnswerKing99',
             helpfulness: 0,
             photos: [
@@ -485,7 +485,7 @@ const testData = [
           5993872: {
             id: 5993872,
             body: 'zzzzzzzzz',
-            date: '2024-03-14T00:00:00.000Z',
+            date: '2024-06-14T00:00:00.000Z',
             answerer_name: 'zzz',
             helpfulness: 0,
             photos: [
@@ -495,7 +495,7 @@ const testData = [
           5993880: {
             id: 5993880,
             body: 'Time and space is an illusion! No size guide.',
-            date: '2024-03-14T00:00:00.000Z',
+            date: '2024-06-14T00:00:00.000Z',
             answerer_name: 'Ein$tein',
             helpfulness: 0,
             photos: [
@@ -505,7 +505,7 @@ const testData = [
           5993885: {
             id: 5993885,
             body: 'this is amazing',
-            date: '2024-03-16T00:00:00.000Z',
+            date: '2024-06-16T00:00:00.000Z',
             answerer_name: 'amazed man',
             helpfulness: 0,
             photos: [
@@ -517,7 +517,7 @@ const testData = [
       {
         question_id: 647077,
         question_body: 'vhvb',
-        question_date: '2023-10-25T00:00:00.000Z',
+        question_date: '2024-10-25T00:00:00.000Z',
         asker_name: 'afgafg',
         question_helpfulness: 20,
         reported: false,
@@ -525,7 +525,7 @@ const testData = [
           5993475: {
             id: 5993475,
             body: 'zzzzzzzzzzz',
-            date: '2023-11-29T00:00:00.000Z',
+            date: '2024-11-29T00:00:00.000Z',
             answerer_name: 'zz',
             helpfulness: 2,
             photos: [],
@@ -533,7 +533,7 @@ const testData = [
           5993: {
             id: 5993,
             body: 'zzzzzzzzzzz',
-            date: '2023-11-29T00:00:00.000Z',
+            date: '2024-11-29T00:00:00.000Z',
             answerer_name: 'zz',
             helpfulness: 2,
             photos: [],
@@ -541,7 +541,7 @@ const testData = [
           59934: {
             id: 59934,
             body: 'zzzzzzzzzzz',
-            date: '2023-11-29T00:00:00.000Z',
+            date: '2024-11-29T00:00:00.000Z',
             answerer_name: 'zz',
             helpfulness: 2,
             photos: [],
@@ -551,7 +551,7 @@ const testData = [
       {
         question_id: 645133,
         question_body: 'Can we get a workshop on jests',
-        question_date: '2023-02-10T00:00:00.000Z',
+        question_date: '2024-02-10T00:00:00.000Z',
         asker_name: 'Strugglebus',
         question_helpfulness: 12,
         reported: false,
@@ -560,7 +560,7 @@ const testData = [
       {
         question_id: 647175,
         question_body: 'Where are the pants?',
-        question_date: '2023-11-27T00:00:00.000Z',
+        question_date: '2024-11-27T00:00:00.000Z',
         asker_name: 'pantsguy',
         question_helpfulness: 7,
         reported: false,
@@ -568,7 +568,7 @@ const testData = [
           5993647: {
             id: 5993647,
             body: 'last slide',
-            date: '2023-12-02T00:00:00.000Z',
+            date: '2024-12-02T00:00:00.000Z',
             answerer_name: 'mal',
             helpfulness: 5,
             photos: [],
@@ -576,7 +576,7 @@ const testData = [
           5993789: {
             id: 5993789,
             body: 'right here homie',
-            date: '2024-03-09T00:00:00.000Z',
+            date: '2024-06-09T00:00:00.000Z',
             answerer_name: 'pants man',
             helpfulness: 0,
             photos: [
@@ -588,7 +588,7 @@ const testData = [
       {
         question_id: 647076,
         question_body: 'gsfgsfg',
-        question_date: '2023-10-25T00:00:00.000Z',
+        question_date: '2024-10-25T00:00:00.000Z',
         asker_name: 'afgafg',
         question_helpfulness: 3,
         reported: false,
@@ -596,7 +596,7 @@ const testData = [
           5993481: {
             id: 5993481,
             body: 'YES IT IS WORKING lol',
-            date: '2023-11-29T00:00:00.000Z',
+            date: '2024-11-29T00:00:00.000Z',
             answerer_name: 'tryingTrying',
             helpfulness: 0,
             photos: [],
@@ -604,7 +604,7 @@ const testData = [
           5993796: {
             id: 5993796,
             body: 'How is work?',
-            date: '2024-03-09T00:00:00.000Z',
+            date: '2024-06-09T00:00:00.000Z',
             answerer_name: 'bro',
             helpfulness: 0,
             photos: [],
@@ -614,7 +614,7 @@ const testData = [
       {
         question_id: 647071,
         question_body: 'aaa',
-        question_date: '2023-09-20T00:00:00.000Z',
+        question_date: '2024-09-20T00:00:00.000Z',
         asker_name: 'aa',
         question_helpfulness: 3,
         reported: false,
@@ -641,7 +641,7 @@ const testData = [
       {
         question_id: 647285,
         question_body: 'testing search',
-        question_date: '2023-12-04T00:00:00.000Z',
+        question_date: '2024-12-04T00:00:00.000Z',
         asker_name: 'BigDaddyJ',
         question_helpfulness: 1,
         reported: false,
@@ -650,7 +650,7 @@ const testData = [
       {
         question_id: 647098,
         question_body: 'djdjhdhj',
-        question_date: '2023-11-19T00:00:00.000Z',
+        question_date: '2024-11-19T00:00:00.000Z',
         asker_name: 'afg',
         question_helpfulness: 1,
         reported: false,
@@ -658,7 +658,7 @@ const testData = [
           5993478: {
             id: 5993478,
             body: 'sdhgsdghsdgsdfgsdfg',
-            date: '2023-11-29T00:00:00.000Z',
+            date: '2024-11-29T00:00:00.000Z',
             answerer_name: 'sdg',
             helpfulness: 0,
             photos: [],

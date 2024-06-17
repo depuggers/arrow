@@ -21,10 +21,6 @@ function QnAItem({ question, filter }) {
   const sortedAnswers = newerQuestions.sort((a, b) => (a.helpfulness >= b.helpfulness || a.answerer_name.toLowerCase() === 'seller' ? -1 : 1));
   // console.log(sortedAnswers);
 
-  if (filter.length > 3) {
-    console.log(markText(question.question_body, filter));
-  }
-
   const markQuestionHelpful = async (id) => {
     if (!helpfulQs.includes(id)) {
       const response = await axios.put(`/qa/questions/${id}/helpful`);
