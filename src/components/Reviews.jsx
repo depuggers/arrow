@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import axios from 'axios';
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 import calculateRating from '../lib/calculateRating';
 import ReviewSummary from './ReviewSummary';
-// import RelatedProducts from './RelatedProducts';
-// import ProductDetails from './ProductDetails';
 
 function Reviews() {
   const productID = 40387;
@@ -17,24 +14,26 @@ function Reviews() {
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
   const [numReviews, setNumReviews] = useState(0);
-  // useContext
+  const [sortMethod, setSortMethod] = useState('relevance');
 
   useEffect(() => {
-    try {
-      axios.get(`/reviews?product_id=${productID}`)
-        .then((response) => {
-          setReviews({ ...response.data, results: response.data.results }); // update
-          setCurrentView(response.data.results);
-          setNumReviews(response.data.results.length);
-        });
-      axios.get(`/reviews/meta?product_id=${productID}`)
-        .then((response) => {
-          setRatings(response.data);
-          setAvgRatings(calculateRating(response.data));
-        });
-    } catch (err) {
-      console.error('error getting data', err);
-    }
+    axios.get(`/reviews?product_id=${productID}`)
+      .then((response) => {
+        setReviews({ ...response.data, results: response.data.results }); // update
+        setCurrentView(response.data.results);
+        setNumReviews(response.data.results.length);
+      })
+      .catch((err) => {
+        console.error('error getting data', err);
+      });
+    axios.get(`/reviews/meta?product_id=${productID}`)
+      .then((response) => {
+        setRatings(response.data);
+        setAvgRatings(calculateRating(response.data));
+      })
+      .catch((err) => {
+        console.error('error getting data', err);
+      });
   }, [productID]);
 
   useEffect(() => {
@@ -45,43 +44,42 @@ function Reviews() {
       setCurrentView(filteredReviews.slice(0, displayedReviews));
     }
   }, [filters, displayedReviews, reviews]);
-  // to async
-  const handleSortMethod = (sortType) => {
-    const sortByHelpfulness = () => {
-      currentView.sort((a, b) => a.helpfulness - b.helpfulness);
-    };
-    const sortByDate = () => {
-      setCurrentView(currentView.sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
 
-        if (dateA < dateB) {
-          return -1;
-        } if (dateB < dateA) {
-          return 1;
-        }
-        return 0;
-      }));
-    };
-    if (sortType === 'Newest') {
-      sortByDate();
-    } else if (sortType === 'Helpfulness') {
-      sortByHelpfulness();
-    }
-  };
-  // currentView.sort((a, b) => a.helpfulness - b.helpfulness);
-  // ;
+  useEffect(() => {
+    const handleSortMethod = () => {
+      const sortByHelpfulness = () => {
+        currentView.sort((a, b) => a.helpfulness - b.helpfulness);
+      };
 
-  // let starRatings;
-  // if (ratings) {
-  //   starRatings = convertStars(ratings);
-  // }
+      const sortByDate = () => {
+        setCurrentView(currentView.sort((a, b) => {
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          if (dateA < dateB) {
+            return -1;
+          } if (dateB < dateA) {
+            return 1;
+          }
+          return 0;
+        }));
+      };
+
+      // const sortByRelevance = () => {
+      // };
+
+      if (sortMethod === 'Newest') {
+        sortByDate();
+      } else if (sortMethod === 'Helpfulness') {
+        sortByHelpfulness();
+      } // else {
+      //   sortByRelevance();
+      // }
+    };
+    handleSortMethod();
+  }, [productID]);
 
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
-
-  console.log(ratings.characteristics);
-  console.log(currentView);
 
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
@@ -93,8 +91,6 @@ function Reviews() {
               {`${numReviews} reviews, sorted by`}
               <select
                 className="underline"
-                // onChange={ setValue, then  trigger re-render}
-                // onChange={sortBy`${value}(${value})`
                 value={currentView}
               >
                 {['Relevance', 'Newest', 'Helpfulness'].map((sortType, index) => (
@@ -131,7 +127,6 @@ function Reviews() {
         )
         : null}
 
-      {/* ReviewSummary.jsx */}
       {ratings
         ? (
           <div>
@@ -180,8 +175,8 @@ function ReviewPosts({ review }) {
         </div>
         <span className="text-sm text-gray-600 font-light">
           Helpful?
-          {/* update to match Q&A */}
-          <a className="divide-x text-sm no-underline hover:underline" href="/reviews">     Yes   </a>
+          {/* update to match Q&A styling */}
+          <a className="divide-x text-sm no-underline hover:underline" href="/reviews">    Yes   </a>
           <a className="text-xs" href="/reviews">(10)  |  </a>
           <a href="/">   Report </a>
         </span>
@@ -191,8 +186,3 @@ function ReviewPosts({ review }) {
 }
 
 export default Reviews;
-
-// const dateSort = () => {
-// setCurrentView(currentView.sort((a, b) => a.date - b.date));
-// console.log(reviews.results?.map((data) => data.date));// date arr
-// };
