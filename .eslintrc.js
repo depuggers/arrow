@@ -23,5 +23,6 @@ module.exports = {
     'no-nested-ternary': 'off',
     'no-case-declarations': 'off',
     'react/no-array-index-key': 'off',
+    'react/jsx-no-useless-fragment': 'off',
   },
 };

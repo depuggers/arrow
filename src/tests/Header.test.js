@@ -9,15 +9,25 @@ import axios from 'axios';
 
 import App from '../components/App';
 import Header from '../components/Header';
-import ImageGallery from '../components/ImageGallery';
-import AddQuestion from '../components/AddQuestion';
-import AddAnswer from '../components/AddAnswer';
 import AppContext from '../context/AppContext';
-import ExpandedView from '../components/ExpandedView';
 
 import testData from './testData';
 
 jest.mock('axios');
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
 
 beforeEach(() => {
   for (const response of testData) {
@@ -30,10 +40,6 @@ Element.prototype.scrollTo = () => {};
 
 describe('Header', () => {
   test('Should pickup dark theme preference', async () => {
-    window.matchMedia = true;
-    window.matchMedia = () => ({
-      matches: true,
-    });
     render(
       <App />,
     );
@@ -44,7 +50,6 @@ describe('Header', () => {
   test('Should pickup light theme preference', async () => {
     const storageSpy = jest.spyOn(Storage.prototype, 'getItem');
     storageSpy.mockImplementation(() => null);
-    window.matchMedia = false;
     render(<App />);
     await screen.findAllByText(/./i);
     expect(true).toBe(true);

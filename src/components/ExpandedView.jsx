@@ -7,7 +7,9 @@ import ImageThumbnails from './ImageThumbnails';
 
 import AppContext from '../context/AppContext';
 
-import missing from '../images/missing.png';
+import missing from '../images/missing.svg?url';
+import cursorPlus from '../images/plus.svg?url';
+import cursorMinus from '../images/minus.svg?url';
 
 function ExpandedView({ switchImage }) {
   const [zoomed, setZoomed] = useState(false);
@@ -33,13 +35,14 @@ function ExpandedView({ switchImage }) {
     big.width = imgRef.current.naturalWidth * 2.5;
     big.height = imgRef.current.naturalHeight * 2.5;
   }
+  // console.log(big);
 
   const { photos } = styles[selectedStyle];
   // photos = [...styles[selectedStyle].photos, ...styles[selectedStyle].photos, ...styles[selectedStyle].photos];
 
   return (
     <div
-      className={`relative w-full h-full p-4 pb-[120px] overflow-hidden ${zoomed ? 'cursor-[url(../images/minus.png),auto] flex justify-center items-center' : 'cursor-[url(../images/plus.png),auto]'}`}
+      className={`relative w-full h-full overflow-hidden flex flex-col gap-2 items-center select-none ${zoomed ? 'cursor-[url(../images/minus.svg),auto] justify-center max-w-none max-h-none' : 'cursor-[url(../images/plus.svg),auto]'}`}
       onClick={() => setZoomed(!zoomed)}
       onPointerMove={(e) => {
         // console.log(e.clientX, e.clientY);
@@ -48,12 +51,11 @@ function ExpandedView({ switchImage }) {
     >
       <img
         data-testid="expanded-image"
-        className="w-full h-full max-w-none object-contain"
+        className={`${zoomed ? 'absolute max-w-none' : 'w-full h-full object-contain min-h-0'}`}
         src={photos[selectedImage].url ?? missing}
         style={zoomed ? {
           width: big.width,
           height: big.height,
-          objectFit: 'fill',
           transform: `translateX(${(big.width - document.documentElement.clientWidth) * -position.left}px) translateY(${(big.height - document.documentElement.clientHeight) * -position.top}px)`,
         } : {}}
         ref={imgRef}
@@ -61,9 +63,10 @@ function ExpandedView({ switchImage }) {
       />
       {!zoomed ? (
         <>
-          <ImageThumbnails orientation="horizontal" />
-          <ImageGalleryButton testid="expanded-left" styles="left-8 text-[#d4d4d4]" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
-          <ImageGalleryButton testid="expanded-right" styles="right-8 text-[#d4d4d4]" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
+          <ImageThumbnails horizontal />
+          {/* <ImageThumbnails orientation="horizontal" /> */}
+          <ImageGalleryButton testid="expanded-left" flip styles="left-8" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
+          <ImageGalleryButton testid="expanded-right" styles="right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
         </>
       ) : null}
     </div>
