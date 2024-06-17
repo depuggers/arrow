@@ -12,6 +12,8 @@ import AddQuestion from '../components/AddQuestion';
 import AddAnswer from '../components/AddAnswer';
 import AppContext from '../context/AppContext';
 
+import markText from '../lib/markText';
+
 import testData from './testData';
 
 jest.mock('axios');
@@ -77,6 +79,7 @@ describe('Q&A', () => {
         },
         productID: 40344,
         hideModal: mockHideModal,
+        updateQnA: jest.fn(),
       }}
       >
         <AddQuestion />
@@ -105,6 +108,7 @@ describe('Q&A', () => {
         },
         productID: 40344,
         hideModal: mockHideModal,
+        updateQnA: jest.fn(),
       }}
       >
         <AddQuestion />
@@ -133,6 +137,7 @@ describe('Q&A', () => {
         },
         productID: 40344,
         hideModal: mockHideModal,
+        updateQnA: jest.fn(),
       }}
       >
         <AddAnswer question={{
@@ -163,6 +168,7 @@ describe('Q&A', () => {
         },
         productID: 40344,
         hideModal: mockHideModal,
+        updateQnA: jest.fn(),
       }}
       >
         <AddAnswer question={{
@@ -198,6 +204,7 @@ describe('Q&A', () => {
         },
         productID: 40344,
         hideModal: mockHideModal,
+        updateQnA: jest.fn(),
       }}
       >
         <AddAnswer question={{
@@ -214,5 +221,9 @@ describe('Q&A', () => {
     fireEvent.submit(submitButton.form);
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
     expect(mockHideModal.mock.calls).toHaveLength(0);
+  });
+
+  test('Should highlight searched text', async () => {
+    expect(markText('hello hello', 'hel').length).toBeGreaterThan(0);
   });
 });

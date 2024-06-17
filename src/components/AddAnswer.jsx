@@ -15,7 +15,7 @@ function AddAnswer({ question }) {
     const data = Object.fromEntries(new FormData(e.target));
     // data.question_id = parseInt(data.question_id);
     data.photos = photos;
-    console.log(data);
+    // console.log(data);
     const response = await axios.post(`/qa/questions/${question.question_id}/answers`, data);
     if (response.status === 201) {
       updateQnA();
