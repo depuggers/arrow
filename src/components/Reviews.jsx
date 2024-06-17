@@ -44,35 +44,59 @@ function Reviews() {
     }
   }, [filters, displayedReviews, reviews]);
 
-  // const sortByRelevance =
-  const sortByHelpfulness = () => {
-    currentView.sort((a, b) => a.helpfulness - b.helpfulness);
-  };
-  const sortByDate =  () => {
-    currentView.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
+  const handleSort = (sortType) => {
+    // if (sortType === 'relevance') {
+    //   sortByRelevance();
+    // }
+    // const sortType = event.target.value;
 
-      if (dateA < dateB) {
-        return -1;
-      } if (dateB < dateA) {
-        return 1;
-      }
-      return 0;
-    });
+    const sortByHelpfulness = () => {
+      currentView.sort((a, b) => a.helpfulness - b.helpfulness);
+    };
+    // const sortByRelevance = {
+
+    // }
+
+    const sortByDate = () => {
+      setCurrentView(currentView.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+
+        if (dateA < dateB) {
+          return -1;
+        } if (dateB < dateA) {
+          return 1;
+        }
+        return 0;
+      }));
+    };
+
+    if (sortType === 'Newest') {
+      sortByDate();
+    } else if (sortType === 'Helpfulness') {
+      sortByHelpfulness();
+    }
   };
+
+  // const sortByDate = () => {
+  //   setCurrentView(currentView.sort((a, b) => {
+  //     const dateA = new Date(a.date);
+  //     const dateB = new Date(b.date);
+
+  //     if (dateA < dateB) {
+  //       return -1;
+  //     } if (dateB < dateA) {
+  //       return 1;
+  //     }
+  //     return 0;
+  //   }));
+  // };
 
   const hasMoreReviews = displayedReviews < reviews.results?.length;
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
-  const toggleSearch = (rating) => {
-    const newFilters = filters.includes(rating)
-      ? filters.filter((filter) => filter !== rating)
-      : [...filters, rating];
-    setFilters(newFilters);
-  };
   console.log(ratings.characteristics);
-  console.log(ratings);
+  console.log(currentView);
 
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
@@ -82,12 +106,17 @@ function Reviews() {
           <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
             <span className="flex flex-row pt-5 text-lg font-semibold">
               {`${numReviews} reviews, sorted by`}
-              <select value={currentView}  className="underline"
-                onChange={sortByDate}
+              <select className="underline"
+                // onChange={sortBy`${value}(${value})`}
+                value={handleSort('Helpfulness')}
+                onChange={handleSort('Helpfulness')}
               >
-                <option onChange="" value="relevance"> relevance</option>
-                <option onChange={sortByDate} value="newest"> newest</option>
-                <option onChange={sortByHelpfulness} value="helpful"> helpful</option>
+                {['Relevance', 'Newest', 'Helpfulness'].map((sortType, index) => (
+                  <option key={index}>{sortType}</option>
+                ))}
+                {/* <option value="Relevance"> relevance</option>
+                <option value="Newest"> newest</option>
+                <option value="Helpfulness"> helpful</option> */}
               </select>
             </span>
             <ul className="pl-5 pt-2">
@@ -122,19 +151,15 @@ function Reviews() {
       {/* ReviewSummary.jsx */}
       {ratings
         ? (
-
           <div>
             <ReviewSummary
               key={ratings.product_id}
-              // characteristics={ratings.characteristics}
               // recommended={ratings.recommended}
               ratings={ratings}
               reviews={reviews}
               filters={filters}
               setFilters={setFilters}
-              // filterReviews={toggleSearch(ratings)}
             />
-
           </div>
         ) : null}
     </div>

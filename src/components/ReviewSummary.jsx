@@ -38,14 +38,6 @@ function ReviewSummary({
     setFilters(newFilters);
   };
 
-
-
-  const selectionRating = {
-    position: 'absolute',
-    left: `${getFeatureData('Comfort')}%`,
-    bottom: '40%',
-  };
-
   console.log(getFeatureData('Comfort'));
 
   return (
