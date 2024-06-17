@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import { describe, test, expect } from '@jest/globals';
-import '@testing-library/jest-dom';
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import appReducer from '../reducers/appReducer';
-
-describe('Overview', () => {
-  test('sets selectedImage to specified image index', () => {
-    expect(appReducer({}, { type: "setSelectedImage", payload: 1})).toEqual({selectedImage: 1});
-=======
 /* eslint-env jest */
 import '@testing-library/jest-dom';
 import React from 'react';
@@ -31,6 +20,20 @@ beforeEach(() => {
   for (const response of testData) {
     axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
   }
+});
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
 });
 
 Element.prototype.scrollTo = () => {};
@@ -96,6 +99,5 @@ describe('Overview', () => {
     expect(options[3].selected).toBeTruthy();
     expect(cartButton).not.toBeDisabled();
     fireEvent.click(cartButton);
->>>>>>> main
   });
 });
