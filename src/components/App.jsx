@@ -36,6 +36,10 @@ function App() {
     getRating(productID, dispatch);
   }, [productID]);
 
+  useEffect(() => {
+    document.title = `Arrow${store.product ? ` | ${store.product.name}` : ''}`;
+  }, [store.product]);
+
   return (
     <AppContext.Provider value={{
       productID, setProductID, showModal, hideModal, store, dispatch, updateQnA: () => getQuestions(productID, dispatch),
