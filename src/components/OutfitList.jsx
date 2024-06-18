@@ -67,8 +67,8 @@ function OutfitList() {
   };
 
   return (
-    <div className="flex flex-col gap-6 text-neutral-600 w-full relative">
-      <h3 className="text-neutral-600">YOUR OUTFIT</h3>
+    <div className="flex flex-col gap-6 w-full text-neutral-600 relative">
+      <h3 className="text-base-content">YOUR OUTFIT</h3>
       {canScrollLeft && (
         <button
           onClick={scrollLeft}
