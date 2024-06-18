@@ -6,7 +6,7 @@
   "scripts": {
     "server": "nodemon server/index.js",
     "client": "webpack --watch",
-    "build": "webpack",
+    "build": "webpack --mode=production",
     "test": "jest"
   },
   "keywords": [],
