@@ -29,13 +29,17 @@ function App() {
     selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: JSON.parse(localStorage.getItem('cart')) ?? [], helpfulQs: JSON.parse(localStorage.getItem('helpfulQs')) ?? [], helpfulAs: JSON.parse(localStorage.getItem('helpfulAs')) ?? [], reportedAs: JSON.parse(localStorage.getItem('reportedAs')) ?? [],
   });
 
-  useEffect(() => {
+  const fetchAll = async () => {
     getDetails(productID, dispatch);
     getStyles(productID, dispatch);
     getQuestions(productID, dispatch);
     getRating(productID, dispatch);
-    getRelatedProducts(productID, dispatch);
+    await getRelatedProducts(productID, dispatch);
     getReviews(productID, dispatch);
+  }
+
+  useEffect(() => {
+    fetchAll();
   }, [productID]);
 
   useEffect(() => {

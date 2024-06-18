@@ -14,19 +14,28 @@ import AppContext from '../context/AppContext';
 
 import markText from '../lib/markText';
 
-import testData from './testData';
-
-jest.mock('axios');
+import OTestData from './OTestData';
+import RPTestData from './RPTestData';
+import RTestData from './RTestData';
 
 beforeEach(() => {
-  for (const response of testData) {
+  axios.get.mockReset();
+  for (const response of OTestData) {
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
+  }
+  for (const response of RPTestData) {
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
+  }
+  for (const response of RTestData) {
     axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
   }
 });
 
+jest.mock('axios');
+
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: jest.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,

@@ -12,15 +12,24 @@ import QnAItem from '../components/QnAItem';
 
 import AppContext from '../context/AppContext';
 
-import testData from './testData';
-
-jest.mock('axios');
+import OTestData from './OTestData';
+import RPTestData from './RPTestData';
+import RTestData from './RTestData';
 
 beforeEach(() => {
-  for (const response of testData) {
+  axios.get.mockReset();
+  for (const response of OTestData) {
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
+  }
+  for (const response of RPTestData) {
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
+  }
+  for (const response of RTestData) {
     axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
   }
 });
+
+jest.mock('axios');
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -50,7 +59,7 @@ describe('Q&A Item', () => {
         },
       }}
       >
-        <QnAItem question={testData[2].results[0]} filter="" />
+        <QnAItem question={OTestData[2].results[0]} filter="" />
       </AppContext.Provider>,
     );
     const [addAnswer] = await screen.findAllByText(/add answer/i);
@@ -71,7 +80,7 @@ describe('Q&A Item', () => {
         },
       }}
       >
-        <QnAItem question={testData[2].results[0]} filter="" />
+        <QnAItem question={OTestData[2].results[0]} filter="" />
       </AppContext.Provider>,
     );
     const [moreAnswer] = await screen.findAllByText(/load more answer/i);
@@ -92,7 +101,7 @@ describe('Q&A Item', () => {
         },
       }}
       >
-        <QnAItem question={testData[2].results[1]} filter="" />
+        <QnAItem question={OTestData[2].results[1]} filter="" />
       </AppContext.Provider>,
     );
     const [moreAnswer] = await screen.findAllByText(/load more answer/i);
@@ -125,7 +134,7 @@ describe('Q&A Item', () => {
         },
       }}
       >
-        <QnAItem question={testData[2].results[0]} filter="" />
+        <QnAItem question={OTestData[2].results[0]} filter="" />
       </AppContext.Provider>,
     );
     const [helpfulButton] = await screen.findAllByText('Yes');
@@ -170,7 +179,7 @@ describe('Q&A Item', () => {
         },
       }}
       >
-        <QnAItem question={testData[2].results[0]} filter="" />
+        <QnAItem question={OTestData[2].results[0]} filter="" />
       </AppContext.Provider>,
     );
     const helpfulButtons = await screen.findAllByText('Yes');
@@ -214,7 +223,7 @@ describe('Q&A Item', () => {
         },
       }}
       >
-        <QnAItem question={testData[2].results[0]} filter="" />
+        <QnAItem question={OTestData[2].results[0]} filter="" />
       </AppContext.Provider>,
     );
     const reportButton = await screen.findByText('Reported');
