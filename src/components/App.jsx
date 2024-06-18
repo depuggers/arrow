@@ -13,7 +13,7 @@ import { OutfitProvider } from '../context/OutfitContext';
 import appReducer from '../reducers/appReducer';
 
 import {
-  getDetails, getStyles, getQuestions, getRating,
+  getDetails, getStyles, getQuestions, getRating, getRelatedProducts,
 } from '../lib/fetchers';
 
 import '../styles/global.css';
@@ -34,6 +34,7 @@ function App() {
     getStyles(productID, dispatch);
     getQuestions(productID, dispatch);
     getRating(productID, dispatch);
+    getRelatedProducts(productID, dispatch);
   }, [productID]);
 
   return (

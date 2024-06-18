@@ -40,3 +40,34 @@ export const getRating = async (productID, dispatch) => {
     },
   });
 };
+
+export const getRelatedProducts = async (productID, dispatch) => {
+  const response = await axios.get(`/products/${productID}/related`);
+  const relatedProductIds = response.data;
+
+  const productPromises = relatedProductIds.map((item) => axios.get(`/products/${item}`));
+  const ratingPromises = relatedProductIds.map((item) => axios.get(`/reviews/meta?product_id=${item}`));
+
+  const productResponses = await Promise.all(productPromises);
+  const ratingResponses = await Promise.all(ratingPromises);
+
+  const relatedProductsData = productResponses.map((res) => res.data);
+
+  const ratings = ratingResponses.map((res) => calculateRating(res.data));
+
+  const stylePromises = relatedProductsData.map((product) => axios.get(`/products/${product.id}/styles`));
+  const styleResponses = await Promise.all(stylePromises);
+
+  const relatedStylesData = styleResponses.map((res) => res.data.results[0]);
+
+  dispatch(
+    {
+      type: 'setDefaultProducts',
+      payload: {
+        defaultProducts: relatedProductsData,
+        rpRatings: ratings,
+        relatedProductImages: relatedStylesData,
+      },
+    },
+  );
+};
