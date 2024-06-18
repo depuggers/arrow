@@ -80,11 +80,11 @@ function OutfitList() {
       )}
       <div className="overflow-hidden w-full flex items-center px-20 relative">
         <div className="carousel overflow-hidden space-x-5 flex w-4/5 ml-20" ref={carouselRef}>
-          <div className="firstCard border border-gray-300 p-4 bg-white w-60 h-80 items-center" onClick={handleAddToOutfit}>
+          <div className="firstCard border border-gray-300 p-4 bg-base-100 w-60 h-80 items-center" onClick={handleAddToOutfit}>
             <div className="imageContainer relative w-48 h-48 overflow-hidden rounded-lg mx-auto">
               <img src={plusBigUrl} alt="Add to Outfit" className="w-full h-full object-cover p-1 rounded-lg bg-gray-200" />
             </div>
-            <p className="text-neutral-600 text-center p-6 font-bold">Add to Outfit</p>
+            <p className="text-base-content text-center p-6 font-bold">Add to Outfit</p>
           </div>
           {outfit && outfit.map((item) => (
             <OutfitCard product={item} key={item.id} />

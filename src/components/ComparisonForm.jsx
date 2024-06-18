@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
-import { BiWindowClose } from "react-icons/bi";
+import { BiWindowClose } from 'react-icons/bi';
 import AppContext from '../context/AppContext';
 
 function ComparisonForm({ defaultProduct }) {
@@ -31,7 +31,7 @@ function ComparisonForm({ defaultProduct }) {
     defaultProductFeatures.forEach((feature) => {
       const featureValue = feature.value || '';
       combinedFeatures.push({
-        feature: featureValue.trim() + ' ' + feature.feature.trim(),
+        feature: `${featureValue.trim()} ${feature.feature.trim()}`,
         defaultFeatureValue: '✔️',
         currentFeatureValue: currentProductFeatures.find((cpf) => cpf.value === feature.value) ? '✔️' : '',
       });
@@ -40,7 +40,7 @@ function ComparisonForm({ defaultProduct }) {
       if (!defaultProductFeatures.some((dpf) => dpf.value === feature.value)) {
         const featureValue = feature.value || '';
         combinedFeatures.push({
-          feature: featureValue.trim() + ' ' + feature.feature.trim(),
+          feature: `${featureValue.trim()} ${feature.feature.trim()}`,
           defaultFeatureValue: '',
           currentFeatureValue: '✔️',
         });
