@@ -8,11 +8,10 @@ import starMask3 from '../images/star-mask-3.svg?url';
 import starMask4 from '../images/star-mask-4.svg?url';
 
 function StarRating({ rating, size = 1.5 }) {
-
   const masks = [starMask0, starMask1, starMask2, starMask3];
 
   return (
-    <ul className="grid grid-cols-[repeat(5,1fr)]">
+    <ul className="w-fit grid grid-cols-[repeat(5,1fr)]">
       {Array.from({ length: 5 }).map((star, i) => {
         const fraction = Math.floor((rating % 1) * 4);
         const mask = rating >= i + 1 ? starMask4 : rating - i + 1 < 1 ? starMask0 : masks[fraction];
