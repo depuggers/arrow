@@ -62,7 +62,7 @@ function Overview() {
                 className="text-sm underline"
               >
                 {'Read all '}
-                {rating ? rating.total : null}
+                {rating.total}
                 {' reviews'}
               </button>
             </div>
@@ -121,7 +121,7 @@ function Overview() {
                 <PiCaretDownBold size={24} className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${loading || sizes[0].sku === 'null' ? 'opacity-25' : ''}`} />
               </div>
               <div className="relative">
-                <select className={`form-input cursor-pointer disabled:opacity-25 appearance-none ${selectedSKU ? 'pr-12' : ''}`} ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
+                <select data-testid="qty-selector" className={`form-input cursor-pointer disabled:opacity-25 appearance-none ${selectedSKU ? 'pr-12' : ''}`} ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
                   <option value="" disabled hidden>—</option>
                   {Array.from({ length: maxQuantity }, (v, i) => i + 1).map((qty) => (
                     <option key={qty} value={qty}>{qty}</option>

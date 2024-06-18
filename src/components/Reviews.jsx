@@ -66,8 +66,10 @@ function Reviews() {
   };
 
   useEffect(() => {
-    if (reviews) {
+    if (reviews && sortMethod === 'newest') {
       handleSortMethod('newest');
+    } else if (reviews && sortMethod === 'helpfulness') {
+      handleSortMethod('helpfulness');
     }
   }, [reviews]);
 

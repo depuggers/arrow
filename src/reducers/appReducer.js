@@ -81,6 +81,12 @@ const appReducer = (state, action) => {
         ],
       };
 
+    case 'setDefaultProducts':
+      return {
+        ...state,
+        ...action.payload,
+      };
+
     case 'setReviews':
       return {
         ...state,

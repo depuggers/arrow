@@ -35,7 +35,7 @@ const OutfitCard = memo(({ product }) => {
             {product.oriPrice}
           </p>
         )}
-      <div className="transform scale-75">
+      <div className="transform scale-50">
         <StarRating rating={product.stars} name={`${product.id}of`} />
       </div>
     </div>
