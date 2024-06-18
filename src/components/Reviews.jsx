@@ -15,10 +15,9 @@ function Reviews() {
   // const [reviews, setReviews] = useState({ results: [] });
 
   const [avgRatings, setAvgRatings] = useState('');
-  const [displayedReviews, setDisplayedReviews] = useState(4);
+  const [displayedReviews, setDisplayedReviews] = useState(2);
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
-  const [numReviews, setNumReviews] = useState(0);
   const [sortMethod, setSortMethod] = useState('relevance');
   const [newForm, setNewForm] = useState(false);
   const { store: { reviews }, store: { ratings }, store: { rating } } = useContext(AppContext);
@@ -85,7 +84,7 @@ function Reviews() {
         ? (
           <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
             <span className="flex flex-row pt-5 text-lg font-semibold">
-              {`${numReviews} reviews, sorted by`}
+              {`${reviews.results?.length} reviews, sorted by`}
               <select
                 className="underline"
                 onChange={(e) => { handleSortMethod(e.target.value); }}
