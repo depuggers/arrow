@@ -71,3 +71,16 @@ export const getRelatedProducts = async (productID, dispatch) => {
     },
   );
 };
+
+export const getReviews = async (productID, dispatch) => {
+  const reviews = axios.get(`/reviews?product_id=${productID}`);
+  const ratings = axios.get(`/reviews/meta?product_id=${productID}`);
+  const responses = await Promise.all([reviews, ratings]);
+  dispatch({
+    type: 'setReviews',
+    payload: {
+      reviews: { ...responses[0].data, results: responses[0].data.results },
+      ratings: responses[1].data,
+    },
+  });
+};

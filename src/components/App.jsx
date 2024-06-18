@@ -13,7 +13,7 @@ import { OutfitProvider } from '../context/OutfitContext';
 import appReducer from '../reducers/appReducer';
 
 import {
-  getDetails, getStyles, getQuestions, getRating, getRelatedProducts,
+  getDetails, getStyles, getQuestions, getRating, getRelatedProducts, getReviews,
 } from '../lib/fetchers';
 
 import '../styles/global.css';
@@ -35,7 +35,12 @@ function App() {
     getQuestions(productID, dispatch);
     getRating(productID, dispatch);
     getRelatedProducts(productID, dispatch);
+    getReviews(productID, dispatch);
   }, [productID]);
+
+  useEffect(() => {
+    document.title = `Arrow${store.product ? ` | ${store.product.name}` : ''}`;
+  }, [store.product]);
 
   return (
     <AppContext.Provider value={{

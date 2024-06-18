@@ -27,8 +27,8 @@ function ImageThumbnails({ horizontal }) {
   let photos = [];
   if (!loading) photos = styles[selectedStyle].photos;
 
-  // const count = !wide ? 3 : loading ? 5 : Math.min(photos.length, 7);
-  const count = 3;
+  const count = !wide ? 3 : loading ? 5 : Math.min(photos.length, 7);
+  // const count = 3;
 
   const handleBreakpoint = (e) => {
     // console.log(e.matches);

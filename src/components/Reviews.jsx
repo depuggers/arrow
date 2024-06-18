@@ -1,60 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { TbTriangleInvertedFilled } from 'react-icons/tb';
+import React, {
+  useState, useEffect, useReducer, useContext,
+} from 'react';
 import axios from 'axios';
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 import calculateRating from '../lib/calculateRating';
 import ReviewSummary from './ReviewSummary';
-// import RelatedProducts from './RelatedProducts';
-// import ProductDetails from './ProductDetails';
+import NewReview from './NewReview';
+import AppContext from '../context/AppContext';
 
 function Reviews() {
   const productID = 40387;
 
-  const [reviews, setReviews] = useState({ results: [] });
-  const [ratings, setRatings] = useState('');
+  // const [state, dispatch] = useReducer(reducer, { results: [] });
+  // const [reviews, setReviews] = useState({ results: [] });
+
   const [avgRatings, setAvgRatings] = useState('');
-  const [displayedReviews, setDisplayedReviews] = useState(4);
+  const [displayedReviews, setDisplayedReviews] = useState(2);
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
-  const [numReviews, setNumReviews] = useState(0);
-  // useContext
+  const [sortMethod, setSortMethod] = useState('relevance');
+  const [newForm, setNewForm] = useState(false);
+  const { store: { reviews }, store: { ratings }, store: { rating } } = useContext(AppContext);
+  // const [store, dispatch]
 
   useEffect(() => {
-    try {
-      axios.get(`/reviews?product_id=${productID}`)
-        .then((response) => {
-          setReviews({ ...response.data, results: response.data.results }); // update
-          setCurrentView(response.data.results);
-          setNumReviews(response.data.results.length);
-        });
-      axios.get(`/reviews/meta?product_id=${productID}`)
-        .then((response) => {
-          setRatings(response.data);
-          setAvgRatings(calculateRating(response.data));
-        });
-    } catch (err) {
-      console.error('error getting data', err);
-    }
-  }, [productID]);
-
-  useEffect(() => {
-    if (filters.length === 0) {
-      setCurrentView(reviews.results?.slice(0, displayedReviews));
-    } else {
-      const filteredReviews = reviews.results?.filter((review) => filters.includes(review.rating));
-      setCurrentView(filteredReviews.slice(0, displayedReviews));
+    if (reviews) {
+      if (filters.length === 0) {
+        setCurrentView(reviews.results?.slice(0, displayedReviews));
+      } else {
+        const filteredReviews = reviews.results?.filter((review) => filters.includes(review.rating));
+        setCurrentView(filteredReviews.slice(0, displayedReviews));
+      }
     }
   }, [filters, displayedReviews, reviews]);
-  // to async
+
   const handleSortMethod = (sortType) => {
     const sortByHelpfulness = () => {
-      currentView.sort((a, b) => a.helpfulness - b.helpfulness);
+      setCurrentView([...currentView.sort((a, b) => a.helpfulness - b.helpfulness)]);
     };
+
     const sortByDate = () => {
       setCurrentView(currentView.sort((a, b) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
-
+        console.log(sortType, dateA, dateB);
         if (dateA < dateB) {
           return -1;
         } if (dateB < dateA) {
@@ -63,25 +52,32 @@ function Reviews() {
         return 0;
       }));
     };
-    if (sortType === 'Newest') {
+
+    // const sortByRelevance = () => {
+    // };
+
+    if (sortType === 'newest') {
       sortByDate();
-    } else if (sortType === 'Helpfulness') {
+    } else if (sortType === 'helpfulness') {
       sortByHelpfulness();
-    }
+    } // else {
+    //   sortByRelevance();
+    // }
   };
-  // currentView.sort((a, b) => a.helpfulness - b.helpfulness);
-  // ;
 
-  // let starRatings;
-  // if (ratings) {
-  //   starRatings = convertStars(ratings);
-  // }
+  useEffect(() => {
+    if (reviews && sortMethod === 'newest') {
+      handleSortMethod('newest');
+    } else if (reviews && sortMethod === 'helpfulness') {
+      handleSortMethod('helpfulness');
+    }
+  }, [reviews]);
 
-  const hasMoreReviews = displayedReviews < reviews.results?.length;
+  let hasMoreReviews;
+  if (reviews) {
+    hasMoreReviews = displayedReviews < reviews.results?.length;
+  }
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
-
-  console.log(ratings.characteristics);
-  console.log(currentView);
 
   return (
     <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
@@ -90,15 +86,13 @@ function Reviews() {
         ? (
           <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
             <span className="flex flex-row pt-5 text-lg font-semibold">
-              {`${numReviews} reviews, sorted by`}
+              {`${reviews.results?.length} reviews, sorted by`}
               <select
                 className="underline"
-                // onChange={ setValue, then  trigger re-render}
-                // onChange={sortBy`${value}(${value})`
-                value={currentView}
+                onChange={(e) => { handleSortMethod(e.target.value); }}
               >
                 {['Relevance', 'Newest', 'Helpfulness'].map((sortType, index) => (
-                  <option key={index}>{sortType}</option>
+                  <option key={index} value={sortType.toLowerCase()}>{sortType}</option>
                 ))}
               </select>
             </span>
@@ -120,26 +114,29 @@ function Reviews() {
                   </div>
                 )
                 : null}
-              <div className="font-bold text-lg flex flex-row">
-                <button className="form-input flex flex-row gap-1" onClick={() => alert('feature coming soon!')}>
+              <div className="font-bold text-lg">
+                <button className="form-input flex flex-row" onClick={() => setNewForm(!newForm)}>
                   ADD REVIEW
                   <FaPlus size={24} />
                 </button>
               </div>
             </div>
+            <div className="">
+              {newForm
+              && <NewReview />}
+            </div>
           </div>
         )
         : null}
 
-      {/* ReviewSummary.jsx */}
-      {ratings
+      {reviews && ratings
         ? (
           <div>
             <ReviewSummary
               key={ratings.product_id}
               ratings={ratings}
               reviews={reviews}
-              avgRatings={avgRatings}
+              avgRatings={rating.average}
               filters={filters}
               setFilters={setFilters}
             />
@@ -180,8 +177,8 @@ function ReviewPosts({ review }) {
         </div>
         <span className="text-sm text-gray-600 font-light">
           Helpful?
-          {/* update to match Q&A */}
-          <a className="divide-x text-sm no-underline hover:underline" href="/reviews">     Yes   </a>
+          {/* update to match Q&A styling */}
+          <a className="divide-x text-sm no-underline hover:underline" href="/reviews">    Yes   </a>
           <a className="text-xs" href="/reviews">(10)  |  </a>
           <a href="/">   Report </a>
         </span>
@@ -191,8 +188,3 @@ function ReviewPosts({ review }) {
 }
 
 export default Reviews;
-
-// const dateSort = () => {
-// setCurrentView(currentView.sort((a, b) => a.date - b.date));
-// console.log(reviews.results?.map((data) => data.date));// date arr
-// };
