@@ -1,84 +1,81 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState, useEffect, useReducer, useContext,
+} from 'react';
 import axios from 'axios';
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 import calculateRating from '../lib/calculateRating';
 import ReviewSummary from './ReviewSummary';
+import NewReview from './NewReview';
+import AppContext from '../context/AppContext';
 
 function Reviews() {
   const productID = 40387;
 
-  const [reviews, setReviews] = useState({ results: [] });
-  const [ratings, setRatings] = useState('');
+  // const [state, dispatch] = useReducer(reducer, { results: [] });
+  // const [reviews, setReviews] = useState({ results: [] });
+
   const [avgRatings, setAvgRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(4);
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
   const [numReviews, setNumReviews] = useState(0);
   const [sortMethod, setSortMethod] = useState('relevance');
+  const [newForm, setNewForm] = useState(false);
+  const { store: { reviews }, store: { ratings }, store: { rating } } = useContext(AppContext);
+  // const [store, dispatch]
 
   useEffect(() => {
-    axios.get(`/reviews?product_id=${productID}`)
-      .then((response) => {
-        setReviews({ ...response.data, results: response.data.results }); // update
-        setCurrentView(response.data.results);
-        setNumReviews(response.data.results.length);
-      })
-      .catch((err) => {
-        console.error('error getting data', err);
-      });
-    axios.get(`/reviews/meta?product_id=${productID}`)
-      .then((response) => {
-        setRatings(response.data);
-        setAvgRatings(calculateRating(response.data));
-      })
-      .catch((err) => {
-        console.error('error getting data', err);
-      });
-  }, [productID]);
-
-  useEffect(() => {
-    if (filters.length === 0) {
-      setCurrentView(reviews.results?.slice(0, displayedReviews));
-    } else {
-      const filteredReviews = reviews.results?.filter((review) => filters.includes(review.rating));
-      setCurrentView(filteredReviews.slice(0, displayedReviews));
+    if (reviews) {
+      if (filters.length === 0) {
+        setCurrentView(reviews.results?.slice(0, displayedReviews));
+      } else {
+        const filteredReviews = reviews.results?.filter((review) => filters.includes(review.rating));
+        setCurrentView(filteredReviews.slice(0, displayedReviews));
+      }
     }
   }, [filters, displayedReviews, reviews]);
 
-  useEffect(() => {
-    const handleSortMethod = () => {
-      const sortByHelpfulness = () => {
-        currentView.sort((a, b) => a.helpfulness - b.helpfulness);
-      };
-
-      const sortByDate = () => {
-        setCurrentView(currentView.sort((a, b) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
-          if (dateA < dateB) {
-            return -1;
-          } if (dateB < dateA) {
-            return 1;
-          }
-          return 0;
-        }));
-      };
-
-      // const sortByRelevance = () => {
-      // };
-
-      if (sortMethod === 'Newest') {
-        sortByDate();
-      } else if (sortMethod === 'Helpfulness') {
-        sortByHelpfulness();
-      } // else {
-      //   sortByRelevance();
-      // }
+  const handleSortMethod = (sortType) => {
+    const sortByHelpfulness = () => {
+      setCurrentView([...currentView.sort((a, b) => a.helpfulness - b.helpfulness)]);
     };
-    handleSortMethod();
-  }, [productID]);
 
-  const hasMoreReviews = displayedReviews < reviews.results?.length;
+    const sortByDate = () => {
+      setCurrentView(currentView.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        console.log(sortType, dateA, dateB);
+        if (dateA < dateB) {
+          return -1;
+        } if (dateB < dateA) {
+          return 1;
+        }
+        return 0;
+      }));
+    };
+
+    // const sortByRelevance = () => {
+    // };
+
+    if (sortType === 'newest') {
+      sortByDate();
+    } else if (sortType === 'helpfulness') {
+      sortByHelpfulness();
+    } // else {
+    //   sortByRelevance();
+    // }
+  };
+
+  useEffect(() => {
+    if (reviews) {
+      handleSortMethod('newest');
+    }
+  }, [reviews]);
+
+  let hasMoreReviews;
+  if (reviews) {
+    hasMoreReviews = displayedReviews < reviews.results?.length;
+  }
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
   return (
@@ -91,10 +88,10 @@ function Reviews() {
               {`${numReviews} reviews, sorted by`}
               <select
                 className="underline"
-                value={currentView}
+                onChange={(e) => { handleSortMethod(e.target.value); }}
               >
                 {['Relevance', 'Newest', 'Helpfulness'].map((sortType, index) => (
-                  <option key={index}>{sortType}</option>
+                  <option key={index} value={sortType.toLowerCase()}>{sortType}</option>
                 ))}
               </select>
             </span>
@@ -116,25 +113,29 @@ function Reviews() {
                   </div>
                 )
                 : null}
-              <div className="font-bold text-lg flex flex-row">
-                <button className="form-input flex flex-row gap-1" onClick={() => alert('feature coming soon!')}>
+              <div className="font-bold text-lg">
+                <button className="form-input flex flex-row" onClick={() => setNewForm(!newForm)}>
                   ADD REVIEW
                   <FaPlus size={24} />
                 </button>
               </div>
             </div>
+            <div className="">
+              {newForm
+              && <NewReview />}
+            </div>
           </div>
         )
         : null}
 
-      {ratings
+      {reviews && ratings
         ? (
           <div>
             <ReviewSummary
               key={ratings.product_id}
               ratings={ratings}
               reviews={reviews}
-              avgRatings={avgRatings}
+              avgRatings={rating.average}
               filters={filters}
               setFilters={setFilters}
             />

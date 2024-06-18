@@ -9,12 +9,13 @@ function ReviewSummary({
   const totalReviews = reviews.results?.length;
   const productChars = ratings.characteristics;
 
-  const roundedAvg = Math.round(avgRatings.average * 10) / 10;
+  const roundedAvg = Math.round(avgRatings * 10) / 10;
 
   const getFeatureData = (feature) => {
     // const featureData = `${productChars}.${feature}.value`;
     const featureData = productChars[feature].value;
     const featureAvg = ((featureData) * 20);
+
     const selectionRating = {
       position: 'absolute',
       left: `${featureAvg}%`,
@@ -31,7 +32,8 @@ function ReviewSummary({
   };
 
   return (
-    <section className="flex flex-col self-start pr-10 pt-4 pb-20">
+
+    <section className="flex flex-col self-start pr-10 pt-4 pb-20 ">
       <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
       <div className="flex flex-row pb-4">
         <h2 className="font-bold text-4xl">
@@ -49,22 +51,22 @@ function ReviewSummary({
       </div>
       <div className="grow text-base text-neutral-600">
         {[5, 4, 3, 2, 1].map((star) => (
-          <span className="flex flex-row hover:underline pb-2 text-sm">
+          <span className="flex flex-row hover:underline pb-4 text-sm">
             <button key={star} onClick={() => toggleSearch(star)}>{`${star} star`}</button>
-            <progress className="pl-2" value={getTotalReviews(star)} max={totalReviews} />
+            <progress className="pl-2 text-sm" value={getTotalReviews(star)} max={totalReviews} />
             <p>{`${getTotalReviews(star)} review(s)`}</p>
           </span>
         ))}
-        <div className="pb-6 pt-2 flex flex-col w-full">
+        <div className="pt-10">
           <h4 className="text-sm">Size</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row   w-full">
-            <span className="pr-2" style={getFeatureData('Comfort')}><TbTriangleInvertedFilled className="text-sm" /></span>
+          <div style={{ position: 'relative' }} className="flex flex-row w-full">
+            <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
           </div>
           <progress className="w-full h-2" value={0} />
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Too Small</p>
+            <p>Poor</p>
+            <p>What I expected</p>
             <p>Perfect</p>
-            <p>Too Large</p>
           </div>
         </div>
         <div>
@@ -119,6 +121,7 @@ function ReviewSummary({
           <h4 className="text-sm">Fit</h4>
           <div style={{ position: 'relative' }} className="flex pt-1 flex-row w-full">
             <span className="pr-2" style={getFeatureData('Fit')}><TbTriangleInvertedFilled className="text-sm" /></span>
+            {/* 10% to 30% -- chaange to grid */}
           </div>
           <progress className="w-full h-2" value={0} />
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
