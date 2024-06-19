@@ -115,18 +115,11 @@ function Reviews() {
                 )
                 : null}
               <div className="font-bold text-lg">
-                <button className="form-input flex flex-row" onClick={() => setNewForm(!newForm)}>
+                <button className="form-input flex flex-row" onClick={() => showModal(<NewReview />)}>
                   ADD REVIEW
                   <FaPlus size={24} />
                 </button>
-
               </div>
-            </div>
-            <div className="">
-              {newForm
-              && <NewReview />
-              }
-            <button onClick={() => showModal(<NewReview />)} type="button">Add</button>
             </div>
           </div>
         )
@@ -168,7 +161,7 @@ function ReviewPosts({ review }) {
             {`${review.reviewer_name}, ${monthNames[reviewDate.getMonth()]} ${reviewDate.getDate()}, ${reviewDate.getFullYear()} `}
           </p>
         </span>
-        <h2 className="font-semibold text-lg truncate...">{review.summary}</h2>
+        <h2 className="font-bold text-lg truncate...">{review.summary}</h2>
         <div className="pb-5 font-extalight">{review.body}</div>
         <div>
           {review.response && (
