@@ -12,7 +12,6 @@ function NewReview() {
     store: { ratings }, store: { product }, store: { reviews }, hideModal,
   } = useContext(AppContext);
 
-  const placeholderRating = 2;
   // const errorMessages = {
   //       name: 'Please enter a name',
   //       email: 'Please enter valid email',
@@ -29,18 +28,22 @@ function NewReview() {
         <h1 className="text-3xl font-bold">Write Your Review</h1>
         <h3>{`About the ${product.name}`}</h3>
         <form className="pt-6 pb-6 flex flex-col gap-4">
-          <div className="rating flex flex-row">
+          <div className="rating flex flex-row font-bold">
             Overall Rating
             {[1, 2, 3, 4, 5].map((rating) => (
               <input
                 key={rating}
                 type="radio"
-                className="mask mask-star-2 bg-primary"
-                disabled
-                checked={Math.round(placeholderRating === rating)}
+                className="mask mask-star-2 bg-primary pr-6"
+                onMouseOver={() => setCurrentStar(rating)}
+                checked={Math.round(currentStar === rating)}
               />
             ))}
-            <p className="pl-20">{placeholderRating && <h1>Poor</h1>}</p>
+            <p className="">{currentStar === 1 && <h1>Poor</h1>}</p>
+            <p className="">{currentStar === 2 && <h1>Fair</h1>}</p>
+            <p className="">{currentStar === 3 && <h1>Average</h1>}</p>
+            <p className="">{currentStar === 4 && <h1>Good</h1>}</p>
+            <p className="">{currentStar === 5 && <h1>Great</h1>}</p>
           </div>
 
           <h3>Do you reccommend this product?</h3>
@@ -55,7 +58,7 @@ function NewReview() {
                 type="radio"
                 className="mask mask-star-2 bg-primary"
                 disabled
-                checked={Math.round(placeholderRating === selection)}
+                checked={Math.round(currentStar === selection)}
               />
             ))}
           </div>
