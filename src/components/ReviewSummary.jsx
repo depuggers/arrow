@@ -19,7 +19,7 @@ function ReviewSummary({
     const selectionRating = {
       position: 'absolute',
       left: `${featureAvg}%`,
-      top: '90%',
+      bottom: '10%',
     };
     return selectionRating;
   };
@@ -49,93 +49,122 @@ function ReviewSummary({
                )}
         </div>
       </div>
-      <h2 className="flex flex-row justify-center text-sm font-bold pb-4">Rating Breakdown</h2>
+      <h2 className="flex flex-row justify-center text-base text-gray-600 font-light pb-2">RATING BREAKDOWN</h2>
+      <div className="flex flex-row font-bold text-sm justify-between">
+        <p />
+        {/* <p>#Reviews</p> */}
+      </div>
       <div className="grow text-base text-neutral-600">
         {[5, 4, 3, 2, 1].map((star) => (
           <span className="flex flex-row hover:underline pb-2 text-sm">
-            <button key={star} onClick={() => toggleSearch(star)}>{`#Stars: ${star}`}</button>
+            <button key={star} onClick={() => toggleSearch(star)}>{`#Stars ${star}`}</button>
             <progress className="pl-2 pt-1 text-sm" value={getTotalReviews(star)} max={totalReviews} />
-            <p>{`${getTotalReviews(star)} review(s)`}</p>
+            <p>{`${getTotalReviews(star)} review`}</p>
+            <p>
+              {getTotalReviews(star) !== 1 && 's'}
+            </p>
           </span>
         ))}
         <div className="pt-10">
-          <h4 className="text-sm text-neutral-500">Size</h4>
+          <h4 className="text-base">Size</h4>
+          {/* replace */}
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <div className="grid grid-cols-5 w-full gap-1 h-2">
-              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
-            </div>
             <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
+            <div
+              className="grid grid-cols-5 w-full gap-1 h-2"
+            >
+              {Array(5).fill(0).map((item, index) => <div key={index} className="w-full h-full bg-zinc-400" />)}
+            </div>
 
           </div>
 
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs text-neutral-600 font-light">
+            <p>Too Small</p>
+            <p>Perfect</p>
+            <p>Too Wide</p>
+          </div>
+        </div>
+        <div className="pt-10">
+          <h4 className="text-base pb-2">Width</h4>
+          <div style={{ position: 'relative' }} className="flex flex-row w-full">
+            <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
+            {/* replace */}
+            <div className="grid grid-cols-5 w-full gap-1 h-2">
+              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            </div>
+
+          </div>
+
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs text-neutral-600 font-light">
+            <p>Too Narrow</p>
+            <p>Perfect</p>
+            <p>Too Wide</p>
+          </div>
+        </div>
+        <div className="pt-10">
+          <h4 className="text-base pb-2">Comfort</h4>
+          <div style={{ position: 'relative' }} className="flex flex-row w-full">
+            <span className="pr-2" style={getFeatureData('Comfort')}><TbTriangleInvertedFilled className="text-sm" /></span>
+            <div className="grid grid-cols-5 w-full gap-1 h-2">
+              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            </div>
+
+          </div>
+
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs text-neutral-600 font-light">
+            <p>Comfort</p>
+            <p>Ok</p>
+            <p>Perfect</p>
+          </div>
+        </div>
+        <div className="pt-10">
+          <h4 className="text-base pb-2">Quality</h4>
+          <div style={{ position: 'relative' }} className="flex flex-row w-full">
+            <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
+            <div className="grid grid-cols-5 w-full gap-1 h-2">
+              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            </div>
+
+          </div>
+
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs text-neutral-600 font-light">
             <p>Poor</p>
             <p>What I expected</p>
             <p>Perfect</p>
           </div>
         </div>
-        <div>
-          <h4 className="text-sm">Width</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row  w-full">
-            <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Too Narrow</p>
-            <p>Perfect</p>
-            <p>Too Large</p>
-          </div>
-        </div>
-        <div>
-          <h4 className="text-sm">Comfort</h4>
+        <div className="pt-10">
+          <h4 className="text-base pb-2">Length</h4>
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <span className="pr-2" style={getFeatureData('Comfort')}><TbTriangleInvertedFilled className="text-sm" /></span>
+            <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
+            <div className="grid grid-cols-5 w-full gap-1 h-2">
+              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            </div>
+
           </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Uncomfortable</p>
-            <p>OK</p>
+
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs text-neutral-600 font-light">
+            <p>Runs Short</p>
             <p>Perfect</p>
+            <p>Runs Long</p>
           </div>
         </div>
-        <div>
-          <h4 className="text-sm">Quality</h4>
+        <div className="pt-10">
+          <h4 className="text-base pb-2">Fit</h4>
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
             <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Poor</p>
-            <p>What I expected</p>
-            <p>Perfect</p>
-          </div>
-        </div>
-        <div>
-          <h4 className="text-sm">Length</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Runs Short</p>
-            <p>Perfect</p>
-            <p>Runs Long</p>
-          </div>
-        </div>
-        <div>
-          <h4 className="text-sm">Fit</h4>
-          <div style={{ position: 'relative' }} className="flex pt-1 flex-row w-full">
-            <span className="pr-2" style={getFeatureData('Fit')}><TbTriangleInvertedFilled className="text-sm" /></span>
-            {/* 10% to 30% -- chaange to grid */}
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Runs Tight</p>
-            <p>Perfect</p>
-            <p>Runs Long</p>
-          </div>
-        </div>
+            <div className="grid grid-cols-5 w-full gap-1 h-2">
+              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            </div>
 
+          </div>
+
+          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs text-neutral-600 font-light">
+            <p>Runs Tight</p>
+            <p>Perfect</p>
+            <p>Runs Long</p>
+          </div>
+        </div>
       </div>
     </section>
   );

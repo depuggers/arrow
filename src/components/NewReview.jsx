@@ -6,11 +6,13 @@ import StarRating from './StarRating';
 
 function NewReview() {
   const [counter, setCounter] = useState(0);
-
+  const [currentStar, setCurrentStar] = useState(1);
+  // set in useContext
   const {
     store: { ratings }, store: { product }, store: { reviews }, hideModal,
   } = useContext(AppContext);
 
+  const placeholderRating = 2;
   // const errorMessages = {
   //       name: 'Please enter a name',
   //       email: 'Please enter valid email',
@@ -19,14 +21,14 @@ function NewReview() {
 
   // }
 
-//   return valid;
-// }
+  //   return valid;
+  // }
   return (
     <div>
       <div className="w-1/2 border-2">
         <h1 className="text-3xl font-bold">Write Your Review</h1>
         <h3>{`About the ${product.name}`}</h3>
-        <form className="pt-6 pb-6 flex flex-col gap-4" action={formAction}>
+        <form className="pt-6 pb-6 flex flex-col gap-4">
           <div className="rating flex flex-row">
             Overall Rating
             {[1, 2, 3, 4, 5].map((rating) => (
@@ -38,13 +40,13 @@ function NewReview() {
                 checked={Math.round(placeholderRating === rating)}
               />
             ))}
+            <p className="pl-20">{placeholderRating && <h1>Poor</h1>}</p>
           </div>
-          {placeholderRating && <h1>poor</h1>}
-          <div className="rating">
-            Do you reccommend this product?
-            <input key="yes" label="yes" type="radio" />
-            <input key="no" label="no" type="radio" />
-          </div>
+
+          <h3>Do you reccommend this product?</h3>
+          <label><input type="radio" name="reccommend" value="yes"/> Yes</label>
+          <label><input type="radio" name="reccommend" value="no" /> No</label>
+
           <div className="rating flex flex-row">
             Product characteristics
             {[1, 2, 3, 4, 5].map((selection) => (
@@ -61,7 +63,7 @@ function NewReview() {
             <label>
               Summary:
               <input
-                className="form-input resize-none w-full pb-6"
+                className="form-input resize-none w-full pb-8"
                 type="text"
                 name="reviewSummary"
                 id="reviewSumary"
@@ -82,9 +84,10 @@ function NewReview() {
               onChange={(e) => setCounter(50 - e.target.value.length)}
               required
               minLength={50}
+              maxLength={1000}
             />
             <p className="pb-6 text-sm text-neutral-400">
-              {counter >= 0
+              {counter < 50
                 ? (`Minimum required characters left:${counter}`)
                 : 'Minimum reached'}
             </p>
@@ -92,7 +95,7 @@ function NewReview() {
           <label>
             What is your nickname?*
             <input
-              className="form-input resize-none"
+              className="form-input resize-none w-full"
               type="text"
               name="nickname"
               id="reviewSumary"
@@ -102,9 +105,9 @@ function NewReview() {
             />
           </label>
           <label>
-            Your email?*
+            What is your email*
             <input
-              className="form-input resize-none"
+              className="form-input resize-none w-full"
               type="email"
               name="nickname"
               id="reviewSumary"
