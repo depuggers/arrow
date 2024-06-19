@@ -84,7 +84,7 @@ function QnAItem({ question, filter }) {
                   ))}
                 </ul>
               ) : null}
-              <div className="flex flex-col md:flex-row gap-2 md:gap-4 md:divide-x-2 text-sm text-neutral-500">
+              <div className="flex flex-col md:flex-row gap-2 md:gap-4 md:divide-x-2 text-sm text-secondary-content">
                 <p>
                   {'by '}
                   <span className={`${answer.answerer_name.toLowerCase() === 'seller' ? 'font-bold' : ''}`}>{answer.answerer_name === 'seller' ? 'Seller' : answer.answerer_name}</span>
