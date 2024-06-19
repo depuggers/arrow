@@ -65,8 +65,8 @@ function ExpandedView({ switchImage }) {
         <>
           <ImageThumbnails horizontal />
           {/* <ImageThumbnails orientation="horizontal" /> */}
-          <ImageGalleryButton testid="expanded-left" flip styles="left-8" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
-          <ImageGalleryButton testid="expanded-right" styles="right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
+          <ImageGalleryButton testid="expanded-left" ariaLabel="prev-image" flip styles="left-8" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
+          <ImageGalleryButton testid="expanded-right" ariaLabel="next-image" styles="right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
         </>
       ) : null}
     </div>

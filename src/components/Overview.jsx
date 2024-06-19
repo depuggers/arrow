@@ -108,6 +108,7 @@ function Overview() {
                 <select
                   className=" form-input w-full uppercase cursor-pointer appearance-none disabled:opacity-25"
                   data-testid="size-selector"
+                  aria-label="size-selector"
                   defaultValue=""
                   onChange={(e) => {
                     dispatch({ type: 'setSelectedSKU', payload: parseInt(e.target.value) });
@@ -121,7 +122,7 @@ function Overview() {
                 <PiCaretDownBold size={24} className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${loading || sizes[0].sku === 'null' ? 'opacity-25' : ''}`} />
               </div>
               <div className="relative">
-                <select data-testid="qty-selector" className={`form-input cursor-pointer disabled:opacity-25 appearance-none ${selectedSKU ? 'pr-12' : ''}`} ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
+                <select data-testid="qty-selector" aria-label="qty-selector" className={`form-input cursor-pointer disabled:opacity-25 appearance-none ${selectedSKU ? 'pr-12' : ''}`} ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
                   <option value="" disabled hidden>—</option>
                   {Array.from({ length: maxQuantity }, (v, i) => i + 1).map((qty) => (
                     <option key={qty} value={qty}>{qty}</option>
@@ -140,13 +141,13 @@ function Overview() {
           </fieldset>
         </form>
         <div className="flex justify-evenly">
-          <button>
+          <button aria-label="facebook">
             <FaFacebook color="#0866ff" size={48} />
           </button>
-          <button>
+          <button aria-label="pinterest">
             <FaPinterest color="#e60023" size={48} />
           </button>
-          <button>
+          <button aria-label="twitter">
             <FaTwitter color="#1d9bf0" size={48} />
           </button>
         </div>

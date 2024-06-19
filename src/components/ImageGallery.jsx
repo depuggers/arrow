@@ -33,8 +33,8 @@ function ImageGallery() {
         : (
           <div className="w-full h-full relative">
             <img data-testid="main-image" className="w-full h-full object-contain cursor-zoom-in" onClick={() => showModal(<ExpandedView switchImage={switchImage} />)} src={photos[selectedImage].url ?? missing} alt="" />
-            {selectedImage > 0 ? <ImageGalleryButton testid="image-left" flip styles="left-4" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
-            {selectedImage < photos.length - 1 ? <ImageGalleryButton strokeWidth={20} testid="image-right" styles="right-4" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
+            {selectedImage > 0 ? <ImageGalleryButton testid="image-left" ariaLabel="prev-image" flip styles="left-4" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton> : null}
+            {selectedImage < photos.length - 1 ? <ImageGalleryButton strokeWidth={20} testid="image-right" ariaLabel="next-image" styles="right-4" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton> : null}
           </div>
 
         )}
