@@ -177,7 +177,7 @@ function Overview() {
               : product.features.map((feature, i) => (
                 <li className="min-w-fit flex items-center gap-2" key={i}>
                   <FaCheck size={24} />
-                  {` ${feature.value} ${feature.feature}`}
+                  {` ${[feature.value, feature.feature].join(' ').trim()}`}
                 </li>
               ))}
           </ul>
