@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 
 import {
-  FaFacebook, FaRegStar, FaTwitter, FaPinterest,
+  FaFacebook, FaTwitter, FaPinterest,
 } from 'react-icons/fa';
 import { FaCheck, FaPlus } from 'react-icons/fa6';
 import { PiCaretDownBold } from 'react-icons/pi';
@@ -40,13 +40,13 @@ function Overview() {
   };
 
   // console.log(product, styles, rating);
-  const loading = !(product && styles && rating);
+  // const loading = !(product && styles && rating);
 
   return (
     <section className="w-full flex flex-col md:grid grid-cols-[1fr_minmax(20rem,min(30rem,30vw))] justify-items-center text-base-content">
       <ImageGallery />
       <section className="w-full flex flex-col justify-between px-8 py-8 gap-8">
-        {loading
+        {!rating
           ? <div className="w-3/4 h-4 skelly" />
           : (
             <div className="flex items-center gap-2">
@@ -67,7 +67,7 @@ function Overview() {
               </button>
             </div>
           )}
-        {loading ? (
+        {!product ? (
           <div className="flex flex-col gap-2">
             <div className="w-1/2 h-4 skelly" />
             <div className="w-full h-16 skelly" />
@@ -79,7 +79,7 @@ function Overview() {
             <h2 className="text-6xl font-bold">{product.name}</h2>
           </div>
         ) }
-        {loading ? <div className="w-1/3 h-8 skelly" /> : (
+        {!styles ? <div className="w-1/3 h-8 skelly" /> : (
           <div className="text-3xl font-medium">
             {styles[selectedStyle].sale_price
               ? (
@@ -102,7 +102,7 @@ function Overview() {
         ) }
         <StyleSelector />
         <form>
-          <fieldset disabled={loading} className="flex flex-col gap-4">
+          <fieldset disabled={!styles} className="flex flex-col gap-4">
             <div className="flex gap-4">
               <div className="relative flex-grow">
                 <select
@@ -116,10 +116,10 @@ function Overview() {
                   }}
                   disabled={sizes[0].sku === 'null'}
                 >
-                  <option data-testid="size-option" value="" disabled hidden>{loading ? 'Select Size' : sizes[0].sku !== 'null' ? 'Select Size' : 'OUT OF STOCK'}</option>
+                  <option data-testid="size-option" value="" disabled hidden>{!styles ? 'Select Size' : sizes[0].sku !== 'null' ? 'Select Size' : 'OUT OF STOCK'}</option>
                   {sizes.map((size) => <option data-testid="size-option" key={size.sku} value={size.sku}>{size.size}</option>)}
                 </select>
-                <PiCaretDownBold size={24} className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${loading || sizes[0].sku === 'null' ? 'opacity-25' : ''}`} />
+                <PiCaretDownBold size={24} className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${!styles || sizes[0].sku === 'null' ? 'opacity-25' : ''}`} />
               </div>
               <div className="relative">
                 <select data-testid="qty-selector" aria-label="qty-selector" className={`form-input cursor-pointer disabled:opacity-25 appearance-none ${selectedSKU ? 'pr-12' : ''}`} ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
@@ -154,7 +154,7 @@ function Overview() {
       </section>
       <section className="col-span-2 w-full md:w-[80%] py-6 flex flex-col md:flex-row divide-y md:divide-x md:divide-y-0 items-center">
         <div className="pb-8 md:pb-0 px-8 flex-shrink flex-grow">
-          {loading
+          {!product
             ? (
               <div className="flex flex-col gap-2">
                 <div className="w-3/4 h-5 skelly" />
@@ -172,7 +172,7 @@ function Overview() {
         </div>
         <div className="pt-8 md:pt-0 px-8 flex-shrink-0 w-fit">
           <ul className="flex flex-col gap-3 w-fit">
-            {loading
+            {!product
               ? Array.from({ length: 3 }).map((v, i) => <div key={i} className="w-48 h-4 skelly" />)
               : product.features.map((feature, i) => (
                 <li className="min-w-fit flex items-center gap-2" key={i}>
