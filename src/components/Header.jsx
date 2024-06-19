@@ -40,7 +40,7 @@ function Header() {
     <header className="flex justify-between items-center text-neutral-200 bg-neutral-800 px-6 py-2">
       <Logo className="-translate-y-2 py-1 w-[min(50vw,256px)]" />
       <div className="flex gap-8 items-center">
-        <button data-testid="theme-toggle" onClick={toggleTheme}>{theme === 'light' ? <BsMoonStars size={24} /> : <BsSun size={26} />}</button>
+        <button data-testid="theme-toggle" aria-label="theme-toggle" onClick={toggleTheme}>{theme === 'light' ? <BsMoonStars size={24} /> : <BsSun size={26} />}</button>
         <span className="flex gap-2 items-center">
           <PiShoppingCart size={32} />
           {cart.length > 0 ? `( ${cart.length} )` : null}

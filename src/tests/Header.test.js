@@ -11,9 +11,22 @@ import App from '../components/App';
 import Header from '../components/Header';
 import AppContext from '../context/AppContext';
 
-import testData from './testData';
+import OTestData from './OTestData';
+import RPTestData from './RPTestData';
+import RTestData from './RTestData';
 
-jest.mock('axios');
+beforeEach(() => {
+  axios.get.mockReset();
+  for (const response of OTestData) {
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
+  }
+  for (const response of RPTestData) {
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
+  }
+  for (const response of RTestData) {
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
+  }
+});
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -29,11 +42,7 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-beforeEach(() => {
-  for (const response of testData) {
-    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
-  }
-});
+jest.mock('axios');
 
 Element.prototype.scrollTo = () => {};
 // console.log = jest.fn();

@@ -19,6 +19,7 @@ module.exports = {
         'base-content': '#525252',
         'base-300': '#f5f5f5',
         'neutral-content': '#cccccc',
+        'secondary-content': '#737373',
       },
       dark: {
         primary: '#FF9900',
@@ -26,6 +27,7 @@ module.exports = {
         'base-300': '#262626',
         'base-content': '#d4d4d4',
         'neutral-content': '#666666',
+        'secondary-content': '#a3a3a3',
       },
     }],
 

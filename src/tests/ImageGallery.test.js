@@ -14,19 +14,28 @@ import AppContext from '../context/AppContext';
 import ExpandedView from '../components/ExpandedView';
 import appReducer from '../reducers/appReducer';
 
-import testData from './testData';
-
-jest.mock('axios');
+import OTestData from './OTestData';
+import RPTestData from './RPTestData';
+import RTestData from './RTestData';
 
 beforeEach(() => {
-  for (const response of testData) {
+  axios.get.mockReset();
+  for (const response of OTestData) {
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
+  }
+  for (const response of RPTestData) {
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
+  }
+  for (const response of RTestData) {
     axios.get.mockImplementationOnce(() => Promise.resolve({ data: response }));
   }
 });
 
+jest.mock('axios');
+
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({
+  value: jest.fn().mockImplementation((query) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -61,7 +70,7 @@ describe('Image Gallery', () => {
     render(
       <AppContext.Provider value={{
         store: {
-          styles: testData[1].results,
+          styles: OTestData[1].results,
           selectedStyle: 0,
           selectedImage: 0,
         },
@@ -83,7 +92,7 @@ describe('Image Gallery', () => {
     render(
       <AppContext.Provider value={{
         store: {
-          styles: testData[1].results,
+          styles: OTestData[1].results,
           selectedStyle: 0,
           selectedImage: 0,
         },
@@ -138,7 +147,7 @@ describe('Image Gallery', () => {
       <AppContext.Provider value={
         {
           store: {
-            styles: testData[1].results,
+            styles: OTestData[1].results,
             selectedStyle: 0,
             selectedImage: 0,
           },
