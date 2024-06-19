@@ -1,6 +1,7 @@
 import React, { useState, useContext, useRef } from 'react';
 
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { IoClose } from 'react-icons/io5';
 
 import ImageGalleryButton from './ImageGalleryButton';
 import ImageThumbnails from './ImageThumbnails';
@@ -8,8 +9,6 @@ import ImageThumbnails from './ImageThumbnails';
 import AppContext from '../context/AppContext';
 
 import missing from '../images/missing.svg?url';
-import cursorPlus from '../images/plus.svg?url';
-import cursorMinus from '../images/minus.svg?url';
 
 function ExpandedView({ switchImage }) {
   const [zoomed, setZoomed] = useState(false);
@@ -18,7 +17,7 @@ function ExpandedView({ switchImage }) {
   const imgRef = useRef(null);
 
   const {
-    store: { styles }, store: { selectedStyle }, store: { selectedImage },
+    store: { styles }, store: { selectedStyle }, store: { selectedImage }, hideModal,
   } = useContext(AppContext);
 
   const position = {
@@ -67,6 +66,7 @@ function ExpandedView({ switchImage }) {
           {/* <ImageThumbnails orientation="horizontal" /> */}
           <ImageGalleryButton testid="expanded-left" ariaLabel="prev-image" flip styles="left-8" cb={() => switchImage(-1)}><FaArrowLeft /></ImageGalleryButton>
           <ImageGalleryButton testid="expanded-right" ariaLabel="next-image" styles="right-8" cb={() => switchImage(1)}><FaArrowRight /></ImageGalleryButton>
+          <button className="absolute right-6 top-6 bg-white text-black opacity-80 rounded-full cursor-pointer" aria-label="close" onClick={hideModal}><IoClose size={32} /></button>
         </>
       ) : null}
     </div>
