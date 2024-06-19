@@ -1,9 +1,12 @@
 import axios from 'axios';
+import rateLimit from 'axios-rate-limit';
 import calculateRating from './calculateRating';
+
+const axislow = rateLimit(axios.create(), { maxRPS: 12 });
 
 export const getDetails = async (productID, dispatch) => {
   try {
-    const res = await axios.get(`/products/${productID}`);
+    const res = await axislow.get(`/products/${productID}`);
     dispatch({
       type: 'setProductDetails',
       payload: {
@@ -17,7 +20,7 @@ export const getDetails = async (productID, dispatch) => {
 
 export const getStyles = async (productID, dispatch) => {
   try {
-    const res = await axios.get(`/products/${productID}/styles`);
+    const res = await axislow.get(`/products/${productID}/styles`);
     dispatch({
       type: 'setProductDetails',
       payload: {
@@ -31,7 +34,7 @@ export const getStyles = async (productID, dispatch) => {
 
 export const getQuestions = async (productID, dispatch) => {
   try {
-    const res = await axios.get(`/qa/questions?product_id=${productID}&count=3333`);
+    const res = await axislow.get(`/qa/questions?product_id=${productID}&count=3333`);
     dispatch({
       type: 'setProductDetails',
       payload: {
@@ -45,7 +48,7 @@ export const getQuestions = async (productID, dispatch) => {
 
 export const getRating = async (productID, dispatch) => {
   try {
-    const res = await axios.get(`/reviews/meta?product_id=${productID}`);
+    const res = await axislow.get(`/reviews/meta?product_id=${productID}`);
     dispatch({
       type: 'setProductDetails',
       payload: {
@@ -58,11 +61,11 @@ export const getRating = async (productID, dispatch) => {
 };
 
 export const getRelatedProducts = async (productID, dispatch) => {
-  const response = await axios.get(`/products/${productID}/related`);
+  const response = await axislow.get(`/products/${productID}/related`);
   const relatedProductIds = response.data;
 
-  const productPromises = relatedProductIds.map((item) => axios.get(`/products/${item}`));
-  const ratingPromises = relatedProductIds.map((item) => axios.get(`/reviews/meta?product_id=${item}`));
+  const productPromises = relatedProductIds.map((item) => axislow.get(`/products/${item}`));
+  const ratingPromises = relatedProductIds.map((item) => axislow.get(`/reviews/meta?product_id=${item}`));
 
   const productResponses = await Promise.all(productPromises);
   const ratingResponses = await Promise.all(ratingPromises);
@@ -71,7 +74,7 @@ export const getRelatedProducts = async (productID, dispatch) => {
 
   const ratings = ratingResponses.map((res) => calculateRating(res.data));
 
-  const stylePromises = relatedProductsData.map((product) => axios.get(`/products/${product.id}/styles`));
+  const stylePromises = relatedProductsData.map((product) => axislow.get(`/products/${product.id}/styles`));
   const styleResponses = await Promise.all(stylePromises);
 
   const relatedStylesData = styleResponses.map((res) => res.data.results[0]);
@@ -89,8 +92,8 @@ export const getRelatedProducts = async (productID, dispatch) => {
 };
 
 export const getReviews = async (productID, dispatch) => {
-  const reviews = axios.get(`/reviews?product_id=${productID}`);
-  const ratings = axios.get(`/reviews/meta?product_id=${productID}`);
+  const reviews = axislow.get(`/reviews?product_id=${productID}`);
+  const ratings = axislow.get(`/reviews/meta?product_id=${productID}`);
   const responses = await Promise.all([reviews, ratings]);
   dispatch({
     type: 'setReviews',
