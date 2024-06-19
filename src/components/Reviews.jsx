@@ -161,7 +161,7 @@ function ReviewPosts({ review }) {
               ))}
             </div>
           </span>
-          <p className="font-light text-sm text-gray-400">
+          <p className="font-light text-sm text-neutral-500">
             {`${review.reviewer_name}, ${monthNames[reviewDate.getMonth()]} ${reviewDate.getDate()}, ${reviewDate.getFullYear()} `}
           </p>
         </span>

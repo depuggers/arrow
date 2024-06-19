@@ -49,20 +49,25 @@ function ReviewSummary({
                )}
         </div>
       </div>
+      <h2 className="flex flex-row justify-center text-sm font-bold pb-4">Rating Breakdown</h2>
       <div className="grow text-base text-neutral-600">
         {[5, 4, 3, 2, 1].map((star) => (
-          <span className="flex flex-row hover:underline pb-4 text-sm">
-            <button key={star} onClick={() => toggleSearch(star)}>{`${star} star`}</button>
-            <progress className="pl-2 text-sm" value={getTotalReviews(star)} max={totalReviews} />
+          <span className="flex flex-row hover:underline pb-2 text-sm">
+            <button key={star} onClick={() => toggleSearch(star)}>{`#Stars: ${star}`}</button>
+            <progress className="pl-2 pt-1 text-sm" value={getTotalReviews(star)} max={totalReviews} />
             <p>{`${getTotalReviews(star)} review(s)`}</p>
           </span>
         ))}
         <div className="pt-10">
-          <h4 className="text-sm">Size</h4>
+          <h4 className="text-sm text-neutral-500">Size</h4>
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
+            <div className="grid grid-cols-5 w-full gap-1 h-2">
+              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            </div>
             <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
+
           </div>
-          <progress className="w-full h-2" value={0} />
+
           <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
             <p>Poor</p>
             <p>What I expected</p>
