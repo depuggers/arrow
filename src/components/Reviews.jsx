@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useReducer, useContext,
+  useState, useEffect, useContext,
 } from 'react';
 import axios from 'axios';
 import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
@@ -7,9 +7,10 @@ import calculateRating from '../lib/calculateRating';
 import ReviewSummary from './ReviewSummary';
 import NewReview from './NewReview';
 import AppContext from '../context/AppContext';
+import Helpful from './Helpful';
 
 function Reviews() {
-  const productID = 40387;
+  const productID = 40344;
 
   // const [state, dispatch] = useReducer(reducer, { results: [] });
   // const [reviews, setReviews] = useState({ results: [] });
@@ -20,6 +21,7 @@ function Reviews() {
   const [currentView, setCurrentView] = useState([]);
   const [sortMethod, setSortMethod] = useState('relevance');
   const [newForm, setNewForm] = useState(false);
+
   const { store: { reviews }, store: { ratings }, store: { rating }, showModal } = useContext(AppContext);
   // const [store, dispatch]
 
@@ -143,9 +145,29 @@ function Reviews() {
 }
 // ReviewPosts.jsx
 function ReviewPosts({ review }) {
+
+  const [reported, setReported] = useState(true);
+  const {
+    dispatch, store: { helpfulReviews },
+  } = useContext(AppContext);
+
   const reviewDate = new Date(review.date);
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+  const markReviewHelpful = async (id) => {
+    if (!helpfulReviews.includes(id)) {
+      const response = await axios.put(`/reviews/${id}/helpful`);
+      if (response.status === 204) {
+        dispatch({
+          type: 'setReviewHelpful', payload: id,
+        });
+        return true;
+      }
+      return false;
+    }
+    return false;
+  };
+  console.log(review);
   return (
     <div className=" pt-2 pb-2 flex flex-col divide-y">
       <div className="pt-8">
@@ -172,11 +194,11 @@ function ReviewPosts({ review }) {
           )}
         </div>
         <span className="text-sm text-gray-600 font-light">
-          Helpful?
-          {/* update to match Q&A styling */}
-          <a className="divide-x text-sm no-underline hover:underline" href="/reviews">    Yes   </a>
-          <a className="text-xs" href="/reviews">(10)  |  </a>
-          <a href="/">   Report </a>
+
+          <Helpful helpfulCount={review.helpfulness} helpfulAction={() => markReviewHelpful(review.review_id)}>
+            <button>{reported ? 'Report' : 'Reported'}</button>
+          </Helpful>
+
         </span>
       </div>
     </div>

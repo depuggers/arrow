@@ -21,12 +21,13 @@ import '../styles/global.css';
 import useModal from '../hooks/useModal';
 
 function App() {
-  const [productID, setProductID] = useState(40344);
+  const [productID, setProductID] = useState(40387);
+  // 40344
 
   const { modal, showModal, hideModal } = useModal();
 
   const [store, dispatch] = useReducer(appReducer, {
-    selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: JSON.parse(localStorage.getItem('cart')) ?? [], helpfulQs: JSON.parse(localStorage.getItem('helpfulQs')) ?? [], helpfulAs: JSON.parse(localStorage.getItem('helpfulAs')) ?? [], reportedAs: JSON.parse(localStorage.getItem('reportedAs')) ?? [],
+    selectedImage: 0, selectedStyle: 0, selectedSKU: null, cart: JSON.parse(localStorage.getItem('cart')) ?? [], helpfulQs: JSON.parse(localStorage.getItem('helpfulQs')) ?? [], helpfulAs: JSON.parse(localStorage.getItem('helpfulAs')) ?? [], reportedAs: JSON.parse(localStorage.getItem('reportedAs')) ?? [], helpfulReviews: JSON.parse(localStorage.getItem('helpfulReviews')) ?? [],
   });
 
   useEffect(() => {

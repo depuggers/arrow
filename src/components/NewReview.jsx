@@ -24,13 +24,21 @@ function NewReview() {
   //   return valid;
   // }
   return (
-    <div>
+    <div className="overscroll-contain max-h-full overflow-y-auto">
       <div className="border-2 w-full flex flex-col bg-slate-100">
         <h1 className="text-3xl font-bold">Write Your Review</h1>
         <h3>{`About the ${product.name}`}</h3>
         <form className="pt-6 pb-6 flex flex-col gap-4">
-          <div className="rating flex flex-row font-bold">
-            Overall Rating
+          <div className="rating flex flex-row font-bold className= pr-6">
+            <h2>Overall Rating </h2>
+            <input
+              key={0}
+              type="radio"
+              className="mask mask-star-2 bg-primary pr-6"
+              onMouseOver={() => setCurrentStar(0)}
+              checked={Math.round(currentStar === 0)}
+            />
+
             {[1, 2, 3, 4, 5].map((rating) => (
               <input
                 key={rating}
@@ -48,8 +56,16 @@ function NewReview() {
           </div>
 
           <h3>Do you reccommend this product?</h3>
-          <label><input type="radio" name="reccommend" value="yes"/> Yes</label>
-          <label><input type="radio" name="reccommend" value="no" /> No</label>
+          <label>
+            <input type="radio" name="reccommend" value="yes" />
+            {' '}
+            Yes
+          </label>
+          <label>
+            <input type="radio" name="reccommend" value="no" />
+            {' '}
+            No
+          </label>
 
           <div className="rating flex flex-row">
             Product characteristics
@@ -125,7 +141,10 @@ function NewReview() {
 
           <button type="submit" className="form-input">Submit Review</button>
         </form>
-        <button className="text-red" onClick={hideModal}>Close<IoClose size={32}/></button>
+        <button className="text-red" onClick={hideModal}>
+          Close
+          <IoClose size={32} />
+        </button>
       </div>
     </div>
   );

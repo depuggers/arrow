@@ -1,5 +1,5 @@
 const appReducer = (state, action) => {
-  // console.log(JSON.stringify(action));
+  console.log(JSON.stringify(action));
   switch (action.type) {
     case 'setProductDetails':
       return {
@@ -91,6 +91,20 @@ const appReducer = (state, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+
+    case 'setReviewHelpful':
+      localStorage.setItem('reviews', JSON.stringify([
+        ...state.helpfulReviews,
+        action.payload,
+      ]));
+      return {
+        ...state,
+        helpfulReviews: [
+          ...state.helpfulReviews,
+          action.payload,
+        ],
+        reviews: { ...state.reviews, results: state.reviews.results.map((r) => (r.review_id !== action.payload ? r : { ...r, helpfulness: r.helpfulness + 1 })) },
       };
 
     default:
