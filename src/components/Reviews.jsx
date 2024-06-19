@@ -20,7 +20,7 @@ function Reviews() {
   const [currentView, setCurrentView] = useState([]);
   const [sortMethod, setSortMethod] = useState('relevance');
   const [newForm, setNewForm] = useState(false);
-  const { store: { reviews }, store: { ratings }, store: { rating } } = useContext(AppContext);
+  const { store: { reviews }, store: { ratings }, store: { rating }, showModal } = useContext(AppContext);
   // const [store, dispatch]
 
   useEffect(() => {
@@ -119,11 +119,14 @@ function Reviews() {
                   ADD REVIEW
                   <FaPlus size={24} />
                 </button>
+
               </div>
             </div>
             <div className="">
               {newForm
-              && <NewReview />}
+              && <NewReview />
+              }
+            <button onClick={() => showModal(<NewReview />)} type="button">Add</button>
             </div>
           </div>
         )

@@ -1,5 +1,6 @@
 import React, { useState, useContext, useActionState } from 'react';
 
+import { IoClose } from 'react-icons/io5';
 import ReviewSummary from './ReviewSummary';
 import AppContext from '../context/AppContext';
 import StarRating from './StarRating';
@@ -24,7 +25,7 @@ function NewReview() {
   // }
   return (
     <div>
-      <div className="w-1/2 border-2">
+      <div className="border-2 w-full flex flex-col bg-slate-100">
         <h1 className="text-3xl font-bold">Write Your Review</h1>
         <h3>{`About the ${product.name}`}</h3>
         <form className="pt-6 pb-6 flex flex-col gap-4">
@@ -108,7 +109,7 @@ function NewReview() {
             />
           </label>
           <label>
-            What is your email*
+            What is your email?*
             <input
               className="form-input resize-none w-full"
               type="email"
@@ -120,9 +121,11 @@ function NewReview() {
             />
             <p className="text-sm text-neutral-400">For authentication reasons, you will not be emailed</p>
           </label>
+          <button className="form-input pb-8">Add Photos</button>
 
           <button type="submit" className="form-input">Submit Review</button>
         </form>
+        <button className="text-red" onClick={hideModal}>Close<IoClose size={32}/></button>
       </div>
     </div>
   );
