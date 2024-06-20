@@ -68,10 +68,6 @@ console.log(productChars)
           </span>
         ))}
         <div className="pt-10">
-          <ProductCharacteristics
-            ratings={ratings}
-            reviews={reviews}
-          />
         </div>
       </div>
     </section>

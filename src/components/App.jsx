@@ -37,7 +37,7 @@ function App() {
     getRating(productID, dispatch);
     await getRelatedProducts(productID, dispatch);
     getReviews(productID, dispatch);
-  }
+  };
 
   useEffect(() => {
     fetchAll();

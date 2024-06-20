@@ -119,7 +119,7 @@ function Reviews() {
                 )
                 : null}
               <div className="font-bold text-lg">
-                <button className="form-input flex flex-row" onClick={() => showModal(<NewReview />)}>
+                <button className="form-input flex flex-row" onClick={() => showModal(<NewReview ratings={ratings} reviews={reviews} />)}>
                   ADD REVIEW
                   <FaPlus size={24} />
                 </button>
