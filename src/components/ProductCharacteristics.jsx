@@ -25,7 +25,7 @@ function ProductCharacteristics({
   return (
 
     <section className="flex flex-col self-start pr-10 pt-4 pb-20 ">
-      <h2 className="flex flex-row justify-center text-sm text-gray-600 font-semibold pb-2">RATING BREAKDOWN</h2>
+      <h2 className="flex flex-row justify-center text-sm text-gray-700 font-semibold pb-2">RATING BREAKDOWN</h2>
       <div className="flex flex-row font-bold text-sm justify-between">
         <p />
         {/* <p>#Reviews</p> */}
@@ -57,7 +57,7 @@ function ProductCharacteristics({
             <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
             {/* replace */}
             <div className="grid grid-cols-5 w-full gap-1 h-2">
-              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            {Array(5).fill(0).map((item, index) => <div className="w-full h-full bg-zinc-400" key={index} />)}
             </div>
 
           </div>
@@ -73,7 +73,7 @@ function ProductCharacteristics({
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
             <span className="pr-2" style={getFeatureData('Comfort')}><TbTriangleInvertedFilled className="text-sm" /></span>
             <div className="grid grid-cols-5 w-full gap-1 h-2">
-              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            {Array(5).fill(0).map((item, index) => <div className="w-full h-full bg-zinc-400" key={index} />)}
             </div>
 
           </div>
@@ -89,7 +89,7 @@ function ProductCharacteristics({
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
             <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
             <div className="grid grid-cols-5 w-full gap-1 h-2">
-              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            {Array(5).fill(0).map((item, index) => <div className="w-full h-full bg-zinc-400" key={index} />)}
             </div>
 
           </div>
@@ -105,7 +105,7 @@ function ProductCharacteristics({
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
             <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
             <div className="grid grid-cols-5 w-full gap-1 h-2">
-              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+            {Array(5).fill(0).map((item, index) => <div className="w-full h-full bg-zinc-400" key={index} />)}
             </div>
 
           </div>
@@ -121,7 +121,7 @@ function ProductCharacteristics({
           <div style={{ position: 'relative' }} className="flex flex-row w-full">
             <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
             <div className="grid grid-cols-5 w-full gap-1 h-2">
-              {Array(5).fill(0).map((item) => <div className="w-full h-full bg-zinc-400" />)}
+              {Array(5).fill(0).map((item, index) => <div className="w-full h-full bg-zinc-400" key={index} />)}
             </div>
 
           </div>

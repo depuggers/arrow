@@ -12,7 +12,7 @@ function ReviewSummary({
   const relevantChars = Object.keys(productChars);
 
   const roundedAvg = Math.round(avgRatings * 10) / 10;
-
+console.log(productChars)
   const getFeatureData = (feature) => {
     // const featureData = `${productChars}.${feature}.value`;
     const featureData = productChars[feature].value || 0;
@@ -58,8 +58,8 @@ function ReviewSummary({
       </div>
       <div className="grow text-base text-neutral-600 w-full">
         {[5, 4, 3, 2, 1].map((star) => (
-          <span className="w-full flex flex-row hover:underline pb-2 text-sm">
-            <button key={star} onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
+          <span key={star} className="w-full flex flex-row hover:underline pb-2 text-sm">
+            <button  onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
             <progress className="pl-2 pt-1 text-sm grow" value={getTotalReviews(star)} max={totalReviews} />
             <p>{`${getTotalReviews(star)} review`}</p>
             <p>
@@ -68,14 +68,14 @@ function ReviewSummary({
           </span>
         ))}
         <div className="pt-10">
-            <ProductCharacteristics
-              ratings={ratings}
-              reviews={reviews}
-             />
-          </div>
+          <ProductCharacteristics
+            ratings={ratings}
+            reviews={reviews}
+          />
+        </div>
       </div>
     </section>
-  )
+  );
 }
 
 export default ReviewSummary;
