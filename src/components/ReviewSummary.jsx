@@ -35,8 +35,8 @@ console.log(productChars)
 
   return (
 
-    <section className="flex flex-col self-start pr-10 pt-4 pb-20 w-1/4">
-      <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
+    <section className="text-base-content flex flex-col self-start pr-10 pt-4 pb-20 w-1/4">
+      <p className=" text-lg font-light pb-2">RATINGS & REVIEWS</p>
       <div className="flex flex-row pb-4">
         <h2 className="font-bold text-4xl">
           {roundedAvg}
@@ -51,15 +51,15 @@ console.log(productChars)
                )}
         </div>
       </div>
-      <h2 className="flex flex-row justify-center text-sm text-gray-600 font-semibold pb-2">RATING BREAKDOWN</h2>
+      <h2 className="flex flex-row justify-center text-sm font-semibold pb-2">RATING BREAKDOWN</h2>
       <div className="flex flex-row font-bold text-sm justify-between">
         <p />
         {/* <p>#Reviews</p> */}
       </div>
-      <div className="grow text-base text-neutral-600 w-full">
+      <div className="grow text-base w-full">
         {[5, 4, 3, 2, 1].map((star) => (
           <span key={star} className="w-full flex flex-row hover:underline pb-2 text-sm">
-            <button  onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
+            <button onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
             <progress className="pl-2 pt-1 text-sm grow" value={getTotalReviews(star)} max={totalReviews} />
             <p>{`${getTotalReviews(star)} review`}</p>
             <p>

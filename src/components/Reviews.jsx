@@ -44,7 +44,7 @@ function Reviews() {
     };
 
     const sortByDate = () => {
-      setCurrentView(currentView.sort((a, b) => {
+      setCurrentView([...currentView.sort((a, b) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
         console.log(sortType, dateA, dateB);
@@ -54,7 +54,7 @@ function Reviews() {
           return 1;
         }
         return 0;
-      }));
+      })]);
     };
 
     // const sortByRelevance = () => {
@@ -84,15 +84,15 @@ function Reviews() {
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
   return (
-    <div id="reviews" value="allReviews" className="flex flex-row-reverse justify-between w-full gap-6  text-neutral-600 pb-12">
+    <div id="reviews" value="allReviews" className="text-base-color flex flex-row-reverse justify-between w-full gap-6 ">
 
       {reviews
         ? (
-          <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4  text-neutral-600">
+          <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4 ">
             <span className="flex flex-row pt-5 text-lg font-semibold">
               {`${reviews.results?.length} reviews, sorted by`}
               <select
-                className="underline"
+                className="underline bg-transparent text-base-content"
                 onChange={(e) => { handleSortMethod(e.target.value); }}
               >
                 {['Relevance', 'Newest', 'Helpfulness'].map((sortType, index) => (
@@ -132,7 +132,7 @@ function Reviews() {
       {reviews && ratings
         ? (
 
-          <ReviewSummary
+          <ReviewSummary className="text-base-content"
             key={ratings.product_id}
             ratings={ratings}
             reviews={reviews}
