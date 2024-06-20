@@ -1,5 +1,5 @@
 const appReducer = (state, action) => {
-  console.log(JSON.stringify(action));
+  // console.log(JSON.stringify(action));
   switch (action.type) {
     case 'setProductDetails':
       return {

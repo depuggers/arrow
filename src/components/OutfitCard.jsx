@@ -12,7 +12,7 @@ const OutfitCard = memo(({ product }) => {
   };
 
   return (
-    <div className="productCard border border-gray-300 p-2 md:p-4 bg-base-100 w-40 h-60 md:w-60 md:h-80 items-center">
+    <div className="productCard border border-secondary-content/35 p-2 md:p-4 bg-base-100 w-40 h-60 md:w-60 md:h-80 items-center">
       <div className="imageContainer relative w-32 h-32 md:w-48 md:h-48 overflow-hidden rounded-lg mx-auto">
         <img src={product.photo ?? missing} alt={product.name} className="w-full h-full object-cover rounded-lg p-1" />
         <button type="button" className="absolute top-2 right-2 z-10 bg-white rounded-badge" aria-label="remove" onClick={handleRemove}><CiCircleRemove /></button>

@@ -39,7 +39,7 @@ function ProductCharacteristics({
         <p />
 
       </div>
-      <div className="w-full flex flex-col text-base">
+      <div className="w-full flex flex-col text-base md:gap-4">
         {relevantChars.map((feature, index) => (
           <div className="flex flex-col mb-2" key={index}>
             <h4 className="text-xl w-full">{feature}</h4>
@@ -50,7 +50,7 @@ function ProductCharacteristics({
               <div className="grid grid-cols-5 w-full gap-1 h-4 mb-1">
                 {Array(5).fill(0).map((item, idx) => <div key={idx} className="w-full bg-zinc-400" />)}
               </div>
-              <div className="pb-1 inset-x-0 bottom-0 flex h-20 flex-row w-full justify-between gap-1 text-s font-light">
+              <div className="pb-1 inset-x-0 bottom-0 flex h-auto flex-row w-full justify-between gap-1 text-s font-light">
                 {productFeatures[feature].map((item, i) => (<span key={i}>{item}</span>
                 ))}
               </div>

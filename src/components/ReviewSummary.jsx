@@ -33,9 +33,9 @@ function ReviewSummary({
 
   return (
 
-    <section className="text-base-content flex flex-col w-1/3 self-start pt-4 pb-20  ">
+    <section className="text-base-content flex flex-col w-full md:w-1/3 self-start pt-4 md:pb-8  ">
       <p className=" text-lg font-light pb-2">RATINGS & REVIEWS</p>
-      <div className="flex flex-row pb-4">
+      <div className="flex flex-row pb-4 gap-4 items-center">
         <h2 className="font-bold text-4xl">
           {roundedAvg}
         </h2>
@@ -70,7 +70,7 @@ function ReviewSummary({
       </div>
       <div className="grow text-base text-base-content w-full">
         {[5, 4, 3, 2, 1].map((star) => (
-          <span key={star} className="w-full flex flex-row hover:underline pb-6 text-base-content text-lg">
+          <span key={star} className="w-full flex flex-row hover:underline md:pb-2 text-base-content text-lg">
             <button onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
             <progress className="pl-2 pt-1 pb-2 h-9 text-sm grow" value={getTotalReviews(star)} max={totalReviews} />
             <p className="pl-2">{`${getTotalReviews(star)} review`}</p>

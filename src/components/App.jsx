@@ -21,7 +21,7 @@ import '../styles/global.css';
 import useModal from '../hooks/useModal';
 
 function App() {
-  const [productID, setProductID] = useState(40387);
+  const [productID, setProductID] = useState(40344);
   // 40344
 
   const { modal, showModal, hideModal } = useModal();
@@ -59,7 +59,7 @@ function App() {
           <RelatedProducts />
           <OutfitList />
         </OutfitProvider>
-        <div className="flex flex-col gap-6 items-center px-4 md:px-0 w-full md:w-[80%]">
+        <div className="flex flex-col gap-6 items-center px-6 md:px-0 w-full md:w-[80%] pb-8">
           <QnA />
           <Reviews />
         </div>
