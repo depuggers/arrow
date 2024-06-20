@@ -45,7 +45,7 @@ function Reviews() {
         return b.helpfulness - a.helpfulness;
       });
     }
-    ;
+
     setCurrentView(filteredReviews);
   };
 
@@ -60,7 +60,7 @@ function Reviews() {
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
   return (
-    <div id="reviews" value="allReviews" className="text-base-color flex flex-row-reverse justify-between w-full gap-6">
+    <div id="reviews" value="allReviews" className="text-base-color flex flex-row-reverse justify-between w-full gap-6 ">
       {reviews
         ? (
           <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4 ">
@@ -77,9 +77,8 @@ function Reviews() {
             </span>
             <ul className="pl-5 pt-2 divide-y">
               {currentView.slice(0, displayedReviews).map((review) => (
-                <li>
+                <li key={review.review_id}>
                   <ReviewPosts
-                    key={review.review_id}
                     review={review}
                   />
                 </li>

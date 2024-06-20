@@ -33,7 +33,7 @@ function ReviewSummary({
 
   return (
 
-    <section className="text-base-content flex flex-col self-start pt-4 pb-20 w-1/3 md:flex:flex-row">
+    <section className="text-base-content flex flex-col w-1/3 self-start pt-4 pb-20  ">
       <p className=" text-lg font-light pb-2">RATINGS & REVIEWS</p>
       <div className="flex flex-row pb-4">
         <h2 className="font-bold text-4xl">
