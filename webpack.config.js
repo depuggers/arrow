@@ -1,5 +1,6 @@
 require('dotenv').config();
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 
 const path = require('path');
 
@@ -26,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: ['style-loader', MiniCSSExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.svg$/i,
@@ -49,5 +50,6 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: './src/index.html',
     }),
+    new MiniCSSExtractPlugin(),
   ],
 };
