@@ -14,8 +14,8 @@ function ProductCharacteristics({
     const featureData = productChars[feature].value;
     const featureAvg = ((featureData) * 20);
 
-    console.log(relevantChars);
-    console.log(productChars);
+    // console.log(relevantChars);
+    // console.log(productChars);
     const selectionRating = {
       position: 'absolute',
       left: `${featureAvg}%`,

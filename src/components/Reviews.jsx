@@ -22,41 +22,19 @@ function Reviews() {
   const {
     store: { reviews }, store: { ratings }, store: { rating }, showModal,
   } = useContext(AppContext);
-  // const [store, dispatch]
-
-  useEffect(() => {
-    if (reviews) {
-      if (filters.length === 0) {
-        setCurrentView(reviews.results?.slice(0, displayedReviews));
-      } else {
-        const filteredReviews = reviews.results?.filter((review) => filters.includes(review.rating));
-        setCurrentView(filteredReviews.slice(0, displayedReviews));
-      }
-    }
-  }, [filters, displayedReviews, reviews]);
 
   const handleSortMethod = (sortType) => {
-    sortedReviews = [...currentView];
-    const sortByHelpfulness = () => {
-      setCurrentView([...currentView.sort((a, b) => a.helpfulness - b.helpfulness)]);
-    };
-
-    const sortByDate = () => {
-      setCurrentView([...currentView.sort((a, b) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-        console.log(sortType, dateA, dateB);
-        if (dateA < dateB) {
-          return -1;
-        } if (dateB < dateA) {
-          return 1;
-        }
-        return 0;
-      })]);
-    };
-
-    const sortByRelevance = () => {
-      setCurrentView([...currentView.sort((a, b) => {
+    console.log(currentView);
+    console.log(displayedReviews);
+    const filteredReviews = filters.length === 0 ? reviews.results : reviews.results?.filter((review) => filters.includes(review.rating));
+    // const filteredReviews = filters.length === 0 ? reviews.results : reviews.results?.filter((review) => filters.includes(review.rating));
+    // setCurrentView(filteredReviews.slice(0, displayedReviews));
+    if (sortType === 'newest') {
+      filteredReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (sortType === 'helpfulness') {
+      filteredReviews.sort((a, b) => a.helpfulness - b.helpfulness);
+    } else {
+      filteredReviews.sort((a, b) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
         const dateMatch = dateA - dateB;
@@ -64,38 +42,21 @@ function Reviews() {
         if (dateMatch !== 0) {
           return dateMatch;
         }
-        if (a.helpfulness < b.helpfulness) {
-          return -1;
-        } if (b.helpfulness < a.helpfulness) {
-          return 1;
-        }
-        return 0;
-      })]);
-    };
-
-    if (sortType === 'newest') {
-      sortByDate();
-    } else if (sortType === 'helpfulness') {
-      sortByHelpfulness();
-    } else {
-      sortByRelevance();
+        return b.helpfulness - a.helpfulness;
+      });
     }
+    ;
+    setCurrentView(filteredReviews);
   };
 
   useEffect(() => {
-    if (reviews && sortMethod === 'newest') {
-      handleSortMethod('newest');
-    } if (reviews && sortMethod === 'helpfulness') {
-      handleSortMethod('helpfulness');
-    } if (reviews && sortMethod === 'relevance') {
-      handleSortMethod('relevance');
+    if (reviews) {
+      handleSortMethod(sortMethod);
     }
-  }, [reviews]);
+  }, [filters, displayedReviews, sortMethod, reviews, currentView]);
 
-  let hasMoreReviews;
-  if (reviews) {
-    hasMoreReviews = displayedReviews < reviews.results?.length;
-  }
+  const hasMoreReviews = reviews ? displayedReviews < reviews.results?.length : false;
+
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
   return (
@@ -115,7 +76,7 @@ function Reviews() {
               </select>
             </span>
             <ul className="pl-5 pt-2 divide-y">
-              {currentView.map((review) => (
+              {currentView.slice(0, displayedReviews).map((review) => (
                 <li>
                   <ReviewPosts
                     key={review.review_id}
