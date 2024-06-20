@@ -1,6 +1,7 @@
 import React from 'react';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import StarRating from './StarRating';
+import ProductCharacteristics from './ProductCharacteristics';
 
 function ReviewSummary({
   ratings, reviews, avgRatings, filters, setFilters,
@@ -8,18 +9,17 @@ function ReviewSummary({
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
   const totalReviews = reviews.results?.length;
   const productChars = ratings.characteristics;
+  const relevantChars = Object.keys(productChars);
 
   const roundedAvg = Math.round(avgRatings * 10) / 10;
-
   const getFeatureData = (feature) => {
-    // const featureData = `${productChars}.${feature}.value`;
-    const featureData = productChars[feature].value;
+    const featureData = productChars[feature].value || 0;
     const featureAvg = ((featureData) * 20);
 
     const selectionRating = {
       position: 'absolute',
       left: `${featureAvg}%`,
-      top: '90%',
+      bottom: '10%',
     };
     return selectionRating;
   };
@@ -33,8 +33,8 @@ function ReviewSummary({
 
   return (
 
-    <section className="flex flex-col self-start pr-10 pt-4 pb-20 ">
-      <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
+    <section className="text-base-content flex flex-col w-1/3 self-start pt-4 pb-20  ">
+      <p className=" text-lg font-light pb-2">RATINGS & REVIEWS</p>
       <div className="flex flex-row pb-4">
         <h2 className="font-bold text-4xl">
           {roundedAvg}
@@ -49,89 +49,42 @@ function ReviewSummary({
                )}
         </div>
       </div>
-      <div className="grow text-base text-neutral-600">
+      <h2 className="flex flex-row justify-center text-lg font-semibold pb-2">RATING BREAKDOWN</h2>
+      <div>
+        {filters.length > 0
+          ? (
+            <div>
+              <p className="flex flex-row justify-center text-lg font-semibold pb-2">
+                Current filters: |{`${filters} star | `}
+              </p>
+              <p className="flex flex-row justify-center text-lg font-semibold pb-2">
+                <button className="justify-center text-base-content font-semibold pb-2 border-2" onClick={() => setFilters([])}>Clear Filters</button>
+              </p>
+
+            </div>
+          ) : null}
+      </div>
+      <div className="flex flex-row font-bold text-sm justify-between">
+        <p />
+        {/* <p>#Reviews</p> */}
+      </div>
+      <div className="grow text-base text-base-content w-full">
         {[5, 4, 3, 2, 1].map((star) => (
-          <span className="flex flex-row hover:underline pb-4 text-sm">
-            <button key={star} onClick={() => toggleSearch(star)}>{`${star} star`}</button>
-            <progress className="pl-2 text-sm" value={getTotalReviews(star)} max={totalReviews} />
-            <p>{`${getTotalReviews(star)} review(s)`}</p>
+          <span key={star} className="w-full flex flex-row hover:underline pb-6 text-base-content text-lg">
+            <button onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
+            <progress className="pl-2 pt-1 pb-2 h-9 text-sm grow" value={getTotalReviews(star)} max={totalReviews} />
+            <p className="pl-2">{`${getTotalReviews(star)} review`}</p>
+            <p>
+              {getTotalReviews(star) !== 1 && 's'}
+            </p>
           </span>
         ))}
-        <div className="pt-10">
-          <h4 className="text-sm">Size</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p>Poor</p>
-            <p>What I expected</p>
-            <p>Perfect</p>
-          </div>
-        </div>
-        <div>
-          <h4 className="text-sm">Width</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row  w-full">
-            <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Too Narrow</p>
-            <p>Perfect</p>
-            <p>Too Large</p>
-          </div>
-        </div>
-        <div>
-          <h4 className="text-sm">Comfort</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <span className="pr-2" style={getFeatureData('Comfort')}><TbTriangleInvertedFilled className="text-sm" /></span>
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Uncomfortable</p>
-            <p>OK</p>
-            <p>Perfect</p>
-          </div>
-        </div>
-        <div>
-          <h4 className="text-sm">Quality</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <span className="pr-2" style={getFeatureData('Quality')}><TbTriangleInvertedFilled className="text-sm" /></span>
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Poor</p>
-            <p>What I expected</p>
-            <p>Perfect</p>
-          </div>
-        </div>
-        <div>
-          <h4 className="text-sm">Length</h4>
-          <div style={{ position: 'relative' }} className="flex flex-row w-full">
-            <span className="pr-2" style={getFeatureData('Length')}><TbTriangleInvertedFilled className="text-sm" /></span>
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Runs Short</p>
-            <p>Perfect</p>
-            <p>Runs Long</p>
-          </div>
-        </div>
-        <div>
-          <h4 className="text-sm">Fit</h4>
-          <div style={{ position: 'relative' }} className="flex pt-1 flex-row w-full">
-            <span className="pr-2" style={getFeatureData('Fit')}><TbTriangleInvertedFilled className="text-sm" /></span>
-            {/* 10% to 30% -- chaange to grid */}
-          </div>
-          <progress className="w-full h-2" value={0} />
-          <div className="pb-6 flex items-center w-full justify-between gap-2 text-xs font-light">
-            <p className="">Runs Tight</p>
-            <p>Perfect</p>
-            <p>Runs Long</p>
-          </div>
-        </div>
-
+        <div className="pt-10" />
       </div>
+      <ProductCharacteristics
+        reviews={reviews}
+        ratings={ratings}
+      />
     </section>
   );
 }

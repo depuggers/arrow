@@ -7,7 +7,7 @@ const markText = (string, search) => {
   // console.log(matches);
 
   const result = [];
-
+  console.log('test')
   if (matches[0].index !== 0) {
     result.push(<span key={`${Math.random()}`}>{splits[0]}</span>);
     for (const [index, split] of splits.entries()) {
