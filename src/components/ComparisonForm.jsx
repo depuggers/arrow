@@ -59,9 +59,10 @@ function ComparisonForm({ defaultProduct }) {
   return (
     <>
       {allFeatures ? (
-        <div className="relative overflow-x-auto text-neutral-600 bg-white z-10 p-4">
+        <div className="relative w-full max-w-xl mx-auto text-neutral-600 bg-white z-10 p-4">
           <h2 className="text-center p-2">COMPARING</h2>
           <button onClick={hideModal} className="absolute right-2 top-2 text-xl" aria-label="close"><BiWindowClose /></button>
+          <div className="overflow-y-auto max-h-80">
           <table className="w-full text-center text-neutral-600">
             <thead className="text-neutral-600 bg-gray-50">
               <tr>
@@ -80,6 +81,7 @@ function ComparisonForm({ defaultProduct }) {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       ) : null}
     </>

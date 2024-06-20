@@ -25,7 +25,7 @@ const RelatedProduct = forwardRef(({ defaultProduct, defaultProductUrl, defaultP
         <div className="relative w-32 h-32 md:w-48 md:h-48 overflow-hidden rounded-lg mx-auto justify-center">
           <img src={defaultProductUrl.photos[0].url ?? missing} alt={defaultProduct.name} className="w-full h-full object-cover p-1 rounded-lg" />
         </div>
-        <p className="text-gray-500 text-center text-xs">{defaultProduct?.category.toUpperCase()}</p>
+        <p className="text-gray-500 text-center text-xxs md:text-xs">{defaultProduct?.category.toUpperCase()}</p>
         <h3 className="font-bold text-center text-base-content overflow-hidden whitespace-nowrap overflow-ellipsis text-xs md:text-base">{defaultProduct?.name}</h3>
         <p className="text-base-content text-xs md:text-sm text-center">
           $
