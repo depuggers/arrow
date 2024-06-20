@@ -7,7 +7,8 @@ import StarRating from './StarRating';
 
 function NewReview() {
   const [counter, setCounter] = useState(0);
-  const [currentStar, setCurrentStar] = useState(1);
+  const [currentStar, setCurrentStar] = useState(0);
+  const [starSelected, setStarSelected] = useState(false);
   // set in useContext
   const {
     store: { ratings }, store: { product }, store: { reviews }, hideModal,
@@ -28,14 +29,19 @@ function NewReview() {
       <div className="border-2 w-full flex flex-col bg-slate-100">
         <h1 className="text-3xl font-bold">Write Your Review</h1>
         <h3>{`About the ${product.name}`}</h3>
-        <form className="pt-6 pb-6 flex flex-col gap-4">
-          <div className="rating flex flex-row font-bold className= pr-6">
-            <h2>Overall Rating </h2>
+        <form className="pt-6 pb-4 flex flex-col gap-2">
+          <div className="rating flex flex-row font-bold pr-6">
+            <h2 className="pr-8">Overall Rating </h2>
+            <button className="absolute right-0 top-0 text-black hover:bg-slate-300" onClick={hideModal}>
+              <IoClose size={32} />
+            </button>
+            {/* <div onMouseLeave={setCurrentStar(0)}> */}
             <input
               key={0}
               type="radio"
-              className="mask mask-star-2 bg-primary pr-6"
-              onMouseOver={() => setCurrentStar(0)}
+              className="invisible mask mask-star-2 bg-primary pr-6"
+                // onMouseOver={() => setCurrentStar(0)}
+              disabled
               checked={Math.round(currentStar === 0)}
             />
 
@@ -45,25 +51,23 @@ function NewReview() {
                 type="radio"
                 className="mask mask-star-2 bg-primary pr-6"
                 onMouseOver={() => setCurrentStar(rating)}
+                  // onClick={setStarSelected(!starSelected)}
                 checked={Math.round(currentStar === rating)}
               />
             ))}
+            <p className="">{currentStar === 0 && <h1 />}</p>
             <p className="">{currentStar === 1 && <h1>Poor</h1>}</p>
             <p className="">{currentStar === 2 && <h1>Fair</h1>}</p>
             <p className="">{currentStar === 3 && <h1>Average</h1>}</p>
             <p className="">{currentStar === 4 && <h1>Good</h1>}</p>
             <p className="">{currentStar === 5 && <h1>Great</h1>}</p>
           </div>
-
+          {/* </div> */}
           <h3>Do you reccommend this product?</h3>
           <label>
             <input type="radio" name="reccommend" value="yes" />
-            {' '}
             Yes
-          </label>
-          <label>
             <input type="radio" name="reccommend" value="no" />
-            {' '}
             No
           </label>
 
@@ -100,7 +104,7 @@ function NewReview() {
               name="reviewBody"
               id="reviewBody"
               rows={3}
-              placeholder="Why did you like the product or not?"
+              placeholder="Why did you like the product?"
               onChange={(e) => setCounter(50 - e.target.value.length)}
               required
               minLength={50}
@@ -119,7 +123,7 @@ function NewReview() {
               type="text"
               name="nickname"
               id="reviewSumary"
-              placeholder="Example: Best purchase ever!"
+              placeholder="Example: John Smith"
               maxLength={60}
               required
             />
@@ -137,14 +141,14 @@ function NewReview() {
             />
             <p className="text-sm text-neutral-400">For authentication reasons, you will not be emailed</p>
           </label>
-          <button className="form-input pb-8">Add Photos</button>
+          <button className="absolute right-0 top-0 text-black hover:bg-slate-300" onClick={hideModal}>
+            <IoClose size={32} />
+          </button>
+          <button className="form-input pb-8 w-24 h-1/16">Add Photos</button>
 
           <button type="submit" className="form-input">Submit Review</button>
         </form>
-        <button className="text-red" onClick={hideModal}>
-          Close
-          <IoClose size={32} />
-        </button>
+
       </div>
     </div>
   );
