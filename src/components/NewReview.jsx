@@ -37,16 +37,16 @@ function NewReview() {
   // }
   return (
     <>
-      <div className="overscroll-contain max-h-full overflow-y-auto">
+      <div className="overscroll-contain max-h-full overflow-y-auto relative">
+        <button className="absolute right-0 top-0 text-black hover:bg-slate-300" onClick={hideModal}>
+          <IoClose size={32} />
+        </button>
         <div className="border-2 w-full flex flex-col bg-slate-100">
           <h1 className="text-3xl font-bold">Write Your Review</h1>
           <h3>{`About the ${product.name}`}</h3>
           <form className="pt-6 pb-4 flex flex-col gap-2">
             <div className="rating flex flex-row font-bold pr-6">
               <h2 className="pr-8">Overall Rating </h2>
-              <button className="absolute right-0 top-0 text-black hover:bg-slate-300" onClick={hideModal}>
-                <IoClose size={32} />
-              </button>
               {/* <div onMouseLeave={setCurrentStar(0)}> */}
               <input
                 key={0}
@@ -82,13 +82,14 @@ function NewReview() {
               <input type="radio" name="reccommend" value="no" />
               No
             </label>
+            <label>
             {relevantChars.includes('Size')
               && (
                 <div className="rating flex flex-row">
                   {productFeatures['Size'].map((option, index) => (
                     <div className="flex flex-row" key={index}>
-                      <h4 className="text-base w-full">{option}</h4>
                       <input type="radio" name="size" value={option} />
+                      <h4 className="text-base">{option}</h4>
                     </div>
                   ))}
                 </div>
@@ -96,15 +97,49 @@ function NewReview() {
             <div className="rating flex flex-row">
               {relevantChars.includes('Comfort')
               && productFeatures['Comfort'].map((option, index) => (
-                <div className="flex flex-row">
-                  <div className="flex flex-row" key={index}>
-                    <h4 className="text-base w-full">{option}</h4>
-                    <input type="radio" name="comfort" value={option} />
-                  </div>
+                <div className="flex flex-row" key={index}>
+                  <h4 className="text-base w-full">{option}</h4>
+                  <input type="radio" name="comfort" value={option} />
                 </div>
               ))}
             </div>
-            <div className="">
+            <div className="rating flex flex-row">
+              {relevantChars.includes('Fit')
+              && productFeatures['Fit'].map((option, index) => (
+                <div className="flex flex-row" key={index}>
+                  <h4 className="text-base w-full">{option}</h4>
+                  <input type="radio" name="fit" value={option} />
+                </div>
+              ))}
+            </div>
+              <div className="rating flex flex-row">
+              {relevantChars.includes('Width')
+              && productFeatures['Width'].map((option, index) => (
+                <div className="flex flex-row" key={index}>
+                  <h4 className="text-base w-full">{option}</h4>
+                  <input type="radio" name="width" value={option} />
+                </div>
+              ))}
+            </div>
+            <div className="rating flex flex-row">
+              {relevantChars.includes('Length')
+              && productFeatures['Length'].map((option, index) => (
+                <div className="flex flex-row" key={index}>
+                  <h4 className="text-base w-full">{option}</h4>
+                  <input type="radio" name="length" value={option} />
+                </div>
+              ))}
+            </div>
+            <div className="rating flex flex-row">
+              {relevantChars.includes('Quality')
+              && productFeatures['Quality'].map((option, index) => (
+                <div className="flex flex-row" key={index}>
+                  <h4 className="text-base w-full">{option}</h4>
+                  <input type="radio" name="quality" value={option} />
+                </div>
+              ))}
+            </div>
+            </label>
               <label>
                 Summary:
                 <input
@@ -117,7 +152,6 @@ function NewReview() {
                   required
                 />
               </label>
-            </div>
             <div>
               <h1> Review:</h1>
               <textarea
@@ -162,6 +196,7 @@ function NewReview() {
               />
               <p className="text-sm text-neutral-400">For authentication reasons, you will not be emailed</p>
             </label>
+
             <button className="absolute right-0 top-0 text-black hover:bg-slate-300" onClick={hideModal}>
               <IoClose size={32} />
             </button>

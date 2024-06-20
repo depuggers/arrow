@@ -12,9 +12,7 @@ function ReviewSummary({
   const relevantChars = Object.keys(productChars);
 
   const roundedAvg = Math.round(avgRatings * 10) / 10;
-console.log(productChars)
   const getFeatureData = (feature) => {
-    // const featureData = `${productChars}.${feature}.value`;
     const featureData = productChars[feature].value || 0;
     const featureAvg = ((featureData) * 20);
 
@@ -35,7 +33,7 @@ console.log(productChars)
 
   return (
 
-    <section className="text-base-content flex flex-col self-start pr-10 pt-4 pb-20 w-1/4">
+    <section className="text-base-content flex flex-col self-start pt-4 pb-20 w-1/3 md:flex:flex-row">
       <p className=" text-lg font-light pb-2">RATINGS & REVIEWS</p>
       <div className="flex flex-row pb-4">
         <h2 className="font-bold text-4xl">
@@ -51,25 +49,42 @@ console.log(productChars)
                )}
         </div>
       </div>
-      <h2 className="flex flex-row justify-center text-sm font-semibold pb-2">RATING BREAKDOWN</h2>
+      <h2 className="flex flex-row justify-center text-lg font-semibold pb-2">RATING BREAKDOWN</h2>
+      <div>
+        {filters.length > 0
+          ? (
+            <div>
+              <p className="flex flex-row justify-center text-lg font-semibold pb-2">
+                Current filters: |{`${filters} star | `}
+              </p>
+              <p className="flex flex-row justify-center text-lg font-semibold pb-2">
+                <button className="justify-center text-base-content font-semibold pb-2 border-2" onClick={() => setFilters([])}>Clear Filters</button>
+              </p>
+
+            </div>
+          ) : null}
+      </div>
       <div className="flex flex-row font-bold text-sm justify-between">
         <p />
         {/* <p>#Reviews</p> */}
       </div>
-      <div className="grow text-base w-full">
+      <div className="grow text-base text-base-content w-full">
         {[5, 4, 3, 2, 1].map((star) => (
-          <span key={star} className="w-full flex flex-row hover:underline pb-2 text-sm">
+          <span key={star} className="w-full flex flex-row hover:underline pb-6 text-base-content text-lg">
             <button onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
-            <progress className="pl-2 pt-1 text-sm grow" value={getTotalReviews(star)} max={totalReviews} />
-            <p>{`${getTotalReviews(star)} review`}</p>
+            <progress className="pl-2 pt-1 pb-2 h-9 text-sm grow" value={getTotalReviews(star)} max={totalReviews} />
+            <p className="pl-2">{`${getTotalReviews(star)} review`}</p>
             <p>
               {getTotalReviews(star) !== 1 && 's'}
             </p>
           </span>
         ))}
-        <div className="pt-10">
-        </div>
+        <div className="pt-10" />
       </div>
+      <ProductCharacteristics
+        reviews={reviews}
+        ratings={ratings}
+      />
     </section>
   );
 }

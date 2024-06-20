@@ -11,7 +11,6 @@ function ProductCharacteristics({
   const relevantChars = Object.keys(productChars);
 
   const getFeatureData = (feature) => {
-    // const featureData = `${productChars}.${feature}.value`;
     const featureData = productChars[feature].value;
     const featureAvg = ((featureData) * 20);
 
@@ -20,7 +19,7 @@ function ProductCharacteristics({
     const selectionRating = {
       position: 'absolute',
       left: `${featureAvg}%`,
-      bottom: '10%',
+      bottom: '90%',
     };
     return selectionRating;
   };
@@ -36,22 +35,27 @@ function ProductCharacteristics({
   //
   return (
 
-    <section className="flex flex-col h-full pr-10 pt-4 text-base-content">
-      <h2 className="flex flex-row justify-center text-sm font-semibold pb-2">RATING BREAKDOWN</h2>
+    <section className="flex flex-col h-full w-full pt-4 text-base-content">
+
       <div className="flex flex-row font-bold text-sm justify-between">
         <p />
 
       </div>
       <div className="w-full flex flex-col text-base">
         {relevantChars.map((feature, index) => (
-          <div className="flex flex-row" key={index}>
-            <h4 className="text-base w-full">{feature}</h4>
-            <div style={{ position: 'relative' }} className="flex flex-row w-full">
-              <span className="pr-2 w-full" style={getFeatureData(feature)}>
-                <TbTriangleInvertedFilled className="text-sm" />
-                <span className="pb-6 flex flex-row w-full justify-between gap-2 text-xs font-light">{productFeatures[feature]}</span>
+          <div className="flex flex-col mb-2" key={index}>
+            <h4 className="text-xl w-full">{feature}</h4>
+            <div style={{ position: 'relative' }} className="flex flex-col w-full">
+              <span className=" w-full pb-1" style={getFeatureData(feature)}>
+                <TbTriangleInvertedFilled className="text-base" />
               </span>
-              <div className="grid grid-cols-5 w-full gap-1 h-2">{Array(5).fill(0).map((item) => <div className="w-full bg-zinc-400" />)}</div>
+              <div className="grid grid-cols-5 w-full gap-1 h-4 mb-1">
+                {Array(5).fill(0).map((item, idx) => <div key={idx} className="w-full bg-zinc-400" />)}
+              </div>
+              <div className="pb-1 inset-x-0 bottom-0 flex h-20 flex-row w-full justify-between gap-1 text-s font-light">
+                {productFeatures[feature].map((item, i) => (<span key={i}>{item}</span>
+                ))}
+              </div>
             </div>
           </div>
         ))}

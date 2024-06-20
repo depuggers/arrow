@@ -12,9 +12,6 @@ import Helpful from './Helpful';
 function Reviews() {
   const productID = 40344;
 
-  // const [state, dispatch] = useReducer(reducer, { results: [] });
-  // const [reviews, setReviews] = useState({ results: [] });
-
   const [avgRatings, setAvgRatings] = useState('');
   const [displayedReviews, setDisplayedReviews] = useState(2);
   const [filters, setFilters] = useState([]);
@@ -39,6 +36,7 @@ function Reviews() {
   }, [filters, displayedReviews, reviews]);
 
   const handleSortMethod = (sortType) => {
+    sortedReviews = [...currentView];
     const sortByHelpfulness = () => {
       setCurrentView([...currentView.sort((a, b) => a.helpfulness - b.helpfulness)]);
     };
@@ -57,23 +55,40 @@ function Reviews() {
       })]);
     };
 
-    // const sortByRelevance = () => {
-    // };
+    const sortByRelevance = () => {
+      setCurrentView([...currentView.sort((a, b) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        const dateMatch = dateA - dateB;
+
+        if (dateMatch !== 0) {
+          return dateMatch;
+        }
+        if (a.helpfulness < b.helpfulness) {
+          return -1;
+        } if (b.helpfulness < a.helpfulness) {
+          return 1;
+        }
+        return 0;
+      })]);
+    };
 
     if (sortType === 'newest') {
       sortByDate();
     } else if (sortType === 'helpfulness') {
       sortByHelpfulness();
-    } // else {
-    //   sortByRelevance();
-    // }
+    } else {
+      sortByRelevance();
+    }
   };
 
   useEffect(() => {
     if (reviews && sortMethod === 'newest') {
       handleSortMethod('newest');
-    } else if (reviews && sortMethod === 'helpfulness') {
+    } if (reviews && sortMethod === 'helpfulness') {
       handleSortMethod('helpfulness');
+    } if (reviews && sortMethod === 'relevance') {
+      handleSortMethod('relevance');
     }
   }, [reviews]);
 
@@ -84,8 +99,7 @@ function Reviews() {
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
   return (
-    <div id="reviews" value="allReviews" className="text-base-color flex flex-row-reverse justify-between w-full gap-6 ">
-
+    <div id="reviews" value="allReviews" className="text-base-color flex flex-row-reverse justify-between w-full gap-6">
       {reviews
         ? (
           <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4 ">
@@ -100,7 +114,7 @@ function Reviews() {
                 ))}
               </select>
             </span>
-            <ul className="pl-5 pt-2">
+            <ul className="pl-5 pt-2 divide-y">
               {currentView.map((review) => (
                 <li>
                   <ReviewPosts
@@ -132,7 +146,8 @@ function Reviews() {
       {reviews && ratings
         ? (
 
-          <ReviewSummary className="text-base-content"
+          <ReviewSummary
+            className="text-base-content"
             key={ratings.product_id}
             ratings={ratings}
             reviews={reviews}
@@ -147,14 +162,17 @@ function Reviews() {
 }
 // ReviewPosts.jsx
 function ReviewPosts({ review }) {
-  const [reported, setReported] = useState(true);
+  const [showChars, setShowChars] = useState(250);
   const {
-    dispatch, store: { helpfulReviews },
+    dispatch, store: { helpfulReviews }, showModal, hideModal,
   } = useContext(AppContext);
 
   const reviewDate = new Date(review.date);
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
+  const handleShowChars = (e) => {
+    e.preventDefault();
+    setShowChars(e.target.value.length);
+  };
   const markReviewHelpful = async (id) => {
     if (!helpfulReviews.includes(id)) {
       const response = await axios.put(`/reviews/${id}/helpful`);
@@ -170,7 +188,7 @@ function ReviewPosts({ review }) {
   };
   console.log(review);
   return (
-    <div className=" pt-2 pb-2 flex flex-col divide-y">
+    <div className=" pt-2 pb-2 flex flex-col">
       <div className="pt-8">
         <span className="flex flex-row justify-between">
           <span className="pb-2">
@@ -184,8 +202,10 @@ function ReviewPosts({ review }) {
             {`${review.reviewer_name}, ${monthNames[reviewDate.getMonth()]} ${reviewDate.getDate()}, ${reviewDate.getFullYear()} `}
           </p>
         </span>
-        <h2 className="font-bold text-lg truncate...">{review.summary}</h2>
-        <div className="pb-5 font-extalight">{review.body}</div>
+        <h2 className="font-bold text-lg ">{review.summary}</h2>
+        <div className="pb-5 font-extalight">{review.body.split('').slice(0, showChars)}</div>
+        {review.body.split('').length > showChars
+            && <button onClick={(e) => setShowChars(review.body.split('').length)}> Show More...</button> }
         <div>
           {review.response && (
             <div className="bg-gray-300 pb-4">
@@ -194,10 +214,44 @@ function ReviewPosts({ review }) {
             </div>
           )}
         </div>
-        <span className="text-sm text-gray-600 font-light">
+        <span className="flex flex-row">
+          {(review.photos.length > 0 && review.photos.length <= 5)
+            &&
+          // closeUp ? (
+              review.photos.map((photo) => (
+                <img
+                  key={photo.id}
+                  style={{
+                    border: '1px solid', padding: '5px', height: '75px', width: '75px',
+                  }}
+                  onClick={() => showModal()}
+                  src={photo.url}
+                  alt=""
+                />
+              // ))) : (
+              // review.photos.map((photo) => (
+              //   <img
+              //     key={photo.id}
+              //     style={{
+              //       padding: '5px', height: '750px', width: '750px',
+              //     }}
+                //   onClick={() => hideModal()}
+                //   src={photo.url}
+                //   alt=""
+                // />
+              ))}
+
+          {/* <button className="absolute right-0 top-0 text-black hover:bg-slate-300" onClick={hideModal}>
+            <IoClose size={32} />
+            </button> */}
+          {/* <button className="text-xl" onClick={hideModal}>
+            X
+            </button> */}
+        </span>
+        <span className="text-sm text-gray-600 font-light pt-4">
 
           <Helpful helpfulCount={review.helpfulness} helpfulAction={() => markReviewHelpful(review.review_id)}>
-            <button>{reported ? 'Report' : 'Reported'}</button>
+            <button>No</button>
           </Helpful>
 
         </span>
