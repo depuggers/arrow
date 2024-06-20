@@ -22,7 +22,9 @@ function Reviews() {
   const [sortMethod, setSortMethod] = useState('relevance');
   const [newForm, setNewForm] = useState(false);
 
-  const { store: { reviews }, store: { ratings }, store: { rating }, showModal } = useContext(AppContext);
+  const {
+    store: { reviews }, store: { ratings }, store: { rating }, showModal,
+  } = useContext(AppContext);
   // const [store, dispatch]
 
   useEffect(() => {
@@ -129,23 +131,22 @@ function Reviews() {
 
       {reviews && ratings
         ? (
-          <div>
-            <ReviewSummary
-              key={ratings.product_id}
-              ratings={ratings}
-              reviews={reviews}
-              avgRatings={rating.average}
-              filters={filters}
-              setFilters={setFilters}
-            />
-          </div>
+
+          <ReviewSummary
+            key={ratings.product_id}
+            ratings={ratings}
+            reviews={reviews}
+            avgRatings={rating.average}
+            filters={filters}
+            setFilters={setFilters}
+          />
+
         ) : null}
     </div>
   );
 }
 // ReviewPosts.jsx
 function ReviewPosts({ review }) {
-
   const [reported, setReported] = useState(true);
   const {
     dispatch, store: { helpfulReviews },

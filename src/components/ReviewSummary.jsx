@@ -35,7 +35,7 @@ function ReviewSummary({
 
   return (
 
-    <section className="flex flex-col self-start pt-4 pb-20 w-full">
+    <section className="flex flex-col self-start pr-10 pt-4 pb-20 w-1/4">
       <p className=" text-lg text-gray-600 font-light pb-2">RATINGS & REVIEWS</p>
       <div className="flex flex-row pb-4">
         <h2 className="font-bold text-4xl">
@@ -56,11 +56,11 @@ function ReviewSummary({
         <p />
         {/* <p>#Reviews</p> */}
       </div>
-      <div className="grow text-base text-neutral-600">
+      <div className="grow text-base text-neutral-600 w-full">
         {[5, 4, 3, 2, 1].map((star) => (
-          <span className="flex flex-row hover:underline pb-2 text-sm">
-            <button key={star} onClick={() => toggleSearch(star)}>{`${star}`}</button>
-            <progress className="pl-2 pt-1 text-sm" value={getTotalReviews(star)} max={totalReviews} />
+          <span className="w-full flex flex-row hover:underline pb-2 text-sm">
+            <button key={star} onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
+            <progress className="pl-2 pt-1 text-sm grow" value={getTotalReviews(star)} max={totalReviews} />
             <p>{`${getTotalReviews(star)} review`}</p>
             <p>
               {getTotalReviews(star) !== 1 && 's'}
@@ -68,14 +68,14 @@ function ReviewSummary({
           </span>
         ))}
         <div className="pt-10">
-          <ProductCharacteristics
-            ratings={ratings}
-            reviews={reviews}
-          />
-        </div>
+            <ProductCharacteristics
+              ratings={ratings}
+              reviews={reviews}
+             />
+          </div>
       </div>
     </section>
-  );
+  )
 }
 
 export default ReviewSummary;
