@@ -9,6 +9,9 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
       },
+      fontSize: {
+        xxs: '0.5rem',
+      },
     },
   },
   plugins: [require('daisyui')],
