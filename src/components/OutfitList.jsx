@@ -67,7 +67,7 @@ function OutfitList() {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full text-neutral-600 relative">
+    <div className="flex flex-col gap-6 w-full text-neutral-600 relative ml-7 md:px-0 md:w-[80%]">
       <h3 className="text-base-content">YOUR OUTFIT</h3>
       <div className="overflow-hidden w-full flex items-center px-0 md:px-20 relative">
         {canScrollLeft && (

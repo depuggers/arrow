@@ -55,11 +55,11 @@ function App() {
       <Header />
       <main className="flex flex-col gap-6 items-center pb-6">
         <Overview />
+        <OutfitProvider>
+          <RelatedProducts />
+          <OutfitList />
+        </OutfitProvider>
         <div className="flex flex-col gap-6 items-center px-4 md:px-0 w-full md:w-[80%]">
-          <OutfitProvider>
-            <RelatedProducts />
-            <OutfitList />
-          </OutfitProvider>
           <QnA />
           <Reviews />
         </div>
