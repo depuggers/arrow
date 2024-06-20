@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', MiniCSSExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+        use: [process.env.NODE_ENV === 'production' ? MiniCSSExtractPlugin.loader : 'style-loader', 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.svg$/i,
