@@ -21,7 +21,7 @@ const RelatedProduct = forwardRef(({ defaultProduct, defaultProductUrl, defaultP
   return (
     defaultProductRating && defaultProductUrl && (
     <div className="relative" ref={ref}>
-      <div className="border border-gray-300 p-2 md:p-4 bg-base-100 w-40 h-60 md:w-60 md:h-80 " onClick={handleClick}>
+      <div className="border border-secondary-content/35 p-2 md:p-4 bg-base-100 w-40 h-60 md:w-60 md:h-80 " onClick={handleClick}>
         <div className="relative w-32 h-32 md:w-48 md:h-48 overflow-hidden rounded-lg mx-auto justify-center">
           <img src={defaultProductUrl.photos[0].url ?? missing} alt={defaultProduct.name} className="w-full h-full object-cover p-1 rounded-lg" />
         </div>

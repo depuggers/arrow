@@ -67,7 +67,7 @@ function OutfitList() {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full text-neutral-600 relative ml-7 md:px-0 md:w-[80%]">
+    <div className="flex flex-col gap-6 w-full text-neutral-600 relative pl-6 md:px-0 md:w-[80%]">
       <h3 className="text-base-content">YOUR OUTFIT</h3>
       <div className="overflow-hidden w-full flex items-center px-0 md:px-20 relative">
         {canScrollLeft && (
@@ -80,7 +80,7 @@ function OutfitList() {
         </button>
         )}
         <div className="carousel overflow-x-auto md:overflow-hidden space-x-5 flex w-full md:w-4/5 ml-0 md:ml-20" ref={carouselRef}>
-          <div className="firstCard border border-gray-300 p-2 md:p-4 bg-base-100 w-40 h-60 md:w-60 md:h-80 items-center" onClick={handleAddToOutfit}>
+          <div className="firstCard border border-secondary-content/35 p-2 md:p-4 bg-base-100 w-40 h-60 md:w-60 md:h-80 items-center" onClick={handleAddToOutfit}>
             <div className="imageContainer relative w-32 h-32 md:w-48 md:h-48 overflow-hidden rounded-lg mx-auto justify-center">
               <img src={plusBigUrl} alt="Add to Outfit" className="w-full h-full object-cover p-1 rounded-lg bg-gray-200" />
             </div>

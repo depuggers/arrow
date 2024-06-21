@@ -8,6 +8,7 @@ import ReviewSummary from './ReviewSummary';
 import NewReview from './NewReview';
 import AppContext from '../context/AppContext';
 import Helpful from './Helpful';
+import missing from '../images/missing.svg?url';
 
 function Reviews() {
   const productID = 40344;
@@ -60,10 +61,10 @@ function Reviews() {
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
   return (
-    <div id="reviews" value="allReviews" className="text-base-color flex flex-row-reverse justify-between w-full gap-6 ">
+    <div id="reviews" value="allReviews" className="text-base-color flex flex-col-reverse md:flex-row-reverse justify-between w-full gap-6 ">
       {reviews
         ? (
-          <div value="individualReviews" className="flex flex-col flex-auto w-1/2 pl-4 ">
+          <div value="individualReviews" className="flex flex-col flex-auto w-full md:w-1/2 md:pl-4 ">
             <span className="flex flex-row pt-5 text-lg font-semibold">
               {`${reviews.results?.length} reviews, sorted by`}
               <select
@@ -75,7 +76,7 @@ function Reviews() {
                 ))}
               </select>
             </span>
-            <ul className="pl-5 pt-2 divide-y">
+            <ul className="md:pl-5 pt-2 divide-y">
               {currentView.slice(0, displayedReviews).map((review) => (
                 <li key={review.review_id}>
                   <ReviewPosts
@@ -84,7 +85,7 @@ function Reviews() {
                 </li>
               ))}
             </ul>
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-4 justify-evenly md:justify-start mt-4">
               {hasMoreReviews
                 ? (
                   <div className="font-bold text-lg ">
@@ -185,7 +186,7 @@ function ReviewPosts({ review }) {
                     border: '1px solid', padding: '5px', height: '75px', width: '75px',
                   }}
                   onClick={() => showModal()}
-                  src={photo.url}
+                  src={photo.url.startsWith('http') ? photo.url : missing}
                   alt=""
                 />
               // ))) : (

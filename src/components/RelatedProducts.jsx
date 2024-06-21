@@ -92,7 +92,7 @@ function RelatedProducts() {
   };
 
   return (
-    <div className="relative w-full flex flex-col gap-6 text-neutral-600 ml-7 md:px-0 md:w-[80%]">
+    <div className="relative w-full flex flex-col gap-6 text-neutral-600 pl-6 md:px-0 md:w-[80%]">
       <h3 className="text-base-content">RELATED PRODUCTS</h3>
       <div className="overflow-hidden w-full flex items-center px-0 md:px-20 relative">
         {canScrollLeft && (
