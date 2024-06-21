@@ -8,6 +8,7 @@ import ReviewSummary from './ReviewSummary';
 import NewReview from './NewReview';
 import AppContext from '../context/AppContext';
 import Helpful from './Helpful';
+import StarRating from './StarRating';
 import missing from '../images/missing.svg?url';
 
 function Reviews() {
@@ -25,10 +26,8 @@ function Reviews() {
   } = useContext(AppContext);
 
   const handleSortMethod = (sortType) => {
-    console.log(currentView);
-    console.log(displayedReviews);
     const filteredReviews = filters.length === 0 ? reviews.results : reviews.results?.filter((review) => filters.includes(review.rating));
-    // const filteredReviews = filters.length === 0 ? reviews.results : reviews.results?.filter((review) => filters.includes(review.rating));
+
     // setCurrentView(filteredReviews.slice(0, displayedReviews));
     if (sortType === 'newest') {
       filteredReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -46,7 +45,7 @@ function Reviews() {
         return b.helpfulness - a.helpfulness;
       });
     }
-
+    filteredReviews.slice(0, displayedReviews);
     setCurrentView(filteredReviews);
   };
 
@@ -61,18 +60,19 @@ function Reviews() {
   const addReviews = () => { setDisplayedReviews(displayedReviews + 2); };
 
   return (
-    <div id="reviews" value="allReviews" className="text-base-color flex flex-col-reverse md:flex-row-reverse justify-between w-full gap-6 ">
+    <div id="reviews" value="allReviews" className="text-base-color flex flex-col-reverse md:flex-row-reverse justify-between w-full gap-6">
       {reviews
         ? (
           <div value="individualReviews" className="flex flex-col flex-auto w-full md:w-1/2 md:pl-4 ">
             <span className="flex flex-row pt-5 text-lg font-semibold">
               {`${reviews.results?.length} reviews, sorted by`}
               <select
+                aria-label="sortingSelect"
                 className="underline bg-transparent text-base-content"
                 onChange={(e) => { handleSortMethod(e.target.value); }}
               >
                 {['Relevance', 'Newest', 'Helpfulness'].map((sortType, index) => (
-                  <option key={index} value={sortType.toLowerCase()}>{sortType}</option>
+                  <option key={index} label={sortType} value={sortType.toLowerCase()}>{sortType}</option>
                 ))}
               </select>
             </span>
@@ -80,6 +80,7 @@ function Reviews() {
               {currentView.slice(0, displayedReviews).map((review) => (
                 <li key={review.review_id}>
                   <ReviewPosts
+                    key={review.review_id}
                     review={review}
                   />
                 </li>
@@ -124,6 +125,7 @@ function Reviews() {
 // ReviewPosts.jsx
 function ReviewPosts({ review }) {
   const [showChars, setShowChars] = useState(250);
+
   const {
     dispatch, store: { helpfulReviews }, showModal, hideModal,
   } = useContext(AppContext);
@@ -147,16 +149,17 @@ function ReviewPosts({ review }) {
     }
     return false;
   };
-  console.log(review);
+  // console.log(review);
   return (
     <div className=" pt-2 pb-2 flex flex-col">
       <div className="pt-8">
         <span className="flex flex-row justify-between">
           <span className="pb-2">
             <div className="rating">
-              {[1, 2, 3, 4, 5].map((rating) => (
-                <input key={rating} type="radio" className="mask mask-star-2 bg-primary" disabled checked={Math.round(review.rating === rating)} />
-              ))}
+              <StarRating
+                rating={review.rating}
+              />
+
             </div>
           </span>
           <p className="font-light text-sm text-neutral-500">

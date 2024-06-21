@@ -9,7 +9,6 @@ function ProductCharacteristics({
   const productChars = ratings.characteristics;
 
   const relevantChars = Object.keys(productChars);
-
   const getFeatureData = (feature) => {
     const featureData = productChars[feature].value;
     const featureAvg = ((featureData) * 20);
@@ -42,7 +41,7 @@ function ProductCharacteristics({
       <div className="w-full flex flex-col text-base md:gap-4">
         {relevantChars.map((feature, index) => (
           <div className="flex flex-col mb-2" key={index}>
-            <h4 className="text-xl w-full">{feature}</h4>
+            <h2 className="text-xl w-full">{feature}</h2>
             <div style={{ position: 'relative' }} className="flex flex-col w-full">
               <span className=" w-full pb-1" style={getFeatureData(feature)}>
                 <TbTriangleInvertedFilled className="text-base" />
