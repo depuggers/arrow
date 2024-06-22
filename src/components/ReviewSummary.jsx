@@ -1,5 +1,4 @@
 import React from 'react';
-import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import StarRating from './StarRating';
 import { ProductCharacteristics } from './ProductCharacteristics';
 
@@ -8,21 +7,7 @@ function ReviewSummary({
 }) {
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
   const totalReviews = reviews.results?.length;
-  const productChars = ratings.characteristics;
-  const relevantChars = Object.keys(productChars);
-
   const roundedAvg = Math.round(avgRatings * 10) / 10;
-  const getFeatureData = (feature) => {
-    const featureData = productChars[feature].value || 0;
-    const featureAvg = ((featureData) * 20);
-
-    const selectionRating = {
-      position: 'absolute',
-      left: `${featureAvg}%`,
-      bottom: '10%',
-    };
-    return selectionRating;
-  };
 
   const toggleSearch = (rating) => {
     const newFilters = filters.includes(rating)
@@ -66,7 +51,6 @@ function ReviewSummary({
       </div>
       <div className="flex flex-row font-bold text-sm justify-between">
         <p />
-        {/* <p>#Reviews</p> */}
       </div>
       <div className="grow text-base text-base-content w-full">
         {[5, 4, 3, 2, 1].map((star) => (

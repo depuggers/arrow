@@ -2,55 +2,30 @@ import React, { useState, useContext, useRef } from 'react';
 import axios from 'axios';
 import { IoClose } from 'react-icons/io5';
 import AppContext from '../context/AppContext';
-import { ProductCharacteristics, ProductCharacteristicsReview } from './ProductCharacteristics';
+import { ProductCharacteristicsReview } from './ProductCharacteristics';
 
 function NewReview() {
+  const formRef = useRef;
   const {
-    store: { product }, hideModal,
+    store: { product }, store: { reviews }, hideModal,
   } = useContext(AppContext);
-
-  // const [formError, setFormError] = useState(null);
-  // const [attempted, setAttempted] = useState('')
   const [counter, setCounter] = useState(0);
   const [currentStar, setCurrentStar] = useState(0);
-  const formRef = useRef(null);
 
-  // const data = Object.fromEntries(new FormData(formRef.current));
-  // data.review_id = parseInt(reviews.id, 10);
-  // try {
-  //   const response = axios.post('/reviews', 10);
-  //   if (response.status === 201) {
-  //     alert('Review Posted');
-  //     hideModal();
-  //   }
-  // } catch (error) {
-  //   console.error('error posting review', error);
-  // }
-
-  // const isValid = () => {
-  //   const errorMessages = {};
-  //   const form = formRef.current;
-  //   if (!form.reviewBody.value || form.reviewBody.value.length < 50) {
-  //     errorMessages.reviewBody = 'A review of at least 50 characters';
-
-  //     if (!form.email.validity.valid) {
-  //       errorMessages.body = 'A review of at least 50 characters';
-  //     }
-  //     if (!form.nickname.value) {
-  //       errorMessages.nickname = 'A review of at least 50 characters';
-  //     }
-  //     if (!form.reccommend.value) {
-  //       errorMessages.reccommend = 'A review of at least 50 characters';
-  //     }
-  //   }
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     // setAttempted(true);
-  //     if (!isValid()) return;
-  //     setFormError(errorMessages);
-  //     return Object.keys(errorMessages).length === 0;
-  //   };
-
+  const handleSubmit = () => {
+    const data = Object.fromEntries(new FormData(formRef.current));
+    data.review_id = parseInt(reviews.id, 10);
+    try {
+      const response = axios.post('/reviews', 10);
+      if (response.status === 201) {
+        alert('Review Posted');
+        hideModal();
+      }
+    } catch (error) {
+      alert('Error Posting Review');
+      hideModal();
+    }
+  };
   return (
     <>
       <div className="text-base-content overscroll-contain max-h-full overflow-y-auto relative">
@@ -157,11 +132,8 @@ function NewReview() {
             <button className="absolute right-0 top-0 text-black hover:bg-slate-300" onClick={hideModal}>
               <IoClose size={32} />
             </button>
-            <button className="form-input pb-8 w-24 h-1/16">Add Photos</button>
-            <div>You must enter the following</div>
-            {/* {Object.values(formError).map((error, index) => <p key={index} className="text-red-500">{error}</p>)} */}
             <button
-            // onClick={handleSubmit}
+              onClick={handleSubmit}
               type="submit"
               className="form-input"
             >

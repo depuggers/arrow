@@ -2,11 +2,7 @@ import React, { useContext } from 'react';
 import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import AppContext from '../context/AppContext';
 
-export function ProductCharacteristics({
-  ratings, reviews,
-}) {
-  const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
-
+export function ProductCharacteristics({ ratings }) {
   const productChars = ratings.characteristics;
 
   const relevantChars = Object.keys(productChars);
@@ -88,7 +84,7 @@ export function ProductCharacteristics({
 
 export function ProductCharacteristicsReview() {
   const {
-    store: { ratings }, hideModal,
+    store: { ratings },
   } = useContext(AppContext);
   const productChars = ratings.characteristics;
   const relevantChars = Object.keys(productChars);
@@ -143,13 +139,13 @@ export function ProductCharacteristicsReview() {
       {relevantChars.includes('Size') && (
       <div className="w-full flex items-center justify-between border-gray-200 rounded-lg">
         <h2 className="w-1/2 text-center pr-4">Size</h2>
-        <ul className="w-1/2 justify-self-end border border-gray-200 rounded-lg">
+        <ul className="w-1/2 justify-self-end">
           {fullProductFeatures.Size.map((option, index) => (
-            <li className="w-full border-b border-gray-200 sm:border-r" key={index}>
-              <div className="flex items-center gap-2 ps-3">
+            <li className="w-full" key={index}>
+              <div className="flex items-center gap-2">
 
                 <input className="w-4 h-4 border-gray-300" type="radio" id={`size${index}`} name="size" value={option} />
-                <label htmlFor={`size${index}`} className="py-3 text-sm font-medium">{option}</label>
+                <label htmlFor={`size${index}`} className="py-1 text-sm font-medium">{option}</label>
               </div>
             </li>
           ))}
@@ -157,15 +153,15 @@ export function ProductCharacteristicsReview() {
       </div>
       )}
       {relevantChars.includes('Comfort') && (
-      <div className="w-full flex items-center justify-between border-gray-200 rounded-lg">
+      <div className="w-full flex items-center justify-between border-gray-200 border-b-2">
         <h2 className="w-1/2 text-center pr-4">Comfort</h2>
-        <ul className="w-1/2 justify-self-end border border-gray-200 rounded-lg">
+        <ul className="w-1/2 justify-self-end">
           {fullProductFeatures.Comfort.map((option, index) => (
-            <li className="w-full border-b border-gray-200 sm:border-r" key={index}>
-              <div className="flex items-center gap-2 ps-3">
+            <li className="w-full" key={index}>
+              <div className="flex items-center gap-2">
 
                 <input className="w-4 h-4 border-gray-300" type="radio" id={`comfort${index}`} name="comfort" value={option} />
-                <label htmlFor={`comfort${index}`} className="py-3 text-sm font-medium">{option}</label>
+                <label htmlFor={`comfort${index}`} className="py-1 text-sm font-medium">{option}</label>
               </div>
             </li>
           ))}
@@ -173,15 +169,15 @@ export function ProductCharacteristicsReview() {
       </div>
       )}
       {relevantChars.includes('Width') && (
-      <div className="w-full flex items-center justify-between border-gray-200 rounded-lg">
+      <div className="w-full flex items-center justify-between border-gray-200 border-b-2">
         <h2 className="w-1/2 text-center pr-4">Width</h2>
-        <ul className="w-1/2 justify-self-end border border-gray-200 rounded-lg">
+        <ul className="w-1/2 justify-self-end">
           {fullProductFeatures.Width.map((option, index) => (
-            <li className="w-full border-b border-gray-200 sm:border-r" key={index}>
-              <div className="flex items-center gap-2 ps-3">
+            <li className="w-full" key={index}>
+              <div className="flex items-center gap-2">
 
                 <input className="w-4 h-4 border-gray-300" type="radio" id={`width${index}`} name="width" value={option} />
-                <label htmlFor={`width${index}`} className="py-3 text-sm font-medium">{option}</label>
+                <label htmlFor={`width${index}`} className="py-1 text-sm font-medium">{option}</label>
               </div>
             </li>
           ))}
@@ -189,15 +185,15 @@ export function ProductCharacteristicsReview() {
       </div>
       )}
       {relevantChars.includes('Quality') && (
-      <div className="w-full flex items-center justify-between border-gray-200 rounded-lg">
+      <div className="w-full flex items-center justify-between border-gray-200 border-b-2">
         <h2 className="w-1/2 text-center pr-4">Quality</h2>
-        <ul className="w-1/2 justify-self-end border border-gray-200 rounded-lg">
+        <ul className="w-1/2 justify-self-end">
           {fullProductFeatures.Quality.map((option, index) => (
-            <li className="w-full border-b border-gray-200 sm:border-r" key={index}>
-              <div className="flex items-center gap-2 ps-3">
+            <li className="w-full" key={index}>
+              <div className="flex items-center gap-2">
 
                 <input className="w-4 h-4 border-gray-300" type="radio" id={`quality${index}`} name="quality" value={option} />
-                <label htmlFor={`quality${index}`} className="py-3 text-sm font-medium">{option}</label>
+                <label htmlFor={`width${index}`} className="py-1 text-sm font-medium">{option}</label>
               </div>
             </li>
           ))}
@@ -205,15 +201,15 @@ export function ProductCharacteristicsReview() {
       </div>
       )}
       {relevantChars.includes('Length') && (
-      <div className="w-full flex items-center justify-between border-gray-200 rounded-lg">
+      <div className="w-full flex items-center justify-between border-gray-200 border-b-2">
         <h2 className="w-1/2 text-center pr-4">Length</h2>
-        <ul className="w-1/2 justify-self-end border border-gray-200 rounded-lg">
+        <ul className="w-1/2 justify-self-end">
           {fullProductFeatures.Length.map((option, index) => (
-            <li className="w-full border-b border-gray-200 sm:border-r" key={index}>
-              <div className="flex items-center gap-2 ps-3">
+            <li className="w-full" key={index}>
+              <div className="flex items-center gap-2">
 
                 <input className="w-4 h-4 border-gray-300" type="radio" id={`length${index}`} name="length" value={option} />
-                <label htmlFor={`length${index}`} className="py-3 text-sm font-medium">{option}</label>
+                <label htmlFor={`width${index}`} className="py-1 text-sm font-medium">{option}</label>
               </div>
             </li>
           ))}
@@ -221,15 +217,15 @@ export function ProductCharacteristicsReview() {
       </div>
       )}
       {relevantChars.includes('Fit') && (
-      <div className="w-full flex items-center justify-between border-gray-200 rounded-lg">
+      <div className="w-full flex items-center justify-between border-gray-200 border-b-2">
         <h2 className="w-1/2 text-center pr-4">Fit</h2>
-        <ul className="w-1/2 justify-self-end border border-gray-200 rounded-lg">
+        <ul className="w-1/2 justify-self-end">
           {fullProductFeatures.Fit.map((option, index) => (
-            <li className="w-full border-b border-gray-200 sm:border-r" key={index}>
-              <div className="flex items-center gap-2 ps-3">
+            <li className="w-full" key={index}>
+              <div className="flex items-center gap-2">
 
                 <input className="w-4 h-4 border-gray-300" type="radio" id={`fit${index}`} name="fit" value={option} />
-                <label htmlFor={`fit${index}`} className="py-3 text-sm font-medium">{option}</label>
+                <label htmlFor={`width${index}`} className="py-1 text-sm font-medium">{option}</label>
               </div>
             </li>
           ))}
