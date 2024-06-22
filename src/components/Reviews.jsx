@@ -17,7 +17,6 @@ function Reviews() {
   const [filters, setFilters] = useState([]);
   const [currentView, setCurrentView] = useState([]);
   const [sortMethod, setSortMethod] = useState('relevance');
-  const [newForm, setNewForm] = useState(false);
 
   const {
     store: { reviews }, store: { ratings }, store: { rating }, showModal,
@@ -45,7 +44,6 @@ function Reviews() {
     }
     setCurrentView(sortedReviews);
   };
-
   useEffect(() => {
     if (reviews) {
       handleSortMethod(sortMethod);
@@ -115,17 +113,13 @@ function Reviews() {
 // ReviewPosts.jsx
 function ReviewPosts({ review }) {
   const [showChars, setShowChars] = useState(250);
-
   const {
-    dispatch, store: { helpfulReviews }, showModal, hideModal,
+    dispatch, store: { helpfulReviews },
   } = useContext(AppContext);
 
   const reviewDate = new Date(review.date);
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  const handleShowChars = (e) => {
-    e.preventDefault();
-    setShowChars(e.target.value.length);
-  };
+
   const markReviewHelpful = async (id) => {
     if (!helpfulReviews.includes(id)) {
       const response = await axios.put(`/reviews/${id}/helpful`);
@@ -149,7 +143,6 @@ function ReviewPosts({ review }) {
               <StarRating
                 rating={review.rating}
               />
-
             </div>
           </span>
           <p className="font-light text-sm text-neutral-500">
@@ -159,7 +152,7 @@ function ReviewPosts({ review }) {
         <h2 className="font-bold text-lg ">{review.summary}</h2>
         <div className="pb-5 font-extalight">{review.body.split('').slice(0, showChars)}</div>
         {review.body.split('').length > showChars
-            && <button onClick={(e) => setShowChars(review.body.split('').length)}> Show More...</button> }
+            && <button onClick={() => setShowChars(review.body.split('').length)}> Show More...</button> }
         <div>
           {review.response && (
             <div className="bg-gray-300 pb-4">
@@ -180,14 +173,11 @@ function ReviewPosts({ review }) {
                 alt=""
               />
             ))}
-
         </span>
         <span className="text-sm text-gray-600 font-light pt-4">
-
           <Helpful helpfulCount={review.helpfulness} helpfulAction={() => markReviewHelpful(review.review_id)}>
             <button>No</button>
           </Helpful>
-
         </span>
       </div>
     </div>
