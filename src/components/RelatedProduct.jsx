@@ -5,7 +5,7 @@ import StarRating from './StarRating';
 import missing from '../images/missing.svg?url';
 
 const RelatedProduct = forwardRef(({ defaultProduct, defaultProductUrl, defaultProductRating }, ref) => {
-  const { showModal, setProductID } = useContext(AppContext);
+  const { showModal, setProductID, dispatch } = useContext(AppContext);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -14,6 +14,7 @@ const RelatedProduct = forwardRef(({ defaultProduct, defaultProductUrl, defaultP
     });
   };
   const handleClick = () => {
+    dispatch({ type: 'setNewProduct' });
     setProductID(defaultProduct.id);
     scrollToTop();
   };
