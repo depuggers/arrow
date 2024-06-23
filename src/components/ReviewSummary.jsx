@@ -1,28 +1,13 @@
 import React from 'react';
-import { TbTriangleInvertedFilled } from 'react-icons/tb';
 import StarRating from './StarRating';
-import ProductCharacteristics from './ProductCharacteristics';
+import { ProductCharacteristics } from './ProductCharacteristics';
 
 function ReviewSummary({
   ratings, reviews, avgRatings, filters, setFilters,
 }) {
   const getTotalReviews = (star) => (reviews.results?.filter((review) => review.rating === star).length);
   const totalReviews = reviews.results?.length;
-  const productChars = ratings.characteristics;
-  const relevantChars = Object.keys(productChars);
-
   const roundedAvg = Math.round(avgRatings * 10) / 10;
-  const getFeatureData = (feature) => {
-    const featureData = productChars[feature].value || 0;
-    const featureAvg = ((featureData) * 20);
-
-    const selectionRating = {
-      position: 'absolute',
-      left: `${featureAvg}%`,
-      bottom: '10%',
-    };
-    return selectionRating;
-  };
 
   const toggleSearch = (rating) => {
     const newFilters = filters.includes(rating)
@@ -58,7 +43,7 @@ function ReviewSummary({
                 Current filters: |{`${filters} star | `}
               </p>
               <p className="flex flex-row justify-center text-lg font-semibold pb-2">
-                <button className="justify-center text-base-content font-semibold pb-2 border-2" onClick={() => setFilters([])}>Clear Filters</button>
+                <button className="justify-center text-base-content font-semibold pb-2 form-input" onClick={() => setFilters([])}>Clear Filters</button>
               </p>
 
             </div>
@@ -66,13 +51,12 @@ function ReviewSummary({
       </div>
       <div className="flex flex-row font-bold text-sm justify-between">
         <p />
-        {/* <p>#Reviews</p> */}
       </div>
       <div className="grow text-base text-base-content w-full">
         {[5, 4, 3, 2, 1].map((star) => (
-          <span key={star} className="w-full flex flex-row hover:underline md:pb-2 text-base-content text-lg">
-            <button onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
-            <progress className="pl-2 pt-1 pb-2 h-9 text-sm grow" value={getTotalReviews(star)} max={totalReviews} />
+          <span key={star} className="w-full flex flex-row md:pb-2 text-base-content text-lg">
+            <button className="hover:underline" onClick={() => toggleSearch(star)}>{`${star} stars`}</button>
+            <progress className="pl-2 pt-1 pb-2 h-9 text-sm grow   [&::-webkit-progress-bar]:bg-slate-300 [&::-webkit-progress-value]:bg-green-400 [&::-moz-progress-bar]:bg-green-400" value={getTotalReviews(star)} max={totalReviews} />
             <p className="pl-2">{`${getTotalReviews(star)} review`}</p>
             <p>
               {getTotalReviews(star) !== 1 && 's'}
