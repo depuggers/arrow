@@ -17,6 +17,11 @@ const appReducer = (state, action) => {
         ...state,
         selectedSKU: action.payload,
       };
+    case 'setSelectedQty':
+      return {
+        ...state,
+        selectedQty: action.payload,
+      };
     case 'setSelectedImage':
       return {
         ...state,
@@ -37,6 +42,14 @@ const appReducer = (state, action) => {
       return {
         ...state,
         cart: newCart,
+      };
+    case 'setNewProduct':
+      return {
+        ...state,
+        selectedStyle: 0,
+        selectedImage: 0,
+        selectedSKU: null,
+        selectedQty: null,
       };
 
     case 'setQuestionHelpful':

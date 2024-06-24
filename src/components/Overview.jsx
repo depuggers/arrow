@@ -1,6 +1,4 @@
-import React, {
-  useState, useContext, useRef,
-} from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 
 import {
   FaFacebook, FaTwitter, FaPinterest,
@@ -15,13 +13,11 @@ import StyleSelector from './StyleSelector';
 import AppContext from '../context/AppContext';
 
 function Overview() {
-  // const [selectedSKU, setSelectedSKU] = useState(null);
-  const [selectedQty, setSelectedQty] = useState(null);
-
   const {
-    store: { product }, store: { styles }, store: { selectedStyle }, store: { selectedSKU }, store: { rating }, dispatch,
+    productID, store: { product }, store: { styles }, store: { selectedStyle }, store: { selectedSKU }, store: { selectedQty }, store: { rating }, dispatch,
   } = useContext(AppContext);
 
+  const sizeRef = useRef(null);
   const qtyRef = useRef(null);
 
   let sizes = [{ sku: 'null' }];
@@ -38,6 +34,11 @@ function Overview() {
   const addToCart = () => {
     dispatch({ type: 'addToCart', payload: { sku_id: selectedSKU, count: selectedQty } });
   };
+
+  useEffect(() => {
+    if (sizeRef.current) sizeRef.current.value = 'default';
+    if (qtyRef.current) qtyRef.current.value = 'default';
+  }, [productID]);
 
   // console.log(product, styles, rating);
   // const loading = !(product && styles && rating);
@@ -106,24 +107,25 @@ function Overview() {
             <div className="flex gap-4">
               <div className="relative flex-grow">
                 <select
+                  ref={sizeRef}
                   className=" form-input w-full uppercase cursor-pointer appearance-none disabled:opacity-25"
                   data-testid="size-selector"
                   aria-label="size-selector"
-                  defaultValue=""
+                  defaultValue="default"
                   onChange={(e) => {
                     dispatch({ type: 'setSelectedSKU', payload: parseInt(e.target.value) });
                     if (qtyRef.current) qtyRef.current.value = '1';
                   }}
                   disabled={sizes[0].sku === 'null'}
                 >
-                  <option data-testid="size-option" value="" disabled hidden>{!styles ? 'Select Size' : sizes[0].sku !== 'null' ? 'Select Size' : 'OUT OF STOCK'}</option>
+                  <option data-testid="size-option" value="default" disabled hidden>{!styles ? 'Select Size' : sizes[0].sku !== 'null' ? 'Select Size' : 'OUT OF STOCK'}</option>
                   {sizes.map((size) => <option data-testid="size-option" key={size.sku} value={size.sku}>{size.size}</option>)}
                 </select>
                 <PiCaretDownBold size={24} className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none ${!styles || sizes[0].sku === 'null' ? 'opacity-25' : ''}`} />
               </div>
               <div className="relative">
-                <select data-testid="qty-selector" aria-label="qty-selector" className={`form-input cursor-pointer disabled:opacity-25 appearance-none ${selectedSKU ? 'pr-12' : ''}`} ref={qtyRef} defaultValue="" disabled={!selectedSKU} onChange={(e) => setSelectedQty(parseInt(e.target.value))}>
-                  <option value="" disabled hidden>—</option>
+                <select data-testid="qty-selector" aria-label="qty-selector" className={`form-input cursor-pointer disabled:opacity-25 appearance-none ${selectedSKU ? 'pr-12' : ''}`} ref={qtyRef} defaultValue="default" disabled={!selectedSKU} onChange={(e) => dispatch({ type: 'setSelectedQty', payload: parseInt(e.target.value) })}>
+                  <option value="default" disabled hidden>—</option>
                   {Array.from({ length: maxQuantity }, (v, i) => i + 1).map((qty) => (
                     <option key={qty} value={qty}>{qty}</option>
                   ))}
